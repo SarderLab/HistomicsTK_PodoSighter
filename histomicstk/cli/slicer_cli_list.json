@@ -30,12 +30,16 @@
   "PositivePixelCount": {
     "type"    : "python"
   },
-  
+
   "TranslateJsonToXML": {
     "type"    : "python"
   },
-  
+
   "TranslateXMLToJson": {
+    "type"    : "python"
+  },
+
+  "DetectGlomeruli": {
     "type"    : "python"
   },
 
