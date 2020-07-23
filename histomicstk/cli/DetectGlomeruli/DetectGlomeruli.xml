@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<executable>
+  <category>HistomicsTK</category>
+  <title>Detect glomeruli</title>
+  <description>Detects glomeruli in a whole-slide kidney tissue image</description>
+  <version>0.1.0</version>
+  <documentation-url>https://github.com/SarderLab/deeplab-WSI</documentation-url>
+  <license>Apache 2.0</license>
+  <contributor>Brendon Lutnick (SUNY Buffalo)</contributor>
+  <acknowledgements>This work is part of efforts in digital pathology for KPMP by the Sarder Lab: SUNY Buffalo.</acknowledgements>
+  <parameters>
+    <label>IO</label>
+    <description>Input/output parameters</description>
+    <image>
+      <name>inputImageFile</name>
+      <label>Input Image</label>
+      <description>Input image</description>
+      <channel>input</channel>
+      <index>0</index>
+    </image>
+    <file fileExtensions=".anot" reference="inputImageFile">
+      <name>outputAnnotationFile</name>
+      <label>Output Glomeruli Annotation File</label>
+      <channel>output</channel>
+      <index>1</index>
+      <description>Output annotation file (*.anot) containing glomerular annotations</description>
+    </file>
+  </parameters>
+  <parameters advanced="true">
+    <label>WSI Analysis</label>
+    <description>Whole-slide image analysis (WSI) parameters</description>
+    <double>
+      <name>patch_size</name>
+      <label>Analysis Tile Size</label>
+      <description>Tile size for blockwise analysis</description>
+      <longflag>patch_size</longflag>
+      <default>512</default>
+    </double>
+    <double>
+      <name>wsi_downsample</name>
+      <label>Analysis Tile Downsample</label>
+      <description>The downsample rate at which the analysis should be performed w.r.t. full resolution</description>
+      <longflag>analysis_mag</longflag>
+      <default>2</default>
+    </double>
+  </parameters>
+</executable>
