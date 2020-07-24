@@ -185,22 +185,9 @@ def _process_batch(sess, slide_mask, original_images, semantic_predictions,
     Xstop = min(Xstart+image_width, mask_size[0])
     Ystop = min(Ystart+image_height, mask_size[1])
 
-    try:
-        # slide_mask[Ystart:Ystop, Xstart:Xstop] = np.maximum(
-        #         slide_mask[Ystart:Ystop, Xstart:Xstop],
-        #         semantic_prediction[:Ystop-Ystart, :Xstop-Xstart])
-
-        np.maximum(
+    slide_mask[Ystart:Ystop, Xstart:Xstop] = np.maximum(
                 slide_mask[Ystart:Ystop, Xstart:Xstop],
                 semantic_prediction[:Ystop-Ystart, :Xstop-Xstart])
-    except Exception as e:
-        print('\nerror')
-        print(e)
-        print(Xstart, Ystart, Xstop, Ystop, mask_size)
-        print(np.shape(slide_mask))
-        print(np.shape(semantic_prediction))
-        exit()
-
 
     if FLAGS.also_save_raw_predictions:
       # # Save image.
@@ -259,7 +246,7 @@ def main(unused_argv):
           size /= downsample
           return int(np.ceil(size))
       mask_size = [get_downsampled_size(slide_size[0]), get_downsampled_size(slide_size[1])]
-      slide_mask = np.zeros(slide_size, dtype=np.uint8)
+      slide_mask = np.zeros([slide_size[1], slide_size[0]], dtype=np.uint8)
 
       train_id_to_eval_id = None
       raw_save_dir = None
