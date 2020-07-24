@@ -35,9 +35,9 @@ References:
 import collections
 import os
 import tensorflow as tf
-from histomicstk.deeplab import common
-from histomicstk.deeplab import input_preprocess
-from histomicstk.deeplab.utils.wsi_dataset_util import get_wsi_patch, get_patch_from_points, get_num_classes, get_grid_list, save_wsi_thumbnail_mask
+from deeplab import common
+from deeplab import input_preprocess
+from deeplab.utils.wsi_dataset_util import get_wsi_patch, get_patch_from_points, get_num_classes, get_grid_list, save_wsi_thumbnail_mask
 from glob import glob
 
 class Dataset(object):
