@@ -185,9 +185,14 @@ def _process_batch(sess, slide_mask, original_images, semantic_predictions,
     Ystop = min(Ystart+image_height, mask_size[0])
     Xstop = min(Xstart+image_width, mask_size[1])
 
-    slide_mask[Ystart:Ystop, Xstart:Xstop] = np.maximum(
+    try:
+        slide_mask[Ystart:Ystop, Xstart:Xstop] = np.maximum(
                 slide_mask[Ystart:Ystop, Xstart:Xstop],
                 semantic_prediction[:Ystop-Ystart, :Xstop-Xstart])
+    except:
+        print('error')
+        print(Xstart, Ystart, Xstop, Ystop, mask_size)
+        exit()
 
 
     if FLAGS.also_save_raw_predictions:
