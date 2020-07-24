@@ -34,7 +34,7 @@ with warnings.catch_warnings():
     import tensorflow as tf
     from tensorflow.contrib import quantize as contrib_quantize
     from tensorflow.contrib import training as contrib_training
-    from histomicstk.deeplab import common
+    from deeplab import common
     from histomicstk.deeplab import model
     from histomicstk.deeplab.datasets import wsi_data_generator
     from histomicstk.deeplab.utils import save_annotation
