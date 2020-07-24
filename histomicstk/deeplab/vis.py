@@ -22,6 +22,7 @@ from __future__ import division
 from __future__ import print_function
 
 import sys
+sys.path.append('/home/brendonl/HistomicsTK')
 
 import warnings
 with warnings.catch_warnings():
@@ -34,7 +35,7 @@ with warnings.catch_warnings():
     import tensorflow as tf
     from tensorflow.contrib import quantize as contrib_quantize
     from tensorflow.contrib import training as contrib_training
-    from deeplab import common
+    from histomicstk.deeplab import common
     from histomicstk.deeplab import model
     from histomicstk.deeplab.datasets import wsi_data_generator
     from histomicstk.deeplab.utils import save_annotation
