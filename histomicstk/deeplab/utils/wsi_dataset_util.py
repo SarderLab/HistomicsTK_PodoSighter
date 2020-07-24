@@ -11,7 +11,7 @@ from skimage.transform import PiecewiseAffineTransform, warp
 from skimage.color import rgb2hsv,hsv2rgb,rgb2lab,lab2rgb
 from skimage import exposure
 try:
-    from histomicstk.deeplab.utils.xml_to_mask import xml_to_mask, get_num_classes, write_minmax_to_xml
+    from deeplab.utils.xml_to_mask import xml_to_mask, get_num_classes, write_minmax_to_xml
 except:
     from xml_to_mask import xml_to_mask, get_num_classes, write_minmax_to_xml
 
