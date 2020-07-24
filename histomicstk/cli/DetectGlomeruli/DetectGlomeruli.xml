@@ -29,19 +29,19 @@
   <parameters advanced="true">
     <label>WSI Analysis</label>
     <description>Whole-slide image analysis (WSI) parameters</description>
-    <double>
+    <integer>
       <name>patch_size</name>
       <label>Analysis Tile Size</label>
       <description>Tile size for blockwise analysis</description>
       <longflag>patch_size</longflag>
       <default>512</default>
-    </double>
-    <double>
+    </integer>
+    <integer>
       <name>wsi_downsample</name>
       <label>Analysis Tile Downsample</label>
       <description>The downsample rate at which the analysis should be performed w.r.t. full resolution</description>
       <longflag>analysis_mag</longflag>
       <default>2</default>
-    </double>
+    </integer>
   </parameters>
 </executable>
