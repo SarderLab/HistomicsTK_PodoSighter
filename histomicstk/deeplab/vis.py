@@ -192,6 +192,8 @@ def _process_batch(sess, slide_mask, original_images, semantic_predictions,
     except:
         print('error')
         print(Xstart, Ystart, Xstop, Ystop, mask_size)
+        print(slide_mask.shape())
+        print(semantic_prediction.shape())
         exit()
 
 
