@@ -2,7 +2,7 @@
   "ColorDeconvolution": {
     "type"    : "python"
   },
-  
+
   "DetectGlomeruli": {
     "type"    : "python"
   },
@@ -16,10 +16,6 @@
   },
 
   "ComputeNucleiFeatures": {
-    "type"    : "python"
-  },
-
-  "NucleiClassification": {
     "type"    : "python"
   },
 
