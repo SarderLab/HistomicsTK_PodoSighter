@@ -326,7 +326,7 @@ def main(unused_argv):
               batch += 1
 
       # remove small objects
-      if FLAGS.min_size is not None or FLAGS.min_size > 0:
+      if FLAGS.min_size != None and FLAGS.min_size > 0:
           min_pixel_size = FLAGS.min_size/FLAGS.wsi_downsample
           print('\ncleaning up small objects < {} pixels'.format(min_pixel_size))
           for iter in range(FLAGS.num_classes)[1:]:
