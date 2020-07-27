@@ -94,6 +94,9 @@ flags.DEFINE_string('dataset', 'wsi_dataset',
 flags.DEFINE_integer('wsi_downsample', 4,
                   'Downsample rate of WSI used during training.')
 
+flags.DEFINE_integer('overlap_num', 4,
+                  'Number of times the patch grid overlaps during testing.')
+
 flags.DEFINE_integer('num_classes', 2,
                   'Downsample rate of WSI used during training.')
 
@@ -220,6 +223,7 @@ def main(unused_argv):
       dataset_dir=FLAGS.dataset_dir,
       num_of_classes=FLAGS.num_classes,
       downsample=FLAGS.wsi_downsample,
+      overlap_num=FLAGS.overlap_num,
       batch_size=FLAGS.vis_batch_size,
       crop_size=FLAGS.vis_crop_size,
       min_resize_value=FLAGS.min_resize_value,
