@@ -49,6 +49,7 @@ class Dataset(object):
                batch_size,
                crop_size,
                downsample,
+               overlap_num = 4,
                augment_prob = 0,
                num_of_classes = None,
                wsi_ext=['.svs', '.ndpi'],
@@ -101,6 +102,7 @@ class Dataset(object):
     self.batch_size = batch_size
     self.crop_size = crop_size
     self.downsample = downsample
+    self.overlap_num = overlap_num
     self.augment_prob = augment_prob
     self.min_resize_value = min_resize_value
     self.max_resize_value = max_resize_value
@@ -211,7 +213,7 @@ class Dataset(object):
     patch_width = self.crop_size*scale_factor
 
     # get grid of start points of patches
-    points, length = get_grid_list(wsi_path, self.crop_size, self.downsample, wsi)
+    points, length = get_grid_list(wsi_path, self.crop_size, self.downsample, wsi, self.overlap_num)
 
     # setup tf dataset using py_function
     points_ds = tf.data.Dataset.from_tensor_slices(points)
