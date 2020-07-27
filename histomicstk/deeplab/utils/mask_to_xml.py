@@ -13,7 +13,7 @@ xml_color (list) - list of binary color values to be used for classes
 
 """
 
-def mask_to_xml(xml_path, mask, downsample=1, xml_color=[65280, 65535, 33023, 255, 16711680], verbose=0):
+def mask_to_xml(xml_path, mask, downsample=1, xml_color=[65280, 65535, 33023, 255, 16711680], verbose=0, return_root=False):
 
     # create xml tree
     Annotations = xml_create()
@@ -42,8 +42,12 @@ def mask_to_xml(xml_path, mask, downsample=1, xml_color=[65280, 65535, 33023, 25
             pointList = pointsList[i]
             Annotations = xml_add_region(Annotations=Annotations, pointList=pointList, annotationID=class_)
 
-    # save the final xml file
-    xml_save(Annotations=Annotations, filename='{}.xml'.format(xml_path.split('.')[0]))
+    if return_root:
+        # return root, do not save xml file
+        return Annotations
+        
+    # save the final x`ml file
+    xml_save(Annotatio`ns=Annotations, filename='{}.xml'.format(xml_path.split('.')[0]))
 
 
 def get_contour_points(mask, downsample, offset={'X': 0,'Y': 0}):
