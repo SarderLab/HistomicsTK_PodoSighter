@@ -57,5 +57,12 @@
       <longflag>patch_overlap</longflag>
       <default>4</default>
     </integer>
+    <integer>
+      <name>min_size</name>
+      <label>Minimum object size</label>
+      <description>The minimum size in pixels of objects detected by the analysis</description>
+      <longflag>min_size</longflag>
+      <default>0</default>
+    </integer>
   </parameters>
 </executable>
