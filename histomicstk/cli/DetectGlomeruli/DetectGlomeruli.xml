@@ -18,11 +18,18 @@
       <channel>input</channel>
       <index>0</index>
     </image>
+    <file>
+      <name>inputModelFile</name>
+      <label>Input Model File</label>
+      <channel>input</channel>
+      <index>1</index>
+      <description>Tensorflow model file (model.ckpt-*) of the deeplab model for segmentation</description>
+    </file>
     <file fileExtensions=".anot" reference="inputImageFile">
       <name>outputAnnotationFile</name>
       <label>Output Glomeruli Annotation File</label>
       <channel>output</channel>
-      <index>1</index>
+      <index>2</index>
       <description>Output annotation file (*.anot) containing glomerular annotations</description>
     </file>
   </parameters>
@@ -40,8 +47,15 @@
       <name>wsi_downsample</name>
       <label>Analysis Tile Downsample</label>
       <description>The downsample rate at which the analysis should be performed w.r.t. full resolution</description>
-      <longflag>analysis_mag</longflag>
+      <longflag>wsi_downsample</longflag>
       <default>2</default>
+    </integer>
+    <integer>
+      <name>patch_overlap</name>
+      <label>Number of overlap</label>
+      <description>The number of times patches overlap durring analysis</description>
+      <longflag>patch_overlap</longflag>
+      <default>4</default>
     </integer>
   </parameters>
 </executable>
