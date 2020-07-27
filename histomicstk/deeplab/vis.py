@@ -344,7 +344,7 @@ def main(unused_argv):
       if FLAGS.save_json_annotation:
           anot_filename = FLAGS.json_filename
           print('\ncreating annotation file: [{}]'.format(anot_filename))
-          root = mask_to_xml(xml_path=anot_filename, mask=slide_mask, downsample=FLAGS.wsi_downsample return_root=True)
+          root = mask_to_xml(xml_path=anot_filename, mask=slide_mask, downsample=FLAGS.wsi_downsample, return_root=True)
           json_data = convert_xml_json(root, ['gloms'])
           import json
           with open(anot_filename, 'w') as annotation_file:
