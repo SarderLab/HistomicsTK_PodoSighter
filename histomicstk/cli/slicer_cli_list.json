@@ -1,36 +1,8 @@
 {
-  "ColorDeconvolution": {
-    "type"    : "python"
-  },
-
   "DetectGlomeruli": {
     "type"    : "python"
   },
-
-  "SeparateStainsXuSnmf": {
-    "type"    : "python"
-  },
-
-  "NucleiDetection": {
-    "type"    : "python"
-  },
-
-  "ComputeNucleiFeatures": {
-    "type"    : "python"
-  },
-
-  "BackgroundIntensity": {
-    "type"    : "python"
-  },
-
-  "SeparateStainsMacenkoPCA": {
-    "type"    : "python"
-  },
-
-  "PositivePixelCount": {
-    "type"    : "python"
-  },
-
+  
   "TranslateJsonToXML": {
     "type"    : "python"
   },
