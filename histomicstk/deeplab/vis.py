@@ -41,6 +41,7 @@ with warnings.catch_warnings():
     from deeplab.utils import save_annotation
     from deeplab.utils.wsi_dataset_util import get_slide_size
     from deeplab.utils.mask_to_xml import mask_to_xml
+    from deeplab.utils.xml_to_json import convert_xml_json
     from skimage.morphology import remove_small_objects
 
 flags = tf.app.flags
@@ -111,6 +112,11 @@ flags.DEFINE_enum('colormap_type', 'pascal', ['pascal', 'cityscapes', 'ade20k'],
 
 flags.DEFINE_boolean('also_save_raw_predictions', False,
                      'Also save raw predictions.')
+
+flags.DEFINE_boolean('save_json_annotation', False,
+                     'Save the predictions in .json format for HistomicsTK.')
+
+flags.DEFINE_string('json_filename', 'annotation.anot', '*.json annotation filename.')
 
 # The folder where semantic segmentation predictions are saved.
 _SEMANTIC_PREDICTION_SAVE_FOLDER = 'segmentation_results'
@@ -335,9 +341,20 @@ def main(unused_argv):
               slide_mask[slide_mask==iter] = 0
               slide_mask += cleanMask
 
-      mask_filename = '{}.xml'.format(slide.split('.')[0])
-      print('\ncreating annotation file: [{}]'.format(mask_filename))
-      mask_to_xml(xml_path=mask_filename, mask=slide_mask, downsample=FLAGS.wsi_downsample)
+      if FLAGS.save_json_annotation:
+          anot_filename = FLAGS.json_filename
+          print('\ncreating annotation file: [{}]'.format(anot_filename))
+          root = mask_to_xml(xml_path=anot_filename, mask=slide_mask, downsample=FLAGS.wsi_downsample return_root=True)
+          json_data = convert_xml_json(root, ['gloms'])
+          import json
+          with open(anot_filename, 'w') as annotation_file:
+              json.dump(json_data, annotation_file, indent=2, sort_keys=False)
+
+      else:
+          anot_filename = '{}.xml'.format(slide.split('.')[0])
+          print('\ncreating annotation file: [{}]'.format(anot_filename))
+          mask_to_xml(xml_path=anot_filename, mask=slide_mask, downsample=FLAGS.wsi_downsample)
+
       print('annotation file saved...\n\n')
 
 
