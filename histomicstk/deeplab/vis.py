@@ -41,6 +41,7 @@ with warnings.catch_warnings():
     from deeplab.utils import save_annotation
     from deeplab.utils.wsi_dataset_util import get_slide_size
     from deeplab.utils.mask_to_xml import mask_to_xml
+    from skimage.morphology import remove_small_objects
 
 flags = tf.app.flags
 
@@ -96,6 +97,9 @@ flags.DEFINE_integer('wsi_downsample', 4,
 
 flags.DEFINE_integer('overlap_num', 4,
                   'Number of times the patch grid overlaps during testing.')
+
+flags.DEFINE_integer('min_size', None,
+                  'Minimum size of the detected regions.')
 
 flags.DEFINE_integer('num_classes', 2,
                   'Downsample rate of WSI used during training.')
@@ -321,10 +325,13 @@ def main(unused_argv):
               image_id_offset += FLAGS.vis_batch_size
               batch += 1
 
-          # tf.logging.info(
-          #     'Finished visualization at ' + time.strftime('%Y-%m-%d-%H:%M:%S',
-          #                                                  time.gmtime()))
-          # print('GOT HERE')
+      # remove small objects
+      if FLAGS.min_size is not None:
+          for iter in range(FLAGS.num_classes)[1:]:
+              boolmask = slide_mask == iter
+              cleanMask = remove_small_objects(boolmask.astype(bool), FLAGS.min_size/FLAGS.wsi_downsample)
+              slide_mask[slide_mask==iter] = 0
+              slide_mask += cleanMask
 
       mask_filename = '{}.xml'.format(slide.split('.')[0])
       print('\ncreating annotation file: [{}]'.format(mask_filename))
