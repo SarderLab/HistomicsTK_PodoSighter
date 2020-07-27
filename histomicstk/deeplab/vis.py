@@ -326,7 +326,7 @@ def main(unused_argv):
               batch += 1
 
       # remove small objects
-      if FLAGS.min_size is not None:
+      if FLAGS.min_size is not None or FLAGS.min_size != 0:
           for iter in range(FLAGS.num_classes)[1:]:
               boolmask = slide_mask == iter
               cleanMask = remove_small_objects(boolmask.astype(bool), FLAGS.min_size/FLAGS.wsi_downsample)
