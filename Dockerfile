@@ -34,6 +34,8 @@ RUN pip install --no-cache-dir --upgrade --ignore-installed pip setuptools && \
     pip install --no-cache-dir 'tensorflow-gpu==1.14.0' && \
     # Install tf-slim
     pip install --no-cache-dir 'tf-slim>=1.1.0' && \
+    # Downgrade gast
+    pip install --no-cache-dir 'gast==0.2.2' && \
     # clean up
     rm -rf /root/.cache/pip/*
 
