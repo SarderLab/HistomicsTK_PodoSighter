@@ -60,7 +60,7 @@
     <integer>
       <name>min_size</name>
       <label>Minimum object size</label>
-      <description>The minimum size in pixels of objects detected by the analysis</description>
+      <description>The minimum size in pixels of objects detected by the analysis - a value of 0 does not remove small objects</description>
       <longflag>min_size</longflag>
       <default>0</default>
     </integer>
