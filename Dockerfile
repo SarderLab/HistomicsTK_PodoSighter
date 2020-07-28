@@ -32,6 +32,8 @@ RUN pip install --no-cache-dir --upgrade --ignore-installed pip setuptools && \
     pip install --no-cache-dir --pre . --find-links https://girder.github.io/large_image_wheels && \
     # Install GPU version of tensorflow
     pip install --no-cache-dir 'tensorflow-gpu==1.14.0' && \
+    # Install tf-slim
+    pip install --no-cache-dir 'tf-slim>=1.1.0' && \
     # clean up
     rm -rf /root/.cache/pip/*
 
