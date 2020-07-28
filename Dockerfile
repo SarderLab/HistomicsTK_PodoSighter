@@ -31,7 +31,7 @@ RUN pip install --no-cache-dir --upgrade --ignore-installed pip setuptools && \
     # Install HistomicsTK
     pip install --no-cache-dir --pre . --find-links https://girder.github.io/large_image_wheels && \
     # Install GPU version of tensorflow
-    pip install --no-cache-dir --no-cache-dir 'tensorflow-gpu>=1.14.0' && \
+    pip install --no-cache-dir 'tensorflow-gpu==1.14.0' && \
     # clean up
     rm -rf /root/.cache/pip/*
 
