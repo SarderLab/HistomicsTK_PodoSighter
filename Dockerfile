@@ -30,11 +30,8 @@ RUN pip install --no-cache-dir --upgrade --ignore-installed pip setuptools && \
     pip install --no-cache-dir girder-client && \
     # Install HistomicsTK
     pip install --no-cache-dir --pre . --find-links https://girder.github.io/large_image_wheels && \
-    # Create separate virtual environments with CPU and GPU versions of tensorflow
-    pip install --no-cache-dir 'virtualenv<16.4.0' && \
-    virtualenv --system-site-packages /venv-gpu && \
-    chmod +x /venv-gpu/bin/activate && \
-    /venv-gpu/bin/pip install --no-cache-dir 'tensorflow-gpu>=1.14.0' && \
+    # Install GPU version of tensorflow
+    pip install --no-cache-dir --no-cache-dir 'tensorflow-gpu>=1.14.0' && \
     # clean up
     rm -rf /root/.cache/pip/*
 
