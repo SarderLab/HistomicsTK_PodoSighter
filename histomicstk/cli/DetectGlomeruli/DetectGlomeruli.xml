@@ -23,13 +23,20 @@
       <label>Input Model File</label>
       <channel>input</channel>
       <index>1</index>
-      <description>Tensorflow model file (model.ckpt-*) of the deeplab model for segmentation</description>
+      <description>Tensorflow model file (model.ckpt-*.index) of the deeplab model for segmentation</description>
+    </file>
+    <file>
+      <name>inputModelFile_data</name>
+      <label>Input Model File</label>
+      <channel>input</channel>
+      <index>2</index>
+      <description>Tensorflow model file (model.ckpt-*.data*) of the deeplab model for segmentation</description>
     </file>
     <file fileExtensions=".anot" reference="inputImageFile">
       <name>outputAnnotationFile</name>
       <label>Output Glomeruli Annotation File</label>
       <channel>output</channel>
-      <index>2</index>
+      <index>3</index>
       <description>Output annotation file (*.anot) containing glomerular annotations</description>
     </file>
   </parameters>
