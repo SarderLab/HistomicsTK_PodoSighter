@@ -20,14 +20,14 @@
     </image>
     <file>
       <name>inputModelFile</name>
-      <label>Input Model File</label>
+      <label>Input Model File - index</label>
       <channel>input</channel>
       <index>1</index>
       <description>Tensorflow model file (model.ckpt-*.index) of the deeplab model for segmentation</description>
     </file>
     <file>
       <name>inputModelFile_data</name>
-      <label>Input Model File</label>
+      <label>Input Model File - data</label>
       <channel>input</channel>
       <index>2</index>
       <description>Tensorflow model file (model.ckpt-*.data*) of the deeplab model for segmentation</description>

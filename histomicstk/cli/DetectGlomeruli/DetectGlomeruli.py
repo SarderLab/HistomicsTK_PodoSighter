@@ -23,8 +23,12 @@ def main(args):
             except:
                 model = model_file
 
+    # list files code can see
     os.system('ls -l {}'.format(model.split('model.ckpt')[0]))
 
+    print('\noutput filename: {}\n'.format(args.outputAnnotationFile))
+
+    # run vis.py with flags
     cmd = 'python3 ../deeplab/vis.py --model_variant xception_65 --atrous_rates 6 --atrous_rates 12 --atrous_rates 18 --output_stride 16 --decoder_output_stride 4 --save_json_annotation True --checkpoint_dir {} --dataset_dir {} --json_filename {} --vis_crop_size {} --wsi_downsample {} --overlap_num {} --min_size {}'.format(model, args.inputImageFile, args.outputAnnotationFile, args.patch_size, args.wsi_downsample, args.patch_overlap, args.min_size)
     os.system(cmd)
 
