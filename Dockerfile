@@ -7,6 +7,9 @@
 FROM dsarchive/base_docker_image
 LABEL maintainer="Kitware, Inc. <kitware@kitware.com>"
 
+FROM nvidia/cuda:10.2-base
+CMD nvidia-smi
+
 # copy HistomicsTK files
 ENV htk_path=$PWD/HistomicsTK
 RUN mkdir -p $htk_path
