@@ -11,6 +11,8 @@
 FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
 LABEL maintainer="Kitware, Inc. <kitware@kitware.com>"
 
+ENV NVIDIA_VISIBLE_DEVICES=all
+
 RUN apt-get update && \
     apt-get install --yes --no-install-recommends software-properties-common && \
     # As of 2018-04-16 this repo has the latest release of Python 2.7 (2.7.14) \
