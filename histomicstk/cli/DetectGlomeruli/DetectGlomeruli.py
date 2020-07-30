@@ -26,8 +26,6 @@ def main(args):
     # list files code can see
     os.system('ls -l {}'.format(model.split('model.ckpt')[0]))
 
-    # remove spaces in outputAnnotationFile
-    anot_filename = args.outputAnnotationFile.replace(" ", "_")
     print('\noutput filename: {}\n'.format(anot_filename))
 
     # run vis.py with flags
