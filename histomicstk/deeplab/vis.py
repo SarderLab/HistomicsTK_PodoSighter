@@ -341,7 +341,8 @@ def main(unused_argv):
               slide_mask[slide_mask==iter] = 0
               slide_mask += cleanMask
 
-      if FLAGS.save_json_annotation:          
+      if FLAGS.save_json_annotation:
+          anot_filename = FLAGS.json_filename      
           print('\ncreating annotation file: [{}]'.format(anot_filename))
           root = mask_to_xml(xml_path=anot_filename, mask=slide_mask, downsample=FLAGS.wsi_downsample, return_root=True)
           json_data = convert_xml_json(root, ['gloms'])
