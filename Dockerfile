@@ -11,6 +11,8 @@
 FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
 LABEL maintainer="Kitware, Inc. <kitware@kitware.com>"
 
+RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu/
+
 ENV NVIDIA_VISIBLE_DEVICES=all
 
 RUN apt-get update && \
