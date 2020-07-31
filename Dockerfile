@@ -11,7 +11,7 @@
 FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
 LABEL maintainer="Kitware, Inc. <kitware@kitware.com>"
 
-RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu/
+CMD nvidia-smi
 
 ENV NVIDIA_VISIBLE_DEVICES=all
 
