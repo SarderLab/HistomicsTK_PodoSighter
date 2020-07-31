@@ -8,7 +8,7 @@
 
 # FROM nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
 # FROM nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
-FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
+FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
 LABEL maintainer="Kitware, Inc. <kitware@kitware.com>"
 
 RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu/
