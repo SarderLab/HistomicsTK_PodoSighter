@@ -11,7 +11,7 @@
 FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
 LABEL maintainer="Kitware, Inc. <kitware@kitware.com>"
 
-CMD nvidia-smi
+RUN nvidia-smi
 
 ENV NVIDIA_VISIBLE_DEVICES=all
 
