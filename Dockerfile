@@ -11,6 +11,8 @@
 FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
 LABEL maintainer="Kitware, Inc. <kitware@kitware.com>"
 
+RUN mkdir /usr/local/nvidia && ln -s /usr/local/cuda-10.0/compat /usr/local/nvidia/lib
+
 ENV NVIDIA_VISIBLE_DEVICES=all
 
 RUN apt-get update && \
