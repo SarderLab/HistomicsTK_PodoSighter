@@ -13,5 +13,9 @@
 
   "AnnotationsToMask": {
     "type"    : "python"
-  }
+  },
+  
+  "podocyte_detection": {
+    "type"    : "python"
+  }  
 }
