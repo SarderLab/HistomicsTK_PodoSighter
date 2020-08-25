@@ -15,7 +15,7 @@
     "type"    : "python"
   },
   
-  "podocyte_detection": {
+  "PodocyteDetection": {
     "type"    : "python"
   }  
 }
