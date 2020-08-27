@@ -43,7 +43,6 @@ FLAGS = flags.FLAGS
 flags.DEFINE_string('inputPASsvsname', '24_PAS.svs', 'PAS WSI name (24_PAS.svs)')
 flags.DEFINE_string('inputIFsvsname', '24_IF.svs', 'IF WSI name (24_IF.svs)')
 flags.DEFINE_string('inputPASxmlname', '24.xml', 'Glom xml file (24.xml)')
-flags.DEFINE_string('outfilename', '24_out.xml', '*.xml annotation filename (24_out.xml).')
 
 
 flags.DEFINE_float('orig_IF_Thre', 0.4,
@@ -55,7 +54,6 @@ flags.DEFINE_list("TransXY", [211, -375], 'Translation parameters X and Y [211, 
 inputPASsvsname1 = FLAGS.inputPASsvsname
 inputIFsvsname1 = FLAGS.inputIFsvsname
 inputPASxmlname1 = FLAGS.inputPASxmlname
-outfilename1 = FLAGS.outfilename
 
 orig_IF_Thre1 = FLAGS.orig_IF_Thre
 Disc_size1 = FLAGS.Disc_size
@@ -174,6 +172,6 @@ for i in range(np.shape(pointsList)[0]):
     Annotations1 = xml_add_region(Annotations=Annotations1, pointList=pointList)    
   
 xml_data = ET.tostring(Annotations1, pretty_print=True)
-f = open(outfilename1, 'wb')
+f = open("Pod_anno.xml", 'wb')
 f.write(xml_data)
 f.close()
