@@ -9,7 +9,7 @@ import os
 from histomicstk.cli.utils import CLIArgumentParser
 
 def main(args):
-    cmd = "python3 ../plugin_podfolder/pod_plugin4.py --inputPASsvsname '{}' --inputIFsvsname '{}' --inputPASxmlname '{}' --outfilename '{}' --orig_IF_Thre {} --Disc_size {} --TransXY {}".format(args.inputImageFilePAS, args.inputImageFileIF, args.inputAnnotationFile, args.outputAnnotationFile,args.Podocyte_threshold,args.DiscSize,args.TranslationXY)
+    cmd = "python3 ../plugin_podfolder/pod_plugin4.py --inputPASsvsname '{}' --inputIFsvsname '{}' --inputPASxmlname '{}' --orig_IF_Thre {} --Disc_size {} --TransXY {}".format(args.inputImageFilePAS, args.inputImageFileIF, args.inputAnnotationFile,args.Podocyte_threshold,args.DiscSize,args.TranslationXY)
     os.system(cmd)    
 
 if __name__ == "__main__":
