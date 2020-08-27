@@ -23,7 +23,7 @@ with warnings.catch_warnings():
     import numpy as np
     import openslide
     from skimage.transform import rescale 
-    import cv2
+    #import cv2
     from skimage.transform import warp
     from skimage.transform import SimilarityTransform
     import lxml.etree as ET
@@ -146,10 +146,10 @@ warped = warp(FinalregIF,tformtest,output_shape=PAS_rescaled[:,:,0:3].shape,pres
 '''Segment orig IF podocyte nuclei'''
 '''===================================='''   
         
-Podmask1 = np.uint8((warped[:,:,0]>orig_IF_Thre1)*(PASmask)*1)    
-kernel_b = np.ones((Disc_size1,Disc_size1),np.uint8)
-Podmask = cv2.morphologyEx(Podmask1, cv2.MORPH_OPEN, kernel_b)   
-TP2 = cv2.threshold((Podmask), 0.5, 255, cv2.THRESH_BINARY)[1]
+Podmask = np.uint8((warped[:,:,0]>orig_IF_Thre1)*(PASmask)*1)    
+#kernel_b = np.ones((Disc_size1,Disc_size1),np.uint8)
+#Podmask = cv2.morphologyEx(Podmask1, cv2.MORPH_OPEN, kernel_b)   
+#TP2 = cv2.threshold((Podmask), 0.5, 255, cv2.THRESH_BINARY)[1]
 
 TP_HR = rescale(TP2, (1/Pas_downscale_value), anti_aliasing=False)
 
@@ -157,7 +157,7 @@ TP_HR = rescale(TP2, (1/Pas_downscale_value), anti_aliasing=False)
 '''========='''   
 
 offset={'X': 0,'Y': 0}    
-        
+import cv2        
 maskPoints,_ = cv2.findContours(np.array((np.uint8(TP_HR))), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 pointsList = []
 for j in range(np.shape(maskPoints)[0]):
