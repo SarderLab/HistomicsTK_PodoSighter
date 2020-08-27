@@ -1,21 +1,9 @@
 {
-  "DetectGlomeruli": {
-    "type"    : "python"
-  },
-  
-  "TranslateJsonToXML": {
-    "type"    : "python"
-  },
-
-  "TranslateXMLToJson": {
-    "type"    : "python"
-  },
-
-  "AnnotationsToMask": {
-    "type"    : "python"
-  },
-  
   "PodocyteDetection": {
     "type"    : "python"
-  }  
+  },
+  
+  "TranslateXMLToJson": {
+    "type"    : "python"
+  }
 }
