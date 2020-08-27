@@ -9,6 +9,8 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+print('Before main...\n\n')
+
 import sys
 sys.path.append("..")
 
@@ -34,7 +36,7 @@ with warnings.catch_warnings():
     from skimage import transform as tf2
     from skimage import transform
     
-    
+print('Before flags...\n\n')    
     
 flags = tf.app.flags
 
@@ -59,6 +61,7 @@ orig_IF_Thre1 = FLAGS.orig_IF_Thre
 Disc_size1 = FLAGS.Disc_size
 TransXY1 = FLAGS.TransXY
 
+print('Before functions...\n\n') 
 
 def RegisterWSIs(IF,txfinal,tyfinal):
     
