@@ -31,14 +31,7 @@
       <channel>input</channel>
       <index>2</index>
       <description>Input annotation file (*.xml) containing annotations</description>
-    </file>
-    <file fileExtensions=".xml">
-      <name>outputAnnotationFile</name>
-      <label>Output Annotation File</label>
-      <channel>output</channel>
-      <index>3</index>
-      <description>Output annotation file (*.xml) containing annotations</description>
-    </file>
+    </file>    
   </parameters>
   <parameters advanced="true">
     <label>ImageRegistrationAndAnalysis</label>
