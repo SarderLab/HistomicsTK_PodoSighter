@@ -43,13 +43,6 @@
       <longflag>Podocyte_threshold</longflag>
       <default>0.4</default>
     </double>
-    <double>
-      <name>DiscSize</name>
-      <label>Disc Size</label>
-      <description>Disc Size for podocyte detection (used to eliminate isolated pixels)</description>
-      <longflag>DiscSize</longflag>
-      <default>3</default>
-    </double>
     <double-vector>
       <name>TranslationXY</name>
       <longflag>TranslationXY</longflag>
