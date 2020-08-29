@@ -43,12 +43,19 @@
       <longflag>Podocyte_threshold</longflag>
       <default>0.4</default>
     </double>
-    <double-vector>
-      <name>TranslationXY</name>
-      <longflag>TranslationXY</longflag>
-      <label>TranslationXY values</label>
-      <default>211,-375</default>
-      <description>Translate IF image to align with PAS (X,Y) </description>
-    </double-vector>    
+	<integer>
+      <name>TranslationX</name>
+      <label>TranslationX</label>
+      <description>Translation along X</description>
+      <longflag>TranslationX</longflag>
+      <default>211</default>
+    </integer>
+	<integer>
+      <name>TranslationY</name>
+      <label>TranslationY</label>
+      <description>Translation along Y</description>
+      <longflag>TranslationY</longflag>
+      <default>-375</default>
+    </integer>    
   </parameters>
 </executable>
