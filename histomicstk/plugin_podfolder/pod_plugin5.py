@@ -24,7 +24,8 @@ with warnings.catch_warnings():
     from skimage.transform import rescale 
 
 '''+++++++++'''
-    
+print("Loading flags...")
+
 flags = tf.app.flags
 
 FLAGS = flags.FLAGS
@@ -41,6 +42,8 @@ flags.DEFINE_float('orig_IF_Thre', 0.4,
 #                  'Disc size, integer type.')
 flags.DEFINE_list("TransXY", [211, -375], 'Translation parameters X and Y [211, -375]')
 
+print("Done defining flags...")
+print(FLAGS.inputPASsvsname)
 inputPASsvsname1 = FLAGS.inputPASsvsname
 inputIFsvsname1 = FLAGS.inputIFsvsname
 inputPASxmlname1 = FLAGS.inputPASxmlname
