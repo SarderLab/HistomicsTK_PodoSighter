@@ -43,14 +43,14 @@
       <longflag>Podocyte_threshold</longflag>
       <default>0.4</default>
     </double>
-	<integer>
+    <integer>
       <name>TranslationX</name>
       <label>TranslationX</label>
       <description>Translation along X</description>
       <longflag>TranslationX</longflag>
       <default>211</default>
     </integer>
-	<integer>
+    <integer>
       <name>TranslationY</name>
       <label>TranslationY</label>
       <description>Translation along Y</description>
