@@ -1,7 +1,4 @@
 from histomicstk.cli.utils import CLIArgumentParser
-import sys
-sys.path.append("..")
-
 import warnings
 with warnings.catch_warnings():
     import numpy as np
