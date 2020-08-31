@@ -13,7 +13,6 @@ with warnings.catch_warnings():
     from skimage.measure import label,regionprops
     from skimage.transform import rescale 
 
-print 'Loading functions...'
 
 def getMaskFromXml(source,xmlpath):
     [l,m] = source.level_dimensions[0]
@@ -40,19 +39,13 @@ def getMaskFromXml(source,xmlpath):
     mask = mask/255
     return mask>0
 
-print 'Loading main...'
 
 
 '''Main'''
 '''++++'''
 
-def main(args):
-    print 'Running main code...'
-
+def main(args):   
     
-    
-    print args.inputImageFilePAS
-    print args.inputAnnotationFile  
     
     
 #    sourcePAS2 = openslide.OpenSlide(args.inputImageFilePAS)
@@ -60,7 +53,6 @@ def main(args):
     PASxmlpath = args.inputAnnotationFile   
   
     
-    print 'Extract binary mask from glom XML...' 
     PASmask = np.array(rescale(getMaskFromXml(sourcePAS,PASxmlpath), 1, anti_aliasing=False))    
 
     PAS_mpp = (float(sourcePAS.properties[openslide.PROPERTY_NAME_MPP_X])+float(sourcePAS.properties[openslide.PROPERTY_NAME_MPP_Y]))/2
@@ -70,7 +62,7 @@ def main(args):
     for region in regionprops(label(PASmask)):
         minr, minc, maxr, maxc = region.bbox
         GlomArea = (region.area)*tomicron*tomicron
-        print "Glomerulus {} has an area of {:.2f} sq. microns".format(count,GlomArea)
+        print("Glomerulus {} has an area of {:.2f} sq. microns".format(count,GlomArea))
         count+=1        
 
 
