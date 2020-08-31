@@ -1,14 +1,12 @@
 from histomicstk.cli.utils import CLIArgumentParser
-import warnings
-with warnings.catch_warnings():
-    import numpy as np
-    import openslide
-    from skimage.transform import resize     
-    from xml.dom import minidom
-    from skimage.draw import polygon
-    import sys
-    from skimage.measure import label,regionprops
-    from skimage.transform import rescale 
+import numpy as np
+import openslide
+from skimage.transform import resize     
+from xml.dom import minidom
+from skimage.draw import polygon
+import sys
+from skimage.measure import label,regionprops
+from skimage.transform import rescale 
 
 print('\n>> Reading functions ...\n')
 
