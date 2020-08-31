@@ -5,6 +5,7 @@ from __future__ import print_function
 import sys
 sys.path.append("..")
 
+print("Before imports...")
 import warnings
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore",category=FutureWarning)
@@ -25,6 +26,7 @@ with warnings.catch_warnings():
     import os.path
     import argparse
 '''+++++++++'''
+print("Parse commands...")
 
 parser = argparse.ArgumentParser(description = 'Identify podocytes from PAS')
 parser.add_argument('-P','--inputpas',type = str, metavar = '',required = True,help = 'PAS image name')
@@ -120,7 +122,7 @@ print("Loading main...")
 '''Main'''
 '''++++'''
 
-def Main():
+def Main(args):
     print("Running main code...")
     
     
