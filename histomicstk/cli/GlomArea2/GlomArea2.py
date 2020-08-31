@@ -13,6 +13,7 @@ with warnings.catch_warnings():
     from skimage.measure import label,regionprops
     from skimage.transform import rescale 
 
+print('\n>> Reading functions ...\n')
 
 def getMaskFromXml(source,xmlpath):
     [l,m] = source.level_dimensions[0]
@@ -47,7 +48,7 @@ def getMaskFromXml(source,xmlpath):
 def main(args):   
     
     
-    
+    print('\n>> Running main code ...\n')
 #    sourcePAS2 = openslide.OpenSlide(args.inputImageFilePAS)
     sourcePAS = openslide.open_slide(args.inputImageFilePAS)   
     PASxmlpath = args.inputAnnotationFile   
@@ -62,7 +63,8 @@ def main(args):
     for region in regionprops(label(PASmask)):
         minr, minc, maxr, maxc = region.bbox
         GlomArea = (region.area)*tomicron*tomicron
-        print("Glomerulus {} has an area of {:.2f} sq. microns".format(count,GlomArea))
+        print('\n>> Glomerulus area ...\n')
+        print(GlomArea)
         count+=1        
 
 
