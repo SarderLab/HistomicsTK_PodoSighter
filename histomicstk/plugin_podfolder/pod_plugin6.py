@@ -196,7 +196,7 @@ def Main(args):
 
 
 if __name__ == '__main__':
-  Main()
+  Main(args)
   print('\n\nall done.')
     
 
