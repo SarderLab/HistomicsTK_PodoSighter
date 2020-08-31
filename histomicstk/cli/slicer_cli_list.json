@@ -1,7 +1,11 @@
 {
   "PodocyteDetection": {
     "type"    : "python"
-  }, 
+  },
+  
+  "GlomArea": {
+    "type"    : "python"
+  },
  
   "TranslateXMLToJson": {
     "type"    : "python"
