@@ -6,10 +6,6 @@
   "GlomArea": {
     "type"    : "python"
   },
-  
-  "GlomArea2": {
-    "type"    : "python"
-  },
  
   "TranslateXMLToJson": {
     "type"    : "python"
