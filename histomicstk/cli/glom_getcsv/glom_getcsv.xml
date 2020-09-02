@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <executable>
   <category>HistomicsTK</category>
-  <title>GlomArea</title>
-  <description>GlomArea</description>
+  <title>glom_getcsv</title>
+  <description>Get glom csv</description>
   <version>0.1.0</version>
   <documentation-url>https://digitalslidearchive.github.io/HistomicsTK/</documentation-url>
   <license>Apache 2.0</license>
-  <contributor>Darshana</contributor>
-  <acknowledgements>This work is part of the HistomicsTK project.</acknowledgements>
+  <contributor>Darshana Govind</contributor>
+  <acknowledgements>Part of digital pathology project-Sarder Lab.</acknowledgements>
   <parameters>
     <label>IO</label>
     <description>Input/output parameters.</description>
