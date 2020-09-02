@@ -6,8 +6,8 @@
   <version>0.1.0</version>
   <documentation-url>https://digitalslidearchive.github.io/HistomicsTK/</documentation-url>
   <license>Apache 2.0</license>
-  <contributor>Darshana</contributor>
-  <acknowledgements>This work is part of the HistomicsTK project.</acknowledgements>
+  <contributor>Darshana Govind (SUNY Buffalo)</contributor>
+  <acknowledgements>This work is part of efforts in digital pathology by the Sarder Lab: SUNY Buffalo.</acknowledgements>
   <parameters>
     <label>IO</label>
     <description>Input/output parameters.</description>
