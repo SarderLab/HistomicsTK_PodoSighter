@@ -143,11 +143,15 @@ def Main(args):
     
     Podmask = np.array(remove_small_objects(label(Podmask1), min_size=Disc_size, connectivity=1, in_place=False))
     
+    
+    PAS_mpp = (float(sourcePAS.properties[openslide.PROPERTY_NAME_MPP_X])+float(sourcePAS.properties[openslide.PROPERTY_NAME_MPP_Y]))/2
+    tomicron = PAS_mpp*4
+    
     w = 256
     count = 1
     for region in regionprops(label(PASmask)):
         minr, minc, maxr, maxc = region.bbox
-        GlomArea = (region.area)*0.52*0.52
+        GlomArea = (region.area)*tomicron*tomicron
         startr = int(int((minr+maxr)/2)-(w/2))
         stopr = int(int((minr+maxr)/2)+(w/2))
         startc = int(int((minc+maxc)/2)-(w/2))
