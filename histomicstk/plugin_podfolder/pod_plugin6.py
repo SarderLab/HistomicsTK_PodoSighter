@@ -10,7 +10,6 @@ import warnings
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore",category=FutureWarning)
     warnings.filterwarnings("ignore",category=RuntimeWarning)
-    import tensorflow as tf
     import numpy as np
     import openslide
     from skimage.transform import warp, SimilarityTransform, resize     
