@@ -37,31 +37,6 @@ parser.add_argument('-Tx','--translateX',type = int, metavar = '',required = Tru
 parser.add_argument('-Ty','--translateY',type = int, metavar = '',required = True,help = 'Translate Y')
 args = parser.parse_args()
     
-#flags = tf.app.flags
-#
-#FLAGS = flags.FLAGS
-#
-#flags.DEFINE_string('inputPASsvsname', '24_PAS.svs', 'PAS WSI name (24_PAS.svs)')
-#flags.DEFINE_string('inputIFsvsname', '24_IF.svs', 'IF WSI name (24_IF.svs)')
-#flags.DEFINE_string('inputPASxmlname', '24.xml', 'Glom xml file (24.xml)')
-##flags.DEFINE_string('outfilename', '24_out.xml', '*.xml annotation filename (24_out.xml).')
-#
-#
-#flags.DEFINE_float('orig_IF_Thre', 0.4,
-#                  'Podocyte IF threshold, float type, between 0 - 1.',lower_bound=0, upper_bound=1)
-##flags.DEFINE_float('Disc_size', 3,
-##                  'Disc size, integer type.')
-#flags.DEFINE_list("TransXY", [211, -375], 'Translation parameters X and Y [211, -375]')
-#
-#inputPASsvsname1 = FLAGS.inputPASsvsname
-#inputIFsvsname1 = FLAGS.inputIFsvsname
-#inputPASxmlname1 = FLAGS.inputPASxmlname
-##outfilename1 = FLAGS.outfilename
-#
-#orig_IF_Thre1 = FLAGS.orig_IF_Thre
-##Disc_size1 = FLAGS.Disc_size
-#TransXY1 = FLAGS.TransXY
-
 print("Loading functions...")
 
 def RegisterWSIs(IF,txfinal,tyfinal):
@@ -133,22 +108,13 @@ def Main(args):
     print(args.translateX)
     print(args.translateY)
     
-#    inputPASsvsname = os.path.basename(args.inputpas)
-#    sourcePAS = openslide.open_slide(inputPASsvsname)
     sourcePAS = openslide.open_slide(args.inputpas)
-
-#    inputIFsvsname = os.path.basename(FLAGS.inputIFsvsname)
-#    sourceIF = openslide.open_slide(inputIFsvsname)
     sourceIF = openslide.open_slide(args.inputif)
-    
-#    inputPASxmlname = os.path.basename(FLAGS.inputPASxmlname)   
-#    PASxmlpath = inputPASxmlname
-    PASxmlpath = args.pasxml
 
+    PASxmlpath = args.pasxml
     
     orig_IF_Thre = args.thre
-    
-    
+        
     Disc_size = 9
     
     txfinal = args.translateX
@@ -187,7 +153,6 @@ def Main(args):
         stopr = int(int((minr+maxr)/2)+(w/2))
         startc = int(int((minc+maxc)/2)-(w/2))
         stopc = int(int((minc+maxc)/2)+(w/2))
-#        Glommask2 = (PASmask[startr:stopr,startc:stopc])*1
         Podmask_small = (Podmask[startr:stopr,startc:stopc])*1
         Podcounts = len(regionprops(label(Podmask_small)))
         print("Glomerulus {} has an area of {:.2f} sq. microns and has {} podocytes.".format(count,GlomArea, Podcounts))
