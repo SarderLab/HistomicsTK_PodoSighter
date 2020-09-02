@@ -6,6 +6,10 @@
   "GlomArea": {
     "type"    : "python"
   },
+  
+  "glom_getcsv": {
+    "type"    : "python"
+  },
  
   "TranslateXMLToJson": {
     "type"    : "python"
