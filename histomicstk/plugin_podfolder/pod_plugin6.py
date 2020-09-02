@@ -96,7 +96,7 @@ print("Loading main...")
 '''Main'''
 '''++++'''
 
-def Main(args):
+def Main():
     print("Running main code...")
     
     
@@ -164,7 +164,7 @@ def Main(args):
 
 
 if __name__ == '__main__':
-  Main(args)
+  Main()
   print('\n\nall done.')
     
 
