@@ -123,6 +123,14 @@ RUN pip install --no-cache-dir --upgrade --ignore-installed pip setuptools && \
     pip install --no-cache-dir 'xlrd==1.2.0' && \
     # Install umap
     pip install --no-cache-dir umap-learn && \
+    # Install pytorch
+    pip install --no-cache-dir 'torch>=1.4.0' && \
+    # Install torchvision
+    pip install --no-cache-dir 'torchvision>=0.5.0' && \
+    # Install dominate
+    pip install --no-cache-dir 'dominate>=2.4.0' && \
+    # Install visdom
+    pip install --no-cache-dir 'visdom>=0.1.8.8' && \
     # Downgrade gast
     # pip install --no-cache-dir 'gast==0.2.2' && \
     # clean up
