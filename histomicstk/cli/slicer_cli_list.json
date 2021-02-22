@@ -3,6 +3,10 @@
     "type"    : "python"
   },
   
+  "PodoSighter_pix2pix": {
+    "type"    : "python"
+  },
+  
   "GlomArea": {
     "type"    : "python"
   },
@@ -14,4 +18,5 @@
   "TranslateXMLToJson": {
     "type"    : "python"
   }
+  
 }
