@@ -1,4 +1,12 @@
-# FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
+# This Dockerfile is used to generate the docker image dsarchive/histomicstk
+# This docker image includes the HistomicsTK python package along with its
+# dependencies.
+#
+# All plugins of HistomicsTK should derive from this docker image
+
+
+# start from nvidia/cuda 10.0
+# FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04# FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
 FROM tensorflow/tensorflow:1.15.4-gpu-py3
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 
