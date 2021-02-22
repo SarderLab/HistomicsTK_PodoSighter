@@ -83,14 +83,14 @@
       <longflag>species</longflag>
       <label>species</label>
       <description>species (human, rat, mouse)</description>
-      <default>human</default>
+      <default></default>
     </string>
     <string>
       <name>stain</name>
       <longflag>stain</longflag>
       <label>stain</label>
       <description>stain (p57 or wt1)</description>
-      <default>p57</default>
+      <default></default>
     </string>
   </parameters>
 </executable>
