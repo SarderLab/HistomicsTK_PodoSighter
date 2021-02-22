@@ -5,6 +5,9 @@ Full pix2pix prediction
 
 @author: d8@buffalo.edu
 """
+import sys
+sys.path.append("..")
+
 import os
 from readPAS_cropGlom import readPAS_cropGlom
 from create_p2p_outxml import create_p2p_outxml
@@ -15,7 +18,6 @@ from skimage import io
 from skimage.transform import resize
 from skimage.util import img_as_ubyte
 import argparse
-import sys
 import shutil
 
 ##python3 Complete_Pix2pix_Prediction.py -A0 '/hdd/d8/tmpUI/tmp3' -A1 '/hdd/d8/PAS_folder/JPH12.svs' -A2 '/hdd/d8/PAS_folder/JPH12.xml'
