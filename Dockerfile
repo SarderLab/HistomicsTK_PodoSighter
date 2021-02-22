@@ -10,7 +10,7 @@
 FROM tensorflow/tensorflow:1.15.4-gpu-py3
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 
-LABEL maintainer="Darshana Govind" - Sarder Lab. <d8@buffalo.edu>"
+LABEL maintainer="Darshana Govind - Sarder Lab. <d8@buffalo.edu>"
 
 CMD echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! STARTING THE BUILD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # RUN mkdir /usr/local/nvidia && ln -s /usr/local/cuda-10.0/compat /usr/local/nvidia/lib
