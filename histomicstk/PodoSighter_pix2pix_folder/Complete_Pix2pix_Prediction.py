@@ -135,9 +135,9 @@ output_anno_file = output_anno_file_podocyte
 '''Step 1: Crop svs file into glomeruli and masks'''
 '''=============================================='''
 
-cropFolderPAS ='/hdd/d8/tmpUI/tmp2/cropPAS/'#tmpgirder/cropPAS/
-cropFolderGlom ='/hdd/d8/tmpUI/tmp2/cropGlom/'#tmpgirder/cropGlom/
+
 Imagename = os.path.basename(svsfile).split('.')[0]
+print(cropFolderPAS)
 
 readPAS_cropGlom(svsfile,xmlfile,crop_size,cropFolderPAS,cropFolderGlom)
 
