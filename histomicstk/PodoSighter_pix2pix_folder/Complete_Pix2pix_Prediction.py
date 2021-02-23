@@ -161,7 +161,7 @@ for f in glob.glob(cropFolderPAS+ '*.png'):
 
 exit_code = call("python3 ../pix2pix/datasets/combine_A_and_B.py --fold_A "+ dstholdoutPAS +" --fold_B " + dstholdoutPAS +" --fold_AB "+domABtemp, shell=True)   
        
-exit_code = call("python3 ../pix2pix/test.py --dataroot "+domABtemp+" --name "+Model_majorname+" --checkpoints_dir "+chkpointdir_location+" --results_dir "+Results_save_folder+" --model pix2pix", shell=True)
+exit_code = call("python3 ../pix2pix/test.py --dataroot "+domABtemp+" --gpu_ids 0"+" --name "+Model_majorname+" --checkpoints_dir "+chkpointdir_location+" --results_dir "+Results_save_folder+" --model pix2pix", shell=True)
 
 
 '''Step 3: Save pix2pix predictions'''
