@@ -37,6 +37,7 @@ parser.add_argument('-A7','--gauss_filt_size',type = int, metavar = '',required 
 parser.add_argument('-A8','--Disc_size',type = int, metavar = '',required = True,help = 'Disc_size')
 parser.add_argument('-A9','--species',type = str, metavar = '',required = True,help = 'species')
 parser.add_argument('-A10','--stain',type = str, metavar = '',required = True,help = 'stain')
+parser.add_argument('-A11','--gpu_id',type = int, metavar = '',required = True,help = 'gpu_id')
 
 args = parser.parse_args()
 
@@ -52,6 +53,7 @@ gauss_size = args.gauss_filt_size
 size_disc = args.Disc_size
 species_name = args.species
 stain_name = args.stain
+gpu_id_use = args.gpu_id
 
 print(maintempfolder)
 print(svs_file_name)
@@ -64,6 +66,7 @@ print(gauss_size)
 print(size_disc)
 print(species_name)
 print(stain_name)
+print(gpu_id_use)
 
 try:
     if species_name =='human' and stain_name =='p57':
@@ -161,11 +164,14 @@ for f in glob.glob(cropFolderPAS+ '*.png'):
 
 exit_code = call("python3 ../pix2pix/datasets/combine_A_and_B.py --fold_A "+ dstholdoutPAS +" --fold_B " + dstholdoutPAS +" --fold_AB "+domABtemp, shell=True)   
        
-exit_code = call("python3 ../pix2pix/test.py --dataroot "+domABtemp+" --gpu_ids 0"+" --name "+Model_majorname+" --checkpoints_dir "+chkpointdir_location+" --results_dir "+Results_save_folder+" --model pix2pix", shell=True)
+exit_code = call("python3 ../pix2pix/test.py --dataroot "+domABtemp+" --gpu_ids "+str(gpu_id_use)+" --name "+Model_majorname+" --checkpoints_dir "+chkpointdir_location+" --results_dir "+Results_save_folder+" --model pix2pix", shell=True)
 
 
 '''Step 3: Save pix2pix predictions'''
 '''==============================='''
 
 resdir_exact = Results_save_folder+Model_majorname+"/test_latest/images/"
-create_p2p_outxml(svsfile,xmlfile,crop_size,resdir_exact,PAS_nuc_thre,gauss_filt_size,Disc_size,output_anno_file)
+xml_data = create_p2p_outxml(svsfile,xmlfile,crop_size,resdir_exact,PAS_nuc_thre,gauss_filt_size,Disc_size)
+f = open(args.outxml1, 'wb')
+f.write(xml_data)
+f.close()
