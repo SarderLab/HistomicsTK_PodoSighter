@@ -17,7 +17,7 @@ import lxml.etree as ET
 from col_deconv_HPAS import col_deconv_HPAS
 from scipy.ndimage.morphology import binary_opening, binary_fill_holes
 
-def create_p2p_outxml(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,gauss_filt_size,Disc_size,output_anno_file):
+def create_p2p_outxml(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,gauss_filt_size,Disc_size):
     
     print("Reading PAS file...")
     Imagename = os.path.basename(svsfile).split('.')[0]
