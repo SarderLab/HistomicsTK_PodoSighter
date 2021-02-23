@@ -134,8 +134,9 @@ def create_p2p_outxml(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,gauss_filt_s
         Annotations = FNs.xml_add_region(Annotations=Annotations, pointList=pointList)    
       
     xml_data = ET.tostring(Annotations, pretty_print=True)
-    f = open(output_anno_file, 'wb')
-    f.write(xml_data)
-    f.close()
+#    f = open(output_anno_file, 'wb')
+#    f.write(xml_data)
+#    f.close()
+    return xml_data
 
 
