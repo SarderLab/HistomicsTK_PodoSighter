@@ -99,5 +99,26 @@
       <longflag>gpu_id</longflag>
       <default>0</default>
     </integer>
+    <integer>
+      <name>resolut</name>
+      <label>resolut</label>
+      <description>For high resolution analysis select 0 and for one-fourth select 1 (default 0)</description>
+      <longflag>resolut</longflag>
+      <default>0</default>
+    </integer>
+    <integer>
+      <name>sz_thre</name>
+      <label>sz_thre</label>
+      <description>Nuclei size threshold (default 400)</description>
+      <longflag>sz_thre</longflag>
+      <default>400</default>
+    </integer>
+    <double>
+      <name>watershed_thre</name>
+      <label>watershed_thre</label>
+      <description>Watershed distance threshold (default 0.2)</description>
+      <longflag>watershed_thre</longflag>
+      <default>0.2</default>
+    </double>
   </parameters>
 </executable>
