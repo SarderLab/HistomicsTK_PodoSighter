@@ -57,9 +57,7 @@ from deeplab import input_preprocess
 
 import sys
 sys.path.append("..")
-sys.path.append("../../slim/")
-sys.path.append("../../../research/")
-sys.path.append("../..")
+
 
 
 # Named tuple to describe the dataset properties.
