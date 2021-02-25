@@ -195,5 +195,5 @@ f.close()
 tree = ET.parse(args.outxml1)
 root = tree.getroot()
 annotation = xmltojson(root)
-with open(args.jsonout, 'wb') as annotation_file:
+with open(args.jsonout, 'w') as annotation_file:
     json.dump(annotation, annotation_file, indent=2, sort_keys=False)
