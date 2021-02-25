@@ -20,6 +20,10 @@ import argparse
 import shutil
 from create_podocyte_Outxml_pix2pix import create_podocyte_Outxml_pix2pix
 
+import json
+import xml.etree.ElementTree as ET
+from xmltojson import xmltojson
+
 ##python3 Complete_Pix2pix_Prediction.py -A0 '/hdd/d8/tmpUI/tmp3' -A1 '/hdd/d8/PAS_folder/JPH12.svs' -A2 '/hdd/d8/PAS_folder/JPH12.xml'
 ## -A3 '/hdd/d8/tmpUI/tmp2/checkpoint/HUMP57/latest_net_G.pth' -A4 '/hdd/d8/tmpUI/tmp2/checkpoint/HUMP57/latest_net_D.pth'
 ## -A5 'outxml1.xml' -A6 0.1 -A7 5 -A8 3 -A9 'human' -A10 'p57'
@@ -41,6 +45,7 @@ parser.add_argument('-A11','--gpu_id',type = int, metavar = '',required = True,h
 parser.add_argument('-A12','--resolut',type = int, metavar = '',required = True,help = 'resolut')
 parser.add_argument('-A13','--sz_thre',type = int, metavar = '',required = True,help = 'sz_thre')
 parser.add_argument('-A14','--watershed_thre',type = float, metavar = '',required = True,help = 'watershed_thre')
+parser.add_argument('-A15','--jsonout',type = str, metavar = '',required = True,help = 'jsonout')
 
 args = parser.parse_args()
 
@@ -76,6 +81,7 @@ print(gpu_id_use)
 print(watershed_dist_thre)
 print(size_thre)
 print(resol)
+print(args.jsonout)
 
 try:
     if species_name =='human' and stain_name =='p57':
@@ -185,3 +191,9 @@ xml_data= create_podocyte_Outxml_pix2pix(svsfile,xmlfile,crop_size,resdir_exact,
 f = open(args.outxml1, 'wb')
 f.write(xml_data)
 f.close()
+
+tree = ET.parse(args.outxml1)
+root = tree.getroot()
+annotation = xmltojson(root)
+with open(args.jsonout, 'wb') as annotation_file:
+    json.dump(annotation, annotation_file, indent=2, sort_keys=False)
