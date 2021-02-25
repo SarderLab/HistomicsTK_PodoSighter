@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<executable>
+  <category>HistomicsTK</category>
+  <title>PodoSighter_cnn</title>
+  <description>PodoSighter_cnn</description>
+  <version>0.1.0</version>
+  <documentation-url>https://digitalslidearchive.github.io/HistomicsTK/</documentation-url>
+  <license>Apache 2.0</license>
+  <contributor>Darshana Govind(SUNY Buffalo)</contributor>
+  <acknowledgements>This work is part of efforts in digital pathology by the Sarder Lab: SUNY Buffalo.</acknowledgements>
+  <parameters>
+    <label>IO</label>
+    <description>Input/output parameters.</description>
+    <directory>
+      <name>inputFolder</name>
+      <label>Data Folder</label>
+      <description>Select the folder containing all files</description>
+      <channel>input</channel>
+      <index>0</index>
+    </directory>
+    <image>
+      <name>inputImageFile</name>
+      <label>Input Image</label>
+      <channel>input</channel>
+      <index>1</index>
+      <description>Input image</description>
+    </image>    
+    <file fileExtensions=".xml">
+      <name>inputAnnotationFile1</name>
+      <label>Input Annotation File1</label>
+      <channel>input</channel>
+      <index>2</index>
+      <description>Input annotation file (*.xml) containing glom annotations</description>
+    </file>
+    <file fileExtensions=".data-00000-of-00001">
+      <name>Model</name>
+      <label>Model</label>
+      <channel>input</channel>
+      <index>3</index>
+      <description>Trained Model</description>
+    </file>
+    <file fileExtensions="">
+      <name>Modelchkpt</name>
+      <label>Modelchkpt</label>
+      <channel>input</channel>
+      <index>4</index>
+      <description>Trained Model checkpoint</description>
+    </file>
+    <file fileExtensions=".index">
+      <name>Modelidx</name>
+      <label>Modelidx</label>
+      <channel>input</channel>
+      <index>5</index>
+      <description>Trained Model index (*.index)</description>
+    </file>
+    <file fileExtensions=".xml">
+      <name>outputAnnotationFile1</name>
+      <label>outputAnnotationFile1</label>
+      <channel>output</channel>
+      <index>6</index>
+      <description>Output podocyte xml file (*.xml)</description>
+    </file>  
+  </parameters>
+  <parameters advanced="true">
+    <label>UserParameters</label>
+    <description>User Parameters</description>
+    <double>
+      <name>PASnucleiThreshold</name>
+      <label>PASnucleiThreshold</label>
+      <description>PAS nuclei Threshold between 0 and 1 (default 0.4) </description>
+      <longflag>PASnucleiThreshold</longflag>
+      <default>0.4</default>
+    </double>
+    <integer>
+      <name>gauss_filt_size</name>
+      <label>gauss_filt_size</label>
+      <description>Gaussian blur filter size (default 5)</description>
+      <longflag>gauss_filt_size</longflag>
+      <default>5</default>
+    </integer>
+    <integer>
+      <name>Disc_size</name>
+      <label>Disc_size</label>
+      <description>Morphological processing disc_size (default 6)</description>
+      <longflag>Disc_size</longflag>
+      <default>6</default>
+    </integer>
+    <string>
+      <name>species</name>
+      <longflag>species</longflag>
+      <label>species</label>
+      <description>species (human, rat, mouse)</description>
+      <default></default>
+    </string>
+    <string>
+      <name>stain</name>
+      <longflag>stain</longflag>
+      <label>stain</label>
+      <description>stain (p57 or wt1)</description>
+      <default></default>
+    </string>
+    <integer>
+      <name>resolut</name>
+      <label>resolut</label>
+      <description>For high resolution analysis select 0 and for one-fourth select 1 (default 0)</description>
+      <longflag>resolut</longflag>
+      <default>0</default>
+    </integer>
+    <integer>
+      <name>sz_thre</name>
+      <label>sz_thre</label>
+      <description>Nuclei size threshold (default 400)</description>
+      <longflag>sz_thre</longflag>
+      <default>400</default>
+    </integer>
+    <double>
+      <name>watershed_thre</name>
+      <label>watershed_thre</label>
+      <description>Watershed distance threshold (default 0.2)</description>
+      <longflag>watershed_thre</longflag>
+      <default>0.2</default>
+    </double>
+  </parameters>
+</executable>
