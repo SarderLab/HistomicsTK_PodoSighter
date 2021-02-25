@@ -23,7 +23,7 @@ def xmltojson(root):
         for i in reg.findall('Region'):
             eleDict = dict()
             eleDict["closed"] = True
-            eleDict["fillColor"] = "rgba(0, 0, 0, 0)"
+            eleDict["fillColor"] = "rgba(11, 156, 49, 0.8)"
             eleDict["lineColor"] = colorList[0]
             eleDict["lineWidth"] = 2
             points = []
@@ -54,7 +54,7 @@ def xmltojson(root):
             for i in reg.findall('Region'):
                 eleDict = dict()
                 eleDict["closed"] = True
-                eleDict["fillColor"] = "rgba(0, 0, 0, 0)"
+                eleDict["fillColor"] = "rgba(11, 156, 49, 0.8)"
                 eleDict["lineColor"] = colorList[n % 15]
                 eleDict["lineWidth"] = 2
                 points = []
