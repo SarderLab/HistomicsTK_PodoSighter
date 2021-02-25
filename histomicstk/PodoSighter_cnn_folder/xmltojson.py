@@ -17,7 +17,7 @@ def xmltojson(root):
         data = dict()
         ann = root.find('Annotation')
         attr = ann.find('Attributes')
-        name = attr.find('Attribute').get('Name')
+        name = 'Podocyte'
         element = []
         reg = ann.find('Regions')
         for i in reg.findall('Region'):
