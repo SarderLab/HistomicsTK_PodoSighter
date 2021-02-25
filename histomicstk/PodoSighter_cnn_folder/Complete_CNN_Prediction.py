@@ -5,6 +5,9 @@ from readPAS_cropGlom import readPAS_cropGlom
 import argparse
 from create_podocyte_Outxml_CNN import create_podocyte_Outxml_CNN
 
+import json
+import xml.etree.ElementTree as ET
+from xmltojson import xmltojson
 '''
 python3 Complete_CNN_Prediction.py -A0 '/hdd/d8/dplb/tmp' -A1 '/hdd/d8/dplb/slides/JPH12.svs' -A2 '/hdd/d8/dplb/slides/JPH12.xml' -A3 '/hdd/d8/dplb/chkpt_folder/hump57_model.ckpt-50000.data-00000-of-00001' -A4 '/hdd/d8/dplb/chkpt_folder/hump57_checkpoint' -A5 '/hdd/d8/dplb/chkpt_folder/hump57_model.ckpt-50000.index' -A6 'human' -A7 'p57' -A8 'out1.xml' -A9 0.4 -A10 5 -A11 6 -A12 0 -A13 400 -A14 0.2
 '''
@@ -24,6 +27,7 @@ parser.add_argument('-A11','--Disc_size',type = int, metavar = '',required = Tru
 parser.add_argument('-A12','--resolut',type = int, metavar = '',required = True,help = 'resolut')
 parser.add_argument('-A13','--sz_thre',type = int, metavar = '',required = True,help = 'sz_thre')
 parser.add_argument('-A14','--watershed_thre',type = float, metavar = '',required = True,help = 'watershed_thre')
+parser.add_argument('-A15','--jsonout',type = float, metavar = '',required = True,help = 'jsonout')
 
 
 args = parser.parse_args()
@@ -43,6 +47,7 @@ size_disc = args.Disc_size
 resol = args.resolut
 size_thre = args.sz_thre
 watershed_dist_thre = args.watershed_thre
+jout = args.jsonout
 
 #shutil.rmtree(maintempfolder)
 #os.mkdir(maintempfolder)
@@ -168,3 +173,9 @@ xml_data= create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir_exact,PAS_
 f = open(args.outxml1, 'wb')
 f.write(xml_data)
 f.close()
+
+tree = ET.parse(args.outxml1)
+root = tree.getroot()
+annotation = xmltojson(root)
+with open(args.jsonout, 'wb') as annotation_file:
+    json.dump(annotation, annotation_file, indent=2, sort_keys=False)
