@@ -45,7 +45,7 @@ size_thre = args.sz_thre
 watershed_dist_thre = args.watershed_thre
 
 #shutil.rmtree(maintempfolder)
-os.mkdir(maintempfolder)
+#os.mkdir(maintempfolder)
 
 print(maintempfolder)
 print(svs_file_name)
@@ -118,7 +118,7 @@ xmlfile = xml_file_name
 
 
 Imagename = os.path.basename(svsfile).split('.')[0]
-#
+
 readPAS_cropGlom(svsfile,xmlfile,crop_size,cropFolderPAS+'/',cropFolderGlom+'/')
 
 
