@@ -10,7 +10,6 @@ sys.path.append("..")
 
 import os
 from readPAS_cropGlom import readPAS_cropGlom
-from create_p2p_outxml import create_p2p_outxml
 import glob
 from subprocess import call
 import imageio
@@ -19,6 +18,7 @@ from skimage.transform import resize
 from skimage.util import img_as_ubyte
 import argparse
 import shutil
+from create_podocyte_Outxml_pix2pix import create_podocyte_Outxml_pix2pix
 
 ##python3 Complete_Pix2pix_Prediction.py -A0 '/hdd/d8/tmpUI/tmp3' -A1 '/hdd/d8/PAS_folder/JPH12.svs' -A2 '/hdd/d8/PAS_folder/JPH12.xml'
 ## -A3 '/hdd/d8/tmpUI/tmp2/checkpoint/HUMP57/latest_net_G.pth' -A4 '/hdd/d8/tmpUI/tmp2/checkpoint/HUMP57/latest_net_D.pth'
@@ -38,6 +38,9 @@ parser.add_argument('-A8','--Disc_size',type = int, metavar = '',required = True
 parser.add_argument('-A9','--species',type = str, metavar = '',required = True,help = 'species')
 parser.add_argument('-A10','--stain',type = str, metavar = '',required = True,help = 'stain')
 parser.add_argument('-A11','--gpu_id',type = int, metavar = '',required = True,help = 'gpu_id')
+parser.add_argument('-A12','--resolut',type = int, metavar = '',required = True,help = 'resolut')
+parser.add_argument('-A13','--sz_thre',type = int, metavar = '',required = True,help = 'sz_thre')
+parser.add_argument('-A14','--watershed_thre',type = float, metavar = '',required = True,help = 'watershed_thre')
 
 args = parser.parse_args()
 
@@ -54,6 +57,9 @@ size_disc = args.Disc_size
 species_name = args.species
 stain_name = args.stain
 gpu_id_use = args.gpu_id
+watershed_dist_thre= args.watershed_thre
+size_thre = args.sz_thre
+resol = args.resolut
 
 print(maintempfolder)
 print(svs_file_name)
@@ -67,6 +73,9 @@ print(size_disc)
 print(species_name)
 print(stain_name)
 print(gpu_id_use)
+print(watershed_dist_thre)
+print(size_thre)
+print(resol)
 
 try:
     if species_name =='human' and stain_name =='p57':
@@ -83,10 +92,10 @@ try:
         crop_size = 800
     elif species_name =='mouse' and stain_name =='p57':
         Model_majorname = 'MOUP57'
-        crop_size = 600
+        crop_size = 800
     elif species_name =='mouse' and stain_name =='wt1':
         Model_majorname = 'MOUWT1'
-        crop_size = 600
+        crop_size = 800
 except:
     print("Incorrect species or stain. Try again")
     sys.exit()
@@ -119,8 +128,8 @@ srcDisc = Disc_model_name
 dstGenDisc = chkpointdir_location + Model_majorname + '/'
 os.mkdir(dstGenDisc)
 
-shutil.copy(srcGen, dstGenDisc) 
-shutil.copy(srcDisc, dstGenDisc) 
+shutil.copy(srcGen, (dstGenDisc+ '/latest_net_G.pth')) 
+shutil.copy(srcDisc, (dstGenDisc+'/latest_net_D.pth')) 
 
 
 '''Input'''
@@ -171,7 +180,8 @@ exit_code = call("python3 ../pix2pix/test.py --dataroot "+domABtemp+" --gpu_ids 
 '''==============================='''
 
 resdir_exact = Results_save_folder+Model_majorname+"/test_latest/images/"
-xml_data = create_p2p_outxml(svsfile,xmlfile,crop_size,resdir_exact,PAS_nuc_thre,gauss_filt_size,Disc_size)
+
+xml_data= create_podocyte_Outxml_pix2pix(svsfile,xmlfile,crop_size,resdir_exact,PAS_nuc_thre,size_thre,gauss_filt_size,watershed_dist_thre,Disc_size,resol)
 f = open(args.outxml1, 'wb')
 f.write(xml_data)
 f.close()
