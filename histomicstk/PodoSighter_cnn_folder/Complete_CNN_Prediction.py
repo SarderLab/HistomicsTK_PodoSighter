@@ -27,7 +27,7 @@ parser.add_argument('-A11','--Disc_size',type = int, metavar = '',required = Tru
 parser.add_argument('-A12','--resolut',type = int, metavar = '',required = True,help = 'resolut')
 parser.add_argument('-A13','--sz_thre',type = int, metavar = '',required = True,help = 'sz_thre')
 parser.add_argument('-A14','--watershed_thre',type = float, metavar = '',required = True,help = 'watershed_thre')
-parser.add_argument('-A15','--jsonout',type = float, metavar = '',required = True,help = 'jsonout')
+parser.add_argument('-A15','--jsonout',type = str, metavar = '',required = True,help = 'jsonout')
 
 
 args = parser.parse_args()
