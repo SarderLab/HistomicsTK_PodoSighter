@@ -79,13 +79,3 @@ def xmltojson(root):
 
 
 
-
-
-
-tree = ET.parse(args.inputAnnotationFile)
-root = tree.getroot()
-annotation = convert_xml_json(root)
-with open(args.outputAnnotationFile, 'w') as annotation_file:
-    json.dump(annotation, annotation_file, indent=2, sort_keys=False)
-
-
