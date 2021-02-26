@@ -24,6 +24,7 @@ from __future__ import print_function
 
 import sys
 sys.path.append("..")
+sys.path.append(".")
 
 
 import os.path
