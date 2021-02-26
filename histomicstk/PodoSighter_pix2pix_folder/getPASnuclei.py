@@ -15,6 +15,13 @@ from skimage.measure import label
 import cv2
 from skimage import morphology
 
+import skimage
+import scipy
+print(skimage.__version__)
+print(cv2.__version__)
+print(scipy.__version__)
+print(np.__version__)
+
 def getPASnuclei(im_PAS,Glommask,int_thre,size_thre,gauss_filt_size,watershed_dist_thre,disc_size):
     PASnuc = separate_stains(im_PAS, hpx_from_rgb)
     PASnuc_extract = rescale_intensity(PASnuc[:, :, 0], out_range=(0,1))
