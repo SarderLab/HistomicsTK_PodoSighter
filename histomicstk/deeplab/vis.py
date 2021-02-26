@@ -22,9 +22,10 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+#import sys
+#sys.path.append("/home/d8/dplb/research/")
 import sys
-sys.path.append("/home/d8/dplb/research/")
-
+sys.path.append("..")
 
 import os.path
 import time
