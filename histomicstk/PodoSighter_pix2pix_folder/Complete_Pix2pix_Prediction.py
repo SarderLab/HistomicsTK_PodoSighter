@@ -186,13 +186,20 @@ exit_code = call("python3 ../pix2pix/test.py --dataroot "+domABtemp+" --gpu_ids 
 '''==============================='''
 
 resdir_exact = Results_save_folder+Model_majorname+"/test_latest/images/"
+print(args.outxml1)
+print(output_anno_file_podocyte)
+print(maintempfolder + '/'+ os.path.basename(output_anno_file_podocyte).split('.')[0])
 
 xml_data= create_podocyte_Outxml_pix2pix(svsfile,xmlfile,crop_size,resdir_exact,PAS_nuc_thre,size_thre,gauss_filt_size,watershed_dist_thre,Disc_size,resol)
-f = open(args.outxml1, 'wb')
+f = open(output_anno_file_podocyte, 'wb')
 f.write(xml_data)
 f.close()
 
-tree = ET.parse(args.outxml1)
+print(args.outxml1)
+print(output_anno_file_podocyte)
+print(maintempfolder + '/'+ os.path.basename(output_anno_file_podocyte).split('.')[0])
+
+tree = ET.parse(output_anno_file_podocyte)
 root = tree.getroot()
 annotation = xmltojson(root)
 with open(args.jsonout, 'w') as annotation_file:
