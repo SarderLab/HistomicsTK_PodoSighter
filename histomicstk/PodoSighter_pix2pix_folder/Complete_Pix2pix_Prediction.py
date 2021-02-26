@@ -191,6 +191,7 @@ print(output_anno_file_podocyte)
 print(maintempfolder + '/'+ os.path.basename(output_anno_file_podocyte).split('.')[0])
 
 xml_data= create_podocyte_Outxml_pix2pix(svsfile,xmlfile,crop_size,resdir_exact,PAS_nuc_thre,size_thre,gauss_filt_size,watershed_dist_thre,Disc_size,resol)
+print('xmldone')
 f = open(output_anno_file_podocyte, 'wb')
 f.write(xml_data)
 f.close()
