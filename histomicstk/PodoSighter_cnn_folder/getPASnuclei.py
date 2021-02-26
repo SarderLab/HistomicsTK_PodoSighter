@@ -48,7 +48,10 @@ def getPASnuclei(im_PAS,Glommask,int_thre,size_thre,gauss_filt_size,watershed_di
     except:
         print('watershed fix')
         separatednucPAS = (PAS_nuclei*Glommask)>0*1
+        
     
-    return separatednucPAS
+    err_nuclei = remove_small_objects(label(separatednucPAS), min_size=size_thre*6)
+    final_out = (separatednucPAS>0)*1-(err_nuclei>0)*1
+    return final_out
 
     
