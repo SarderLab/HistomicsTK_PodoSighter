@@ -74,6 +74,9 @@ def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,siz
      
         
         Glommask_1 = PASmask[int(ptx-(highres_w/2)):int(ptx+(highres_w/2)),int(pty-(highres_w/2)):int(pty+(highres_w/2))]
+        if crop_imgPAS[:,:,0].shape != Glommask_1.shape:
+            continue
+
         Glommask2 = resize(Glommask_1,(highres_w*4,highres_w*4),anti_aliasing=True)*1
         Glommask2 = cv2.threshold((Glommask2), 0.1, 255, cv2.THRESH_BINARY)[1]    
     
