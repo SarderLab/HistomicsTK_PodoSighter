@@ -133,7 +133,7 @@ readPAS_cropGlom(svsfile,xmlfile,crop_size,cropFolderPAS+'/',cropFolderGlom+'/')
 '''Step 2: Convert to tfrecord'''
 '''==========================='''
 
-cmd3 = "python ../HistomicsTK_PodoSighter/histomicstk/PodoSighter_cnn_folder/build_tf_record_glomData.py --val_image_folder "+cropFolderPAS+" --val_image_label_folder "+cropFolderGlom+" --output_dir "+tfrecord_dir
+cmd3 = "python ../PodoSighter_cnn_folder/build_tf_record_glomData.py --val_image_folder "+cropFolderPAS+" --val_image_label_folder "+cropFolderGlom+" --output_dir "+tfrecord_dir
 os.system(cmd3)
 
 
@@ -149,7 +149,7 @@ print(os.getcwd())
 #../pix2pix/datasets/combine_A_and_B
 #/home/d8/dplb/research/deeplab/vis.py
 
-cmd5 = "python3 ../Pod_DL/deeplab/vis.py \
+cmd5 = "python3 ../deeplab/vis.py \
     --logtostderr \
     --vis_split="+test_folder+" \
     --model_variant=\"xception_65\" \
