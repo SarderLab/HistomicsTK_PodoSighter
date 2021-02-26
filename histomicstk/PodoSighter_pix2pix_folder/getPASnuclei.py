@@ -30,19 +30,22 @@ def getPASnuclei(im_PAS,Glommask,int_thre,size_thre,gauss_filt_size,watershed_di
 
     label_nuc = label(PAS_nuclei)
     PAS_nuclei2 = remove_small_objects(label_nuc, min_size=size_thre)
-   
-    distance = ndi.distance_transform_edt(PAS_nuclei2)
-    coords = peak_local_max(norm_image,min_distance=watershed_dist_thre, exclude_border=False, footprint=np.ones((2, 2)), labels=PAS_nuclei2)
+    try:
+        distance = ndi.distance_transform_edt(PAS_nuclei2)
+        coords = peak_local_max(distance,min_distance=watershed_dist_thre, exclude_border=False, footprint=np.ones((2, 2)), labels=PAS_nuclei2)
 
-    mask = np.zeros(distance.shape, dtype=bool)
-    mask[tuple(coords.T)] = True
-    markers, _ = ndi.label(mask)
-    labels = watershed(-distance, markers, mask=PAS_nuclei,watershed_line=True)
-    labels = remove_small_objects(labels, min_size=size_thre/5)#REst = 3, NTN = 5   
-    
-    singlenuc = ((PAS_nuclei>0)*1 - (PAS_nuclei2>0)*1)
-    doublesepnuc = (labels>0)*1
-    
-    separatednucPAS = ((singlenuc + doublesepnuc)*Glommask)>0*1
+        mask = np.zeros(distance.shape, dtype=bool)
+        mask[tuple(coords.T)] = True
+        markers, _ = ndi.label(mask)
+        labels = watershed(-distance, markers, mask=PAS_nuclei,watershed_line=True)
+        labels = remove_small_objects(labels, min_size=size_thre/5)#REst = 3, NTN = 5   
+
+        singlenuc = ((PAS_nuclei>0)*1 - (PAS_nuclei2>0)*1)
+        doublesepnuc = (labels>0)*1
+
+        separatednucPAS = ((singlenuc + doublesepnuc)*Glommask)>0*1
+    except:
+        print('watershed fix')
+        separatednucPAS = (PAS_nuclei*Glommask)>0*1
     return separatednucPAS
     
