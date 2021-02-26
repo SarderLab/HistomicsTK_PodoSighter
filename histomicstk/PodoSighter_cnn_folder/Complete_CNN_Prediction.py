@@ -169,13 +169,20 @@ os.system(cmd5)
 '''Step 5: Output display'''
 '''==========================='''
 resdir_exact = vislogdir+"/raw_segmentation_results/"
+print(args.outxml1)
+print(output_anno_file_podocyte)
+print(maintempfolder + '/'+ os.path.basename(output_anno_file_podocyte).split('.')[0])
 
 xml_data= create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir_exact,PAS_nuc_thre,size_thre,gauss_filt_size,watershed_dist_thre,size_disc,resol)
-f = open(args.outxml1, 'wb')
+f = open(output_anno_file_podocyte, 'wb')
 f.write(xml_data)
 f.close()
 
-tree = ET.parse(args.outxml1)
+print(args.outxml1)
+print(output_anno_file_podocyte)
+print(maintempfolder + '/'+ os.path.basename(output_anno_file_podocyte).split('.')[0])
+
+tree = ET.parse(output_anno_file_podocyte)
 root = tree.getroot()
 annotation = xmltojson(root)
 with open(args.jsonout, 'w') as annotation_file:
