@@ -32,8 +32,7 @@ def getPASnuclei(im_PAS,Glommask,int_thre,size_thre,gauss_filt_size,watershed_di
     PAS_nuclei2 = remove_small_objects(label_nuc, min_size=size_thre)
    
     distance = ndi.distance_transform_edt(PAS_nuclei2)
-    norm_image = cv2.normalize(distance, None, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
-    coords = peak_local_max(norm_image,min_distance=watershed_dist_thre, footprint=np.ones((2, 2)), labels=PAS_nuclei2)
+    coords = peak_local_max(norm_image,min_distance=watershed_dist_thre, exclude_border=False, footprint=np.ones((2, 2)), labels=PAS_nuclei2)
 
     mask = np.zeros(distance.shape, dtype=bool)
     mask[tuple(coords.T)] = True
