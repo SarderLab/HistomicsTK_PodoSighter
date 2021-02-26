@@ -8,6 +8,8 @@ from create_podocyte_Outxml_CNN import create_podocyte_Outxml_CNN
 import json
 import xml.etree.ElementTree as ET
 from xmltojson import xmltojson
+import sys
+sys.path.append("../HistomicsTK_PodoSighter/histomicstk/PodoSighter_cnn_folder/")
 '''
 python3 Complete_CNN_Prediction.py -A0 '/hdd/d8/dplb/tmp' -A1 '/hdd/d8/dplb/slides/JPH12.svs' -A2 '/hdd/d8/dplb/slides/JPH12.xml' -A3 '/hdd/d8/dplb/chkpt_folder/hump57_model.ckpt-50000.data-00000-of-00001' -A4 '/hdd/d8/dplb/chkpt_folder/hump57_checkpoint' -A5 '/hdd/d8/dplb/chkpt_folder/hump57_model.ckpt-50000.index' -A6 'human' -A7 'p57' -A8 'out1.xml' -A9 0.4 -A10 5 -A11 6 -A12 0 -A13 400 -A14 0.2
 '''
@@ -131,7 +133,7 @@ readPAS_cropGlom(svsfile,xmlfile,crop_size,cropFolderPAS+'/',cropFolderGlom+'/')
 '''Step 2: Convert to tfrecord'''
 '''==========================='''
 
-cmd3 = "python ./build_tf_record_glomData.py --val_image_folder "+cropFolderPAS+" --val_image_label_folder "+cropFolderGlom+" --output_dir "+tfrecord_dir
+cmd3 = "python ../HistomicsTK_PodoSighter/histomicstk/PodoSighter_cnn_folder/build_tf_record_glomData.py --val_image_folder "+cropFolderPAS+" --val_image_label_folder "+cropFolderGlom+" --output_dir "+tfrecord_dir
 os.system(cmd3)
 
 
