@@ -98,9 +98,14 @@ def create_podocyte_Outxml_pix2pix(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre
             count2 = 1
             for reg in LabelPAS:
                 eachIm = (LabelPAS == count2)*1
+                eachImprops = regionprops(eachIm)
+                N_area = [eprop.area for eprop in eachImprops]
                 count2+=1
-                if (np.sum(eachIm*predicted_mask*1)>0):
-                    FakePodPASmask = FakePodPASmask + eachIm
+                if not N_area:
+                    continue
+                else:
+                    if (np.sum(eachIm*predicted_mask*1)>int(0.7*float(N_area[0]))):
+                        FakePodPASmask = FakePodPASmask + eachIm
                   
             del predicted_im
             
