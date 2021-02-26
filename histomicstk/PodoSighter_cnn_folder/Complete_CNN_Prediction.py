@@ -131,7 +131,7 @@ readPAS_cropGlom(svsfile,xmlfile,crop_size,cropFolderPAS+'/',cropFolderGlom+'/')
 '''Step 2: Convert to tfrecord'''
 '''==========================='''
 
-cmd3 = "python build_tf_record_glomData.py --val_image_folder "+cropFolderPAS+" --val_image_label_folder "+cropFolderGlom+" --output_dir "+tfrecord_dir
+cmd3 = "python ./build_tf_record_glomData.py --val_image_folder "+cropFolderPAS+" --val_image_label_folder "+cropFolderGlom+" --output_dir "+tfrecord_dir
 os.system(cmd3)
 
 
