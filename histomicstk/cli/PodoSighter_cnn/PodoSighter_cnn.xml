@@ -55,7 +55,7 @@
     </file>
     <file fileExtensions=".anot" reference="inputImageFile">
       <name>outputAnnotationFile2</name>
-      <label>outputAnnotationFile2</label>
+      <label>output Annotation File2</label>
       <channel>output</channel>
       <index>6</index>
       <description>Output annotation file (*.anot) containing annotations, converting Aperio xml format to json</description>
