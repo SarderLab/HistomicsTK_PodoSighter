@@ -20,9 +20,8 @@ import argparse
 import shutil
 from create_podocyte_Outxml_pix2pix import create_podocyte_Outxml_pix2pix
 
-import json
-import xml.etree.ElementTree as ET
-from xmltojson import xmltojson
+from mask_to_xml import mask_to_xml
+from xml_to_json import convert_xml_json
 
 ##python3 Complete_Pix2pix_Prediction.py -A0 '/hdd/d8/tmpUI/tmp3' -A1 '/hdd/d8/PAS_folder/JPH12.svs' -A2 '/hdd/d8/PAS_folder/JPH12.xml'
 ## -A3 '/hdd/d8/tmpUI/tmp2/checkpoint/HUMP57/latest_net_G.pth' -A4 '/hdd/d8/tmpUI/tmp2/checkpoint/HUMP57/latest_net_D.pth'
@@ -35,17 +34,15 @@ parser.add_argument('-A1','--inputsvs',type = str, metavar = '',required = True,
 parser.add_argument('-A2','--glomxml',type = str, metavar = '',required = True,help = ' glom xml')
 parser.add_argument('-A3','--GeneratorModel',type = str, metavar = '',required = True,help = 'GeneratorModel')
 parser.add_argument('-A4','--DiscriminatorModel',type = str, metavar = '',required = True,help = 'DiscriminatorModel')
-parser.add_argument('-A5','--outxml1',type = str, metavar = '',required = True,help = 'outxml1')
-parser.add_argument('-A6','--PASnucleiThreshold',type = float, metavar = '',required = True,help = 'PASnucleiThreshold')
-parser.add_argument('-A7','--gauss_filt_size',type = int, metavar = '',required = True,help = 'gauss_filt_size')
-parser.add_argument('-A8','--Disc_size',type = int, metavar = '',required = True,help = 'Disc_size')
-parser.add_argument('-A9','--species',type = str, metavar = '',required = True,help = 'species')
-parser.add_argument('-A10','--stain',type = str, metavar = '',required = True,help = 'stain')
-parser.add_argument('-A11','--gpu_id',type = int, metavar = '',required = True,help = 'gpu_id')
-parser.add_argument('-A12','--resolut',type = int, metavar = '',required = True,help = 'resolut')
-parser.add_argument('-A13','--sz_thre',type = int, metavar = '',required = True,help = 'sz_thre')
-parser.add_argument('-A14','--watershed_thre',type = float, metavar = '',required = True,help = 'watershed_thre')
-parser.add_argument('-A15','--jsonout',type = str, metavar = '',required = True,help = 'jsonout')
+parser.add_argument('-A5','--PASnucleiThreshold',type = float, metavar = '',required = True,help = 'PASnucleiThreshold')
+parser.add_argument('-A6','--gauss_filt_size',type = int, metavar = '',required = True,help = 'gauss_filt_size')
+parser.add_argument('-A7','--Disc_size',type = int, metavar = '',required = True,help = 'Disc_size')
+parser.add_argument('-A8','--species',type = str, metavar = '',required = True,help = 'species')
+parser.add_argument('-A9','--gpu_id',type = int, metavar = '',required = True,help = 'gpu_id')
+parser.add_argument('-A10','--resolut',type = int, metavar = '',required = True,help = 'resolut')
+parser.add_argument('-A11','--sz_thre',type = int, metavar = '',required = True,help = 'sz_thre')
+parser.add_argument('-A12','--watershed_thre',type = float, metavar = '',required = True,help = 'watershed_thre')
+parser.add_argument('-A13','--jsonout',type = str, metavar = '',required = True,help = 'jsonout')
 
 args = parser.parse_args()
 
@@ -55,12 +52,10 @@ svs_file_name = args.inputsvs
 xml_file_name = args.glomxml
 Gen_model_name = args.GeneratorModel
 Disc_model_name = args.DiscriminatorModel
-output_anno_file_podocyte = args.outxml1
 PASnucleiThreshold = args.PASnucleiThreshold
 gauss_size = args.gauss_filt_size
 size_disc = args.Disc_size
 species_name = args.species
-stain_name = args.stain
 gpu_id_use = args.gpu_id
 watershed_dist_thre= args.watershed_thre
 size_thre = args.sz_thre
@@ -71,39 +66,27 @@ print(svs_file_name)
 print(xml_file_name)
 print(Gen_model_name)
 print(Disc_model_name)
-print(output_anno_file_podocyte)
 print(PASnucleiThreshold)
 print(gauss_size)
 print(size_disc)
 print(species_name)
-print(stain_name)
 print(gpu_id_use)
 print(watershed_dist_thre)
 print(size_thre)
 print(resol)
-print(args.jsonout)
 
 try:
-    if species_name =='human' and stain_name =='p57':
+    if species_name =='human':
         Model_majorname = 'HUMP57'
-        crop_size = 1200
-    elif species_name =='human' and stain_name =='wt1':
-        Model_majorname = 'HUMWT1'
-        crop_size = 1200
-    elif species_name =='rat' and stain_name =='p57':
+        crop_size = 1200    
+    elif species_name =='rat':
         Model_majorname = 'RATP57'
-        crop_size = 800
-    elif species_name =='rat' and stain_name =='wt1':
-        Model_majorname = 'RATWT1'
-        crop_size = 800
-    elif species_name =='mouse' and stain_name =='p57':
+        crop_size = 800    
+    elif species_name =='mouse':
         Model_majorname = 'MOUP57'
-        crop_size = 800
-    elif species_name =='mouse' and stain_name =='wt1':
-        Model_majorname = 'MOUWT1'
-        crop_size = 800
+        crop_size = 800    
 except:
-    print("Incorrect species or stain. Try again")
+    print("Incorrect species. Try again")
     sys.exit()
 
 '''Create temporary directories'''
@@ -186,22 +169,22 @@ exit_code = call("python3 ../pix2pix/test.py --dataroot "+domABtemp+" --gpu_ids 
 '''==============================='''
 
 resdir_exact = Results_save_folder+Model_majorname+"/test_latest/images/"
-print(args.outxml1)
-print(output_anno_file_podocyte)
-print(maintempfolder + '/'+ os.path.basename(output_anno_file_podocyte).split('.')[0])
+TP_HR= create_podocyte_Outxml_pix2pix(svsfile,xmlfile,crop_size,resdir_exact,PAS_nuc_thre,size_thre,gauss_filt_size,watershed_dist_thre,Disc_size,resol)
 
-xml_data= create_podocyte_Outxml_pix2pix(svsfile,xmlfile,crop_size,resdir_exact,PAS_nuc_thre,size_thre,gauss_filt_size,watershed_dist_thre,Disc_size,resol)
-print('xmldone')
-f = open(output_anno_file_podocyte, 'wb')
-f.write(xml_data)
-f.close()
+from skimage import exposure
 
-print(args.outxml1)
-print(output_anno_file_podocyte)
-print(maintempfolder + '/'+ os.path.basename(output_anno_file_podocyte).split('.')[0])
+TP_HR = exposure.rescale_intensity(TP_HR, in_range='image', out_range=(0,1))
 
-tree = ET.parse(output_anno_file_podocyte)
-root = tree.getroot()
-annotation = xmltojson(root)
+if args.resolut==0:
+    downsample_factor=1
+else:
+    downsample_factor=4  
+
+import numpy as np  
+root = mask_to_xml(xml_path=args.jsonout, mask=np.uint8(TP_HR), downsample=downsample_factor, min_size_thresh=0, simplify_contours=0, return_root=True, maxClass=None, offset={'X': 0,'Y': 0})
+compartments = ['Podocyte']
+json_data = convert_xml_json(root, compartments)
+import json
 with open(args.jsonout, 'w') as annotation_file:
-    json.dump(annotation, annotation_file, indent=2, sort_keys=False)
+    json.dump(json_data, annotation_file, indent=2, sort_keys=False)
+del json_data, root, args.jsonout
