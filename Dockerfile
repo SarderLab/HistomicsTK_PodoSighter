@@ -7,8 +7,7 @@
 
 # start from nvidia/cuda 10.0
 # FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04# FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
-# FROM tensorflow/tensorflow:1.15.4-gpu-py3
-FROM tensorflow/tensorflow:1.8.0-gpu-py3
+FROM tensorflow/tensorflow:1.15.4-gpu-py3
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 
 LABEL maintainer="Darshana Govind - Sarder Lab. <d8@buffalo.edu>"
