@@ -101,6 +101,7 @@ def xml_add_annotation(Annotations, xml_color, annotationID=None): # add new ann
     if annotationID == None: # not specified
         annotationID = len(Annotations.findall('Annotation')) + 1
     Annotation = ET.SubElement(Annotations, 'Annotation', attrib={'Type': '4', 'Visible': '1', 'ReadOnly': '0', 'Incremental': '0', 'LineColorReadOnly': '0', 'LineColor': str(xml_color[annotationID-1]), 'Id': str(annotationID), 'NameReadOnly': '0'})
+    Attribute = ET.SubElement(Annotation, 'Attributes', attrib={'Id': '0', 'Name': 'Pod', 'Value': ''})
     Regions = ET.SubElement(Annotation, 'Regions')
     return Annotations
 
