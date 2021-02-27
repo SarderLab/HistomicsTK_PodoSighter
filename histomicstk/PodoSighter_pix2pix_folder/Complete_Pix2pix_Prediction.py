@@ -130,8 +130,6 @@ PAS_nuc_thre = PASnucleiThreshold
 gauss_filt_size = gauss_size
 Disc_size = size_disc
 
-output_anno_file = output_anno_file_podocyte
-
 
 '''Step 1: Crop svs file into glomeruli and masks'''
 '''=============================================='''
