@@ -53,6 +53,13 @@
       <index>5</index>
       <description>Output annotation file (*.anot) containing annotations, converting Aperio xml format to json</description>
     </file>
+    <file fileExtensions=".xml">
+      <name>outputAnnotationFile1</name>
+      <label>outputAnnotationFile1</label>
+      <channel>output</channel>
+      <index>6</index>
+      <description>Output annotation file (*.xml) containing annotations</description>
+    </file>
   </parameters>
   <parameters advanced="true">
     <label>UserParameters</label>
