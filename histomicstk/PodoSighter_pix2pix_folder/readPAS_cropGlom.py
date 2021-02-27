@@ -23,7 +23,14 @@ def readPAS_cropGlom(svsfile,xmlfile,crop_size,cropFolderPAS,cropFolderGlom):
     '''XML annotation to mask'''
     '''======================'''  
     print("Converting Glom xml to mask...")    
-    PASmask = rescale(getMaskFromXml(sourcePAS,xmlfile), 1, anti_aliasing=False)*1
+    PASmaskmain = getMaskFromXml(sourcePAS,xmlfile)   
+    PASmask = rescale(PASmaskmain, 1, anti_aliasing=False)*1
+    
+    flip_flag = 0
+    if(PASmask.shape[0] ==sourcePAS.level_dimensions[1][1]):
+        print("PAS and Mask mid resolution is flipped...")
+        flip_flag = 1
+    
     highres_w = crop_size/4
     
     countPatch  = 0
@@ -46,7 +53,7 @@ def readPAS_cropGlom(svsfile,xmlfile,crop_size,cropFolderPAS,cropFolderGlom):
      
         
         Glommask_1 = PASmask[int(ptx-(highres_w/2)):int(ptx+(highres_w/2)),int(pty-(highres_w/2)):int(pty+(highres_w/2))]
-        if crop_imgPAS[:,:,0].shape != Glommask_1.shape:
+        if crop_imgPAS[:,:,0].shape != (Glommask_1.shape[0]*4,Glommask_1.shape[1]*4):
             continue
 
         Glommask2 = resize(Glommask_1,(highres_w*4,highres_w*4),anti_aliasing=True)*1
