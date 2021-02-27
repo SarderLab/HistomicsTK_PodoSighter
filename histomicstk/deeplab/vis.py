@@ -32,14 +32,6 @@ import time
 import numpy as np
 from six.moves import range
 
-#For Athena only##########################:
-from tensorflow.compat.v1 import ConfigProto
-from tensorflow.compat.v1 import InteractiveSession
-config = ConfigProto()
-config.gpu_options.allow_growth = True
-session = InteractiveSession(config=config)
-#########################################
-
 import tensorflow as tf
 from tensorflow.contrib import quantize as contrib_quantize
 from tensorflow.contrib import training as contrib_training
@@ -304,10 +296,13 @@ def main(unused_argv):
                                                        time.gmtime()))
       tf.logging.info('Visualizing with model %s', checkpoint_path)
 
+      config = tf.ConfigProto()
+      config.gpu_options.allow_growth = True
       scaffold = tf.train.Scaffold(init_op=tf.global_variables_initializer())
       session_creator = tf.train.ChiefSessionCreator(
           scaffold=scaffold,
           master=FLAGS.master,
+          config=config,
           checkpoint_filename_with_path=checkpoint_path)
       with tf.train.MonitoredSession(
           session_creator=session_creator, hooks=None) as sess:
