@@ -181,8 +181,9 @@ else:
 import numpy as np  
 root = mask_to_xml(xml_path=args.jsonout, mask=np.uint8(TP_HR), downsample=downsample_factor, min_size_thresh=0, simplify_contours=0, return_root=True, maxClass=None, offset={'X': 0,'Y': 0})
 compartments = ['Podocyte']
-json_data = convert_xml_json(root, compartments)
+
+from xmltojson import xmltojson
+json_data = xmltojson(root)
 import json
 with open(args.jsonout, 'w') as annotation_file:
     json.dump(json_data, annotation_file, indent=2, sort_keys=False)
-del json_data, root, args.jsonout
