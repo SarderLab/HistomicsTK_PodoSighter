@@ -1,12 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Feb 24 21:28:35 2021
-
-@author: darsh
-"""
-
-# -*- coding: utf-8 -*-
-"""
 Created on Mon Feb 22 11:33:18 2021
 
 @author: darsh
@@ -21,11 +14,7 @@ import cv2
 import matplotlib.pyplot as plt
 import FNs
 import lxml.etree as ET
-from col_deconv_HPAS import col_deconv_HPAS
-from scipy.ndimage.morphology import binary_opening, binary_fill_holes
 from getPASnuclei import getPASnuclei
-from skimage import img_as_ubyte
-from skimage import morphology
 import imageio
 
 def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,size_thre,gauss_filt_size,watershed_dist_thre,disc_size,resol):
@@ -48,6 +37,13 @@ def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,siz
     else:
         TPI_F = np.zeros((sourcePAS.level_dimensions[1][1],sourcePAS.level_dimensions[1][0]))
     print(TPI_F.shape)
+    
+    flip_flag = 0
+    if(PASmask.shape[0] ==sourcePAS.level_dimensions[1][1]):
+        print("PAS and Mask mid resolution is flipped...")
+        flip_flag = 1
+
+    highres_w = crop_size/4
 
     countPatch  = 0
     c = 0
@@ -63,18 +59,13 @@ def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,siz
         starty = int(max((centroids[1]-(highres_w/2))*4,0))
         endx = int(highres_w*4)
         endy = int(highres_w*4)
-        
-        hresstartx = startx
-        hresstarty = starty
-        hresstopx = startx+endx
-        hresstopy = starty+endy
        
         crop_imgPAS = np.array(sourcePAS.read_region(((startx),(starty)),0,((endx),(endy))),dtype = "uint8")
         crop_imgPAS = crop_imgPAS[:,:,0:3]
      
         
         Glommask_1 = PASmask[int(ptx-(highres_w/2)):int(ptx+(highres_w/2)),int(pty-(highres_w/2)):int(pty+(highres_w/2))]
-        if crop_imgPAS[:,:,0].shape != Glommask_1.shape:
+        if crop_imgPAS[:,:,0].shape != (Glommask_1.shape[0]*4,Glommask_1.shape[1]*4):
             continue
 
         Glommask2 = resize(Glommask_1,(highres_w*4,highres_w*4),anti_aliasing=True)*1
@@ -82,7 +73,7 @@ def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,siz
     
         print("Analyzing patches...")
         '''========================================='''
-        print(crop_imgPAS.shape)
+        
         if crop_imgPAS.shape == (highres_w*4,highres_w*4,3):
             countPatch += 1
             filename = Imagename +'_'+str(countPatch)  
@@ -124,17 +115,17 @@ def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,siz
             if resol ==0:
                 if Imagename[0:3]=='NTN':
                     try:
-                        TPI_F[int(pty-(highres_w/2))*4:int(pty+(highres_w/2))*4,int(ptx-(highres_w/2))*4:int(ptx+(highres_w/2))*4] = FakePodPASmask*255
+                        FakePodPASmask = np.fliplr(np.rot90(FakePodPASmask,3))
+                        TPI_F[int(pty-(highres_w/2))*4:int(pty+(highres_w/2))*4,int(ptx-(highres_w/2))*4:int(ptx+(highres_w/2))*4] = FakePodPASmask
                     except:
                         continue
                 else:
                     try:
-#                        TPI_F[int(ptx-(highres_w/2))*4:int(ptx+(highres_w/2))*4,int(pty-(highres_w/2))*4:int(pty+(highres_w/2))*4] = FakePodPASmask*255
-                        TPI_F[hresstarty:hresstopy,hresstartx:hresstopx] = FakePodPASmask*255
+                        TPI_F[int(ptx-(highres_w/2))*4:int(ptx+(highres_w/2))*4,int(pty-(highres_w/2))*4:int(pty+(highres_w/2))*4] = FakePodPASmask
                     except:
                         continue
             else:
-                nuc_mask = rescale(FakePodPASmask*255, 0.25, anti_aliasing=False,preserve_range=True)
+                nuc_mask = rescale(FakePodPASmask, 0.25, anti_aliasing=False,preserve_range=True)
                 nuc_mask = cv2.threshold(nuc_mask, 0.01, 255, cv2.THRESH_BINARY)[1]
                 if Imagename[0:3]=='NTN':
                     try:
@@ -154,93 +145,36 @@ def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,siz
 
     print('Generating pix2pix output xml...')
     '''========================================='''
-    if resol == 0:
-        
-        TP2 = cv2.threshold((TPI_F), 0.5, 255, cv2.THRESH_BINARY)[1]    
-        TP_HR = rescale(TP2, 1, anti_aliasing=False)
-    
-        offset={'X': 0,'Y': 0}    
-        maskPoints,_ = cv2.findContours(np.array((np.uint8(TP_HR))), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        pointsList = []
-        for j in range(np.shape(maskPoints)[0]):
-            pointList = []
-            for i in range(np.shape(maskPoints[j])[0]):
-                point = {'X': (maskPoints[j][i][0][0]) + offset['X'], 'Y': (maskPoints[j][i][0][1]) + offset['Y']}
-                pointList.append(point)
-            pointsList.append(pointList)
-        Annotations = ET.Element('Annotations', attrib={'MicronsPerPixel': '0.136031'})
-        col1 = str(65280)
-        Annotations = FNs.xml_add_annotation(Annotations=Annotations,annotationID=1,LC = col1)
-        
-        for i in range(np.shape(pointsList)[0]):
-            pointList = pointsList[i]
-            Annotations = FNs.xml_add_region(Annotations=Annotations, pointList=pointList)    
-          
-        xml_data = ET.tostring(Annotations, pretty_print=True)
-        
-    elif resol == 1 and Imagename[0:3]=='NTN':
-        
-        TP2 = cv2.threshold((TPI_F), 0.5, 255, cv2.THRESH_BINARY)[1]    
-        TP_HR = rescale(TP2, 1, anti_aliasing=False)
-    
-        offset={'X': 0,'Y': 0}    
-        maskPoints,_ = cv2.findContours(np.array((np.uint8(TP_HR))), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        pointsList = []
-        for j in range(np.shape(maskPoints)[0]):
-            pointList = []
-            for i in range(np.shape(maskPoints[j])[0]):
-                point = {'Y': (maskPoints[j][i][0][0]*4) + offset['X'], 'X': (maskPoints[j][i][0][1]*4) + offset['Y']}
-                pointList.append(point)
-            pointsList.append(pointList)
-        Annotations = ET.Element('Annotations', attrib={'MicronsPerPixel': '0.22'})
-        col1 = str(65280)
-        Annotations = FNs.xml_add_annotation(Annotations=Annotations,annotationID=1,LC = col1)
-        
-        for i in range(np.shape(pointsList)[0]):
-            pointList = pointsList[i]
-            Annotations = FNs.xml_add_region(Annotations=Annotations, pointList=pointList)    
-          
-        xml_data = ET.tostring(Annotations, pretty_print=True)
-        
-    elif resol == 1:
-        
-        TP2 = cv2.threshold((TPI_F), 0.5, 255, cv2.THRESH_BINARY)[1]    
-        TP_HR = rescale(TP2, 1, anti_aliasing=False)
-    
-        offset={'X': 0,'Y': 0}    
-        maskPoints,_ = cv2.findContours(np.array((np.uint8(TP_HR))), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        pointsList = []
-        for j in range(np.shape(maskPoints)[0]):
-            pointList = []
-            for i in range(np.shape(maskPoints[j])[0]):
-                point = {'X': (maskPoints[j][i][0][0]*4) + offset['X'], 'Y': (maskPoints[j][i][0][1]*4) + offset['Y']}
-                pointList.append(point)
-            pointsList.append(pointList)
-        Annotations = ET.Element('Annotations', attrib={'MicronsPerPixel': '0.136031'})
-        col1 = str(65280)
-        Annotations = FNs.xml_add_annotation(Annotations=Annotations,annotationID=1,LC = col1)
-        
-        for i in range(np.shape(pointsList)[0]):
-            pointList = pointsList[i]
-            Annotations = FNs.xml_add_region(Annotations=Annotations, pointList=pointList)    
-          
-        xml_data = ET.tostring(Annotations, pretty_print=True)        
-    
-    return xml_data
+    if resol == 0 and Imagename[0:3]=='NTN':        
+        TP2 = cv2.threshold((TPI_F), 0.5, 255, cv2.THRESH_BINARY)[1] 
+        TP2 = np.transpose(TP2)
 
-#svsfile= '/hdd/d8/PAS_folder/NTN1.svs'
-#xmlfile= '/hdd/d8/PAS_folder/NTN1.xml'
-#crop_size=800
-#resdir = 1
-#resol = 1
-#
-#gauss_filt_size= 5
-#disc_size = 6
-#PAS_nuc_thre = 0.5#0.4
-#size_thre = 400
-#watershed_dist_thre = 0.2
-#
-#xml_data= create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,size_thre,gauss_filt_size,watershed_dist_thre,disc_size,resol)
-#f = open('NTN1.xml', 'wb')
-#f.write(xml_data)
-#f.close()
+    elif resol == 0:        
+        TP2 = cv2.threshold((TPI_F), 0.5, 255, cv2.THRESH_BINARY)[1]    
+    elif resol == 1 and Imagename[0:3]=='NTN':        
+        TP2 = cv2.threshold((TPI_F), 0.5, 255, cv2.THRESH_BINARY)[1]  
+        TP2 = np.transpose(TP2)
+    elif resol == 1:
+        TP2 = cv2.threshold((TPI_F), 0.5, 255, cv2.THRESH_BINARY)[1]
+    
+    offset={'X': 0,'Y': 0}    
+    maskPoints,_ = cv2.findContours(np.array((np.uint8(TP2))), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    pointsList = []
+    for j in range(np.shape(maskPoints)[0]):
+        pointList = []
+        for i in range(np.shape(maskPoints[j])[0]):
+            point = {'X': (maskPoints[j][i][0][0]) + offset['X'], 'Y': (maskPoints[j][i][0][1]) + offset['Y']}
+            pointList.append(point)
+        pointsList.append(pointList)
+    Annotations = ET.Element('Annotations', attrib={'MicronsPerPixel': '0.136031'})
+    col1 = str(65280)
+    Annotations = FNs.xml_add_annotation(Annotations=Annotations,annotationID=1,LC = col1)
+    
+    for i in range(np.shape(pointsList)[0]):
+        pointList = pointsList[i]
+        Annotations = FNs.xml_add_region(Annotations=Annotations, pointList=pointList)    
+          
+    
+
+    return TP2
+
