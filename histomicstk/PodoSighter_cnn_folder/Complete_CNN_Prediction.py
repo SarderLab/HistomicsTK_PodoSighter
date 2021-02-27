@@ -5,9 +5,9 @@ from readPAS_cropGlom import readPAS_cropGlom
 import argparse
 from create_podocyte_Outxml_CNN import create_podocyte_Outxml_CNN
 
-import json
-import xml.etree.ElementTree as ET
-from xmltojson import xmltojson
+from mask_to_xml import mask_to_xml
+from xml_to_json import convert_xml_json
+
 import sys
 sys.path.append("../HistomicsTK_PodoSighter/histomicstk/PodoSighter_cnn_folder/")
 '''
@@ -21,15 +21,13 @@ parser.add_argument('-A3','--Model',type = str, metavar = '',required = True,hel
 parser.add_argument('-A4','--Modelchkpt',type = str, metavar = '',required = True,help = 'Modelchkpt')
 parser.add_argument('-A5','--Modelidx',type = str, metavar = '',required = True,help = 'Modelidx')
 parser.add_argument('-A6','--species',type = str, metavar = '',required = True,help = 'species')
-parser.add_argument('-A7','--stain',type = str, metavar = '',required = True,help = 'stain')
-parser.add_argument('-A8','--outxml1',type = str, metavar = '',required = True,help = 'outxml1')
-parser.add_argument('-A9','--PASnucleiThreshold',type = float, metavar = '',required = True,help = 'PASnucleiThreshold')
-parser.add_argument('-A10','--gauss_filt_size',type = int, metavar = '',required = True,help = 'gauss_filt_size')
-parser.add_argument('-A11','--Disc_size',type = int, metavar = '',required = True,help = 'Disc_size')
-parser.add_argument('-A12','--resolut',type = int, metavar = '',required = True,help = 'resolut')
-parser.add_argument('-A13','--sz_thre',type = int, metavar = '',required = True,help = 'sz_thre')
-parser.add_argument('-A14','--watershed_thre',type = float, metavar = '',required = True,help = 'watershed_thre')
-parser.add_argument('-A15','--jsonout',type = str, metavar = '',required = True,help = 'jsonout')
+parser.add_argument('-A7','--PASnucleiThreshold',type = float, metavar = '',required = True,help = 'PASnucleiThreshold')
+parser.add_argument('-A8','--gauss_filt_size',type = int, metavar = '',required = True,help = 'gauss_filt_size')
+parser.add_argument('-A9','--Disc_size',type = int, metavar = '',required = True,help = 'Disc_size')
+parser.add_argument('-A10','--resolut',type = int, metavar = '',required = True,help = 'resolution')
+parser.add_argument('-A11','--sz_thre',type = int, metavar = '',required = True,help = 'sz_thre')
+parser.add_argument('-A12','--watershed_thre',type = float, metavar = '',required = True,help = 'watershed_thre')
+parser.add_argument('-A13','--jsonout',type = str, metavar = '',required = True,help = 'jsonout')
 
 
 args = parser.parse_args()
@@ -41,15 +39,12 @@ Model = args.Model
 Modelchkpt = args.Modelchkpt
 Modelidx = args.Modelidx
 species_name = args.species
-stain_name = args.stain
-output_anno_file_podocyte = args.outxml1
 PAS_nuc_thre = args.PASnucleiThreshold
 gauss_filt_size = args.gauss_filt_size
 size_disc = args.Disc_size
 resol = args.resolut
 size_thre = args.sz_thre
 watershed_dist_thre = args.watershed_thre
-jout = args.jsonout
 
 #shutil.rmtree(maintempfolder)
 #os.mkdir(maintempfolder)
@@ -61,31 +56,23 @@ print(Model)
 print(Modelchkpt)
 print(Modelidx)
 print(species_name)
-print(stain_name)
-print(args.outxml1)
 print(PAS_nuc_thre)
 print(gauss_filt_size)
 print(size_disc)
 print(resol)
-print(size_thre)
 print(watershed_dist_thre)
 print(args.jsonout)
 
+
 try:
-    if species_name =='human' and stain_name =='p57':
-        crop_size = 1200
-    elif species_name =='human' and stain_name =='wt1':
-        crop_size = 1200
-    elif species_name =='rat' and stain_name =='p57':
-        crop_size = 800
-    elif species_name =='rat' and stain_name =='wt1':
-        crop_size = 800
-    elif species_name =='mouse' and stain_name =='p57':
-        crop_size = 800
-    elif species_name =='mouse' and stain_name =='wt1':
+    if species_name =='human':
+        crop_size = 1200    
+    elif species_name =='rat':
+        crop_size = 800    
+    elif species_name =='mouse':
         crop_size = 800
 except:
-    print("Incorrect species or stain. Try again")
+    print("Incorrect species. Try again")
     sys.exit()
     
 '''Create temporary directories'''
@@ -171,21 +158,22 @@ os.system(cmd5)
 '''Step 5: Output display'''
 '''==========================='''
 resdir_exact = vislogdir+"/raw_segmentation_results/"
-print(args.outxml1)
-print(output_anno_file_podocyte)
-print(maintempfolder + '/'+ os.path.basename(output_anno_file_podocyte).split('.')[0])
+TP_HR= create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir_exact,PAS_nuc_thre,size_thre,gauss_filt_size,watershed_dist_thre,size_disc,resol)
 
-xml_data= create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir_exact,PAS_nuc_thre,size_thre,gauss_filt_size,watershed_dist_thre,size_disc,resol)
-f = open(output_anno_file_podocyte, 'wb')
-f.write(xml_data)
-f.close()
+from skimage import exposure
 
-print(args.outxml1)
-print(output_anno_file_podocyte)
-print(maintempfolder + '/'+ os.path.basename(output_anno_file_podocyte).split('.')[0])
+TP_HR = exposure.rescale_intensity(TP_HR, in_range='image', out_range=(0,1))
 
-tree = ET.parse(output_anno_file_podocyte)
-root = tree.getroot()
-annotation = xmltojson(root)
+if args.resolut==0:
+    downsample_factor=1
+else:
+    downsample_factor=4  
+
+import numpy as np  
+root = mask_to_xml(xml_path=args.jsonout, mask=np.uint8(TP_HR), downsample=downsample_factor, min_size_thresh=0, simplify_contours=0, return_root=True, maxClass=None, offset={'X': 0,'Y': 0})
+compartments = ['Podocyte']
+json_data = convert_xml_json(root, compartments)
+import json
 with open(args.jsonout, 'w') as annotation_file:
-    json.dump(annotation, annotation_file, indent=2, sort_keys=False)
+    json.dump(json_data, annotation_file, indent=2, sort_keys=False)
+del json_data, root, args.jsonout
