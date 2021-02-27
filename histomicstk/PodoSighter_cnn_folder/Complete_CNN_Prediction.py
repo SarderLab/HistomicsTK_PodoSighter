@@ -28,6 +28,7 @@ parser.add_argument('-A10','--resolut',type = int, metavar = '',required = True,
 parser.add_argument('-A11','--sz_thre',type = int, metavar = '',required = True,help = 'sz_thre')
 parser.add_argument('-A12','--watershed_thre',type = float, metavar = '',required = True,help = 'watershed_thre')
 parser.add_argument('-A13','--jsonout',type = str, metavar = '',required = True,help = 'jsonout')
+parser.add_argument('-A14','--outxml1',type = str, metavar = '',required = True,help = 'outxml1')
 
 
 args = parser.parse_args()
@@ -62,6 +63,7 @@ print(size_disc)
 print(resol)
 print(watershed_dist_thre)
 print(args.jsonout)
+print(args.outxml1)
 
 
 try:
@@ -169,11 +171,38 @@ if args.resolut==0:
 else:
     downsample_factor=4  
 
-import numpy as np  
-root = mask_to_xml(xml_path=args.jsonout, mask=np.uint8(TP_HR), downsample=downsample_factor, min_size_thresh=0, simplify_contours=0, return_root=True, maxClass=None, offset={'X': 0,'Y': 0})
-compartments = ['Podocyte']
-json_data = convert_xml_json(root, compartments)
+import cv2
+import FNs
+import numpy as np
+import lxml.etree as ET
 import json
+from xmltojson import xmltojson
+   
+offset={'X': 0,'Y': 0}    
+maskPoints,_ = cv2.findContours(np.array((np.uint8(TP_HR))), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+pointsList = []
+for j in range(np.shape(maskPoints)[0]):
+    pointList = []
+    for i in range(np.shape(maskPoints[j])[0]):
+        point = {'X': (maskPoints[j][i][0][0]*downsample_factor) + offset['X'], 'Y': (maskPoints[j][i][0][1]*downsample_factor) + offset['Y']}
+        pointList.append(point)
+    pointsList.append(pointList)
+Annotations = ET.Element('Annotations', attrib={'MicronsPerPixel': '0.136031'})
+col1 = str(65280)
+Annotations = FNs.xml_add_annotation(Annotations=Annotations,annotationID=1,LC = col1)
+
+for i in range(np.shape(pointsList)[0]):
+    pointList = pointsList[i]
+    Annotations = FNs.xml_add_region(Annotations=Annotations, pointList=pointList)  
+
+xml_data = ET.tostring(Annotations, pretty_print=True)
+f = open(args.outxml1, 'wb')
+f.write(xml_data)
+f.close()
+
+tree = ET.parse(args.outxml1)
+root = tree.getroot()
+
+json_data = xmltojson(root)
 with open(args.jsonout, 'w') as annotation_file:
     json.dump(json_data, annotation_file, indent=2, sort_keys=False)
-del json_data, root, args.jsonout
