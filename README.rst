@@ -22,9 +22,10 @@ PodoSighter: A cloud-based tool for label-free podocyte detection in renal tissu
 
 Podocytes play a crucial role in maintaining the structural and functional integrity of the glomerulus. Several renal diseases like diabetic kidney disease, minimal change disease, glomerulonephritis, etc. lead to podocyte injury, causing their eventual detachment from the glomerular basement membrane. Therefore, quantifying podocyte loss is of high clinical significance, especially in tracking disease progression. The current clinical standard for podocyte detection involves their manual identification from standard periodic acid-Schiff (PAS)-stained renal sections, which are extremely subjective and time consuming. In research practice, these limitations can be overcome by the use of podocyte-specific antibodies like p57, WT1, nephrin, etc., which is expensive and not in routine clinical practice. To address these limitations, we have developed 'PodoSighter', a cloud-based application to identify podocytes from brightfield images of renal tissue sections, stained using the standard clinical stain of PAS counterstained with hematoxylin. Our application framework encompasses two independent pipleines, utilizing two state-of-the-art deep learning techniques: convolutional neural network (CNN) and generative adversarial network (GAN). The PodoSighter pipeline is deployed as two independent plugins (PodoSighter_CNN and PodoSighter_pix2pix), using HistomicsTK, creating an online, interactive platform enabling multiple users from various locations to quantify podocytes on their respective PAS-stained whole slide images (WSIs). 
 
-This code has been modified by Darshana Govind to include the PodoSighter pipeline (for automated podocyte detection from PAS-stained renal tissue sections) via Google's deeplab v3+ architecture and the pix2pix conditional GAN developed by Isola et al <https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix>.
+This code has been modified by Darshana Govind to include the PodoSighter pipeline (for automated podocyte detection from PAS-stained renal tissue sections) via Google's deeplab v3+ architecture (https://github.com/tensorflow/models/tree/master/research/deeplab) and the pix2pix conditional GAN developed by Isola et al (https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
 
 
+**Installation**
 
 HistomicsTK can be used in two ways:
 
@@ -40,7 +41,7 @@ HistomicsTK can be used in two ways:
   
   $ git clone https://github.com/DigitalSlideArchive/HistomicsTK/
   $ cd HistomicsTK/
-  $ python -m pip install setuptools-scm Cython>=0.25.2 scikit-build>=0.8.1 cmake>=0.6.0 numpy>=1.12.1
+  $ python -m pip install setuptools-scm Cython>=0.25.2 scikit-image==0.15.0 cmake>=0.6.0 numpy>=1.12.1
   $ python -m pip install -e .
 
   HistomicsTK uses the `large_image`_ library to read content from whole-slide and microscopy image formats. Depending on your exact system, installing the necessary libraries to support these formats can be complex.  There are some non-official prebuilt libraries available for Linux that can be included as part of the installation by specifying ``pip install histomicstk --find-links https://girder.github.io/large_image_wheels``. Note that if you previously installed HistomicsTK or large_image without these, you may need to add ``--force-reinstall --no-cache-dir`` to the ``pip install`` command to force it to use the find-links option.
@@ -69,6 +70,36 @@ HistomicsTK can be used in two ways:
   
   $ python -m pip install -e .
   $ pip install girder-client
+
+
+**Running PodoSighter plugin**
+
+In order to run the PodoSighter plugin on your PAS-stained renal section, follow the following steps:
+
+1 - Upload your slide and the respective glomerulus annotation file (.xml) via the upload button on the top right corner of the screen
+
+2 - Open the slide in HistomicsUI
+
+3 - On the top right corner of the screen, select the analysis button, and from the drop down menu, select darshanagovind/histo19_feb2021>latest>PodoSighter_cnn or darshanagovind/histo19_feb2021>latest>PodoSighter_pix2pix, depending on which pipeline (CNN or pix2pix) you would like to use.
+
+4 - Once the plugin has been selected, a user input section is displayed on the left.
+
+    *PodoSighter_CNN*
+    * Data Folder - Select the folder containing the slide and xml annotations
+    * Input Image
+    * Input Annotation File -
+    * Input_image
+    * Input_image
+    * Input_image
+    * Input_image
+    * Input_image
+    
+
+
+
+
+
+
 
 
 - **As a image-processing task library for HistomicsUI and the Digital Slide Archive**: This allows end users to apply containerized analysis modules/pipelines over the web. See the `Digital Slide Archive`_ for installation instructions.
