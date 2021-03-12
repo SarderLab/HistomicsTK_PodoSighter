@@ -24,7 +24,7 @@ Podocytes play a crucial role in maintaining the structural and functional integ
 
 This code has been modified by Darshana Govind to include the PodoSighter pipeline (for automated podocyte detection from PAS-stained renal tissue sections) via Google's deeplab v3+ architecture (https://github.com/tensorflow/models/tree/master/research/deeplab) and the pix2pix conditional GAN developed by Isola et al (https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
 
-Installation
+**Installation**
 
 HistomicsTK can be used in two ways:
 
@@ -80,7 +80,7 @@ In order to run the PodoSighter plugin on your PAS-stained renal section, follow
 
 2 - Open the slide in HistomicsUI
 
-3 - On the top right corner of the screen, select the analysis button, and from the drop down menu, select darshanagovind/histo19_feb2021>latest>PodoSighter_cnn or darshanagovind/histo19_feb2021>latest>PodoSighter_pix2pix, depending on which pipeline (CNN or pix2pix) you would like to use.
+3 - On the top right corner of the screen, select the 'Analyses' button, and from the drop down menu, select 'darshanagovind/histo19_feb2021>latest>PodoSighter_cnn' or 'darshanagovind/histo19_feb2021>latest>PodoSighter_pix2pix', depending on which pipeline (CNN or pix2pix) to be used.
 
 4 - Once the plugin has been selected, a user input section is displayed on the left.
 
@@ -89,24 +89,23 @@ In order to run the PodoSighter plugin on your PAS-stained renal section, follow
 
 - **Data Folder**: Select the folder containing the slide and xml annotations
 - **Input Image**: Select the whole slide image (WSI) to be analyzed
-- **Input Annotation File 1**: Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using our HAIL pipeline (...) 
-- **Model**:
-- **Model chkpt**:
-- **Model idx**:
-- **Output Annotation File 1**:
-- **Output Annotation File 2**:
+- **Input Annotation File 1**: Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using the HAIL pipeline (...) 
+- **Model**: Select the trained model
+- **Model chkpt**: Select the latest checkpoint of trained model
+- **Model idx**: Select the index file of trained model
+- **Output Annotation File 1**: Select the name of output xml file (marking podocytes)
+- **Output Annotation File 2**: Select the name of output json file (marking podocytes)
 
 
 **PodoSighter_pix2pix**
 
 - **Data Folder**: Select the folder containing the slide and xml annotations
 - **Input Image**: Select the whole slide image (WSI) to be analyzed
-- **Input Annotation File 1**: Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using our HAIL pipeline (...) 
-- **Model**:
-- **Model chkpt**:
-- **Model idx**:
-- **Output Annotation File 1**:
-- **Output Annotation File 2**:
+- **Input Annotation File 1**: Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using the HAIL pipeline (...) 
+- **Trained Generator Model**: Select the trained generator model
+- **Trained Discrimminator Model**: Select the trained discriminator model
+- **Output Annotation File 1**: Select the name of output xml file (marking podocytes)
+- **Output Annotation File 2**: Select the name of output json file (marking podocytes)
 
 
 
@@ -115,37 +114,83 @@ In order to run the PodoSighter plugin on your PAS-stained renal section, follow
 Since each WSI is different in terms of staining, imaging, resolution, etc., we provide the option for users to adjust the parameters to generate optimal results for their       respective WSIs. 
 Listed below are the different parameters and their definitions:
 
-- **Data Folder**: Select the folder containing the slide and xml annotations
-- **Input Image**: Select the whole slide image (WSI) to be analyzed
-- **Input Annotation File 1**: Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using our HAIL pipeline (...) 
-- **Model**:
-- **Model chkpt**:
-- **Model idx**:
-- **Output Annotation File 1**:
-- **Output Annotation File 2**:
+- **PASnucleiThreshold**: This parameter selects the threshold to segment hematoxylin stained nuclei (ranging from 0 to 1).
+- **gauss_filt_size**: This parameter blurs the PAS image prior to application of threshold.
+- **disc_size**: This parameter specifies the disc size of the structuring element to perform morphological opening of segmented nuclei. 
+- **resolution**: This parameter can be used to specify if the analysis should be done in high resolution (0) or a downsampled (1) version of the WSI to save time. 
+- **size_thre**: This parameter is used to remove unwanted noise from the segmented nuclei.
+- **watershed_thre**: This parameter sets the distance parameter for the watershed segmentation of segmented nuclei (ranging from 0 to 1).
 
 
 Listed below are the parameters we used for our study
-
 
 +---------------------------+-------------+--------------------+------------------+---------------+-----------------+---------------+--------------------+
 | Dataset                   | species     | PASnucleiThreshold | gauss_filt_size  | disc_size     | resolution      | size_thre     | watershed_thre     |
 +===========================+=============+====================+==================+===============+=================+===============+====================+
 | Mouse WT1 data            | mouse       | 0.5                | 5                | 6             | 0               | 400           | 0.2                |
 +---------------------------+-------------+--------------------+------------------+---------------+-----------------+---------------+--------------------+
+| Mouse p57 data            | mouse       | 0.5                | 5                | 6             | 0               | 400           | 0.2                |
++---------------------------+-------------+--------------------+------------------+---------------+-----------------+---------------+--------------------+
+| Rat WT1 data              | rat         | 0.4                | 5                | 4             | 0               | 300           | 0.2                |
++---------------------------+-------------+--------------------+------------------+---------------+-----------------+---------------+--------------------+
+| Rat p57 data              | rat         | 0.4                | 5                | 4             | 0               | 300           | 0.2                |
++---------------------------+-------------+--------------------+------------------+---------------+-----------------+---------------+--------------------+
+| Human autopsy WT1 data    | human       | 0.5                | 5                | 6             | 0               | 400           | 0.2                |
++---------------------------+-------------+--------------------+------------------+---------------+-----------------+---------------+--------------------+
+| Human autopsy p57 data    | human       | 0.5                | 5                | 6             | 0               | 400           | 0.2                |
++---------------------------+-------------+--------------------+------------------+---------------+-----------------+---------------+--------------------+
+| Human pediatric WT1 data  | human       | 0.4                | 5                | 6             | 0               | 400           | 0.2                |
++---------------------------+-------------+--------------------+------------------+---------------+-----------------+---------------+--------------------+
+| Human pediatric p57 data  | human       | 0.4                | 5                | 6             | 0               | 400           | 0.2                |
++---------------------------+-------------+--------------------+------------------+---------------+-----------------+---------------+--------------------+
 
 
-| Mouse p57 data            | mouse       | 0.5                | 5                | 6  | 0 | 400         | 0.2  |
-+---------------------------+-------------+--------------------+------------------+----+---+-------------+-----+
-| Rat WT1 data              | rat         | 0.4                | 5                | 4  | 0 | 300         | 0.2  |
-+---------------------------+-------------+--------------------+------------------+----+---+-------------+------+
-| Rat p57 data              | rat         | 0.4                | 5                | 4  | 0 | 300         | 0.2  |
-+---------------------------+-------------+--------------------+------------------+----+---+-------------+------+
-| Human autopsy WT1 data    | human       | 0.5                | 5                | 6  | 0 | 400         | 0.2  |
-+---------------------------+-------------+--------------------+------------------+----+---+-------------+------+
-| Human autopsy p57 data    | human       | 0.5                | 5                | 6  | 0 | 400          | 0.2 |
-+---------------------------+-------------+--------------------+------------------+----+--+--------------+-------+
-| Human pediatric WT1 data  | human       | 0.4                | 5                | 6  | 0 | 400         | 0.2  |
-+---------------------------+-------------+--------------------+------------------+----+---+-------------+------+
-| Human pediatric p57 data  | human       | 0.4                | 5                | 6  | 0 | 400         | 0.2  |
-+---------------------------+-------------+--------------------+------------------+----+---+-------------+------+
+
+**Additional instructions**
+
+- **As a image-processing task library for HistomicsUI and the Digital Slide Archive**: This allows end users to apply containerized analysis modules/pipelines over the web. See the `Digital Slide Archive`_ for installation instructions.
+
+Refer to `our website`_ for more information.
+
+For questions, comments, or to get in touch with the maintainers, head to our
+`Discourse forum`_, or use our `Gitter Chatroom`_.
+
+
+Previous Versions
+-----------------
+
+The HistomicsTK repository used to contain almost all of the Digital Slide Archive and HistomicsUI, and now container primarily code for image analysis algorithms and processing of annotation data.  The deployment and installation code and instructions for DSA have moved to the `Digital Slide Archive`_ repository.  The user interface and annotation functionality has moved to the `HistomicsUI`_ repository.
+
+The deployment and UI code will eventually be removed from the master branch of this repository; any new development on those topics should be done in those locations.
+
+Funding
+-------
+
+This work is funded by the NIH grant U24-CA194362-01_.
+
+See Also
+---------
+
+**DSA/HistomicsTK project website:**
+`Demos <https://digitalslidearchive.github.io/digital_slide_archive/demos-examples/>`_ |
+`Success stories <https://digitalslidearchive.github.io/digital_slide_archive/success-stories/>`_
+
+**Source repositories:** `Digital Slide Archive`_ | `HistomicsUI`_ | `large_image`_ | `slicer_cli_web`_
+
+**Discussion:** `Discourse forum`_ | `Gitter Chatroom`_
+
+.. Links for everythign above (not rendered):
+.. _HistomicsTK: https://digitalslidearchive.github.io/digital_slide_archive/
+.. _Digital Slide Archive: http://github.com/DigitalSlideArchive/digital_slide_archive
+.. _HistomicsUI: http://github.com/DigitalSlideArchive/HistomicsUI
+.. _large_image: https://github.com/girder/large_image
+.. _our website: https://digitalslidearchive.github.io/digital_slide_archive/
+.. _slicer execution model: https://www.slicer.org/slicerWiki/index.php/Slicer3:Execution_Model_Documentation
+.. _slicer_cli_web: https://github.com/girder/slicer_cli_web
+.. _Docker: https://www.docker.com/
+.. _Kitware: http://www.kitware.com/
+.. _U24-CA194362-01: http://grantome.com/grant/NIH/U24-CA194362-01
+.. _Discourse forum: https://discourse.girder.org/c/histomicstk
+.. _Gitter Chatroom: https://gitter.im/DigitalSlideArchive/HistomicsTK?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+
+
