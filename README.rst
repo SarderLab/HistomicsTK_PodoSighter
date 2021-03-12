@@ -24,9 +24,7 @@ Podocytes play a crucial role in maintaining the structural and functional integ
 
 This code has been modified by Darshana Govind to include the PodoSighter pipeline (for automated podocyte detection from PAS-stained renal tissue sections) via Google's deeplab v3+ architecture (https://github.com/tensorflow/models/tree/master/research/deeplab) and the pix2pix conditional GAN developed by Isola et al (https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
 
-=============
 Installation
-=============
 
 HistomicsTK can be used in two ways:
 
@@ -72,9 +70,7 @@ HistomicsTK can be used in two ways:
   $ python -m pip install -e .
   $ pip install girder-client
 
-=================================
 Running PodoSighter plugin
-=================================
 
 
 In order to run the PodoSighter plugin on your PAS-stained renal section, follow the following steps:
