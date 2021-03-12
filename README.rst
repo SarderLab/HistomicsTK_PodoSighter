@@ -33,7 +33,7 @@ HistomicsTK can be used in two ways:
   
   **Installation instructions on Linux:**
   
-  *To install HistomicsTK using PyPI*::
+  *To install HistomicsTK using PyPI*:: 
   
   $ python -m pip install histomicstk
   
