@@ -24,3 +24,21 @@ Podocytes play a crucial role in maintaining the structural and functional integ
 
 This code has been modified by Darshana Govind to include the PodoSighter pipeline (for automated podocyte detection from PAS-stained renal tissue sections) via Google's deeplab v3+ architecture (https://github.com/tensorflow/models/tree/master/research/deeplab) and the pix2pix conditional GAN developed by Isola et al (https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
 
+Installation
+
+HistomicsTK can be used in two ways:
+
+- **As a pure Python package**: enables application of image analysis algorithms to data independent of the `Digital Slide Archive`_ (DSA). HistomicsTK provides a collection of fundamental algorithms for tasks such as color normalization, color deconvolution, nuclei segmentation, and feature extraction. Read more about these capabilities here:  `api-docs <https://digitalslidearchive.github.io/HistomicsTK/api-docs.html>`__ and `examples <https://digitalslidearchive.github.io/HistomicsTK/examples.html>`__ for more information.
+  
+  **Installation instructions on Linux:**
+  
+  *To install HistomicsTK using PyPI*:: 
+  
+  $ python -m pip install histomicstk
+  
+  *To install HistomicsTK from source*::
+  
+  $ git clone https://github.com/DigitalSlideArchive/HistomicsTK/
+  $ cd HistomicsTK/
+  $ python -m pip install setuptools-scm Cython>=0.25.2 scikit-image==0.15.0 cmake>=0.6.0 numpy>=1.12.1
+  $ python -m pip install -e .
