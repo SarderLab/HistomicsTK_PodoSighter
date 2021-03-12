@@ -25,7 +25,7 @@ Podocytes play a crucial role in maintaining the structural and functional integ
 This code has been modified by Darshana Govind to include the PodoSighter pipeline (for automated podocyte detection from PAS-stained renal tissue sections) via Google's deeplab v3+ architecture (https://github.com/tensorflow/models/tree/master/research/deeplab) and the pix2pix conditional GAN developed by Isola et al (https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
 
 
-**Installation**
+##Installation
 
 HistomicsTK can be used in two ways:
 
@@ -72,7 +72,7 @@ HistomicsTK can be used in two ways:
   $ pip install girder-client
 
 
-**Running PodoSighter plugin**
+##Running PodoSighter plugin
 
 In order to run the PodoSighter plugin on your PAS-stained renal section, follow the following steps:
 
@@ -86,14 +86,40 @@ In order to run the PodoSighter plugin on your PAS-stained renal section, follow
 
     *PodoSighter_CNN*
     * Data Folder - Select the folder containing the slide and xml annotations
-    * Input Image
-    * Input Annotation File -
-    * Input_image
-    * Input_image
-    * Input_image
-    * Input_image
-    * Input_image
+    * Input Image - Select the whole slide image (WSI) to be analyzed
+    * Input Annotation File 1- Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using our HAIL pipeline (...) 
+    * Model - 
+    * Model chkpt-
+    * Model idx -
+    * Output Annotation File 1 -
+    * Output Annotation File 2 -
     
+    *PodoSighter_pix2pix*
+    * Data Folder - Select the folder containing the slide and xml annotations
+    * Input Image - Select the whole slide image (WSI) to be analyzed
+    * Input Annotation File 1- Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using our HAIL pipeline (...) 
+    * Model - 
+    * Model chkpt-
+    * Model idx -
+    * Output Annotation File 1 -
+    * Output Annotation File 2 -
+    
+    *User parameters for both plugins*
+    Since each WSI is different in terms of staining, imaging, resolution, etc., we provide the option for users to adjust the parameters to generate optimal results for their       respective WSIs. 
+    Listed below are the different parameters and their definitions:
+    
+    
+    Listed below are the parameteres we used for our study:    
+    Dataset                 | species  | PASnucleiThreshold | gauss_filt_size | disc_size | resolution | size_thre | watershed_thre 
+    ----------------------  | -------- | ----------------   | --------------- | ----------| ------------------ | ----------------
+    Mouse WT1 data          | mouse    | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
+    Mouse p57 data          | mouse    | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
+    Rat WT1 data            | rat      | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell        
+    Rat p57 data            | rat      | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
+    Human autopsy WT1 data  | human    | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
+    Human autopsy p57 data  | human    | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
+    Human pediatric WT1 data| human    | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
+    Human pediatric p57 data| human    | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
 
 
 
