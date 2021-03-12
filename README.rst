@@ -88,7 +88,7 @@ In order to run the PodoSighter plugin on your PAS-stained renal section, follow
     * Data Folder - Select the folder containing the slide and xml annotations
     * Input Image - Select the whole slide image (WSI) to be analyzed
     * Input Annotation File 1- Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using our HAIL pipeline (...) 
-    * Model - 
+    * Model - i
     * Model chkpt-
     * Model idx -
     * Output Annotation File 1 -
