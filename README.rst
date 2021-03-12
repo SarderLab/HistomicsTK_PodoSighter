@@ -125,7 +125,10 @@ Listed below are the different parameters and their definitions:
 - **Output Annotation File 2**:
 
 
-Listed below are the parameters we used for our study.    
+Listed below are the parameters we used for our study
 
-| Dataset        | species  | PASnucleiThreshold | gauss_filt_size | disc_size | resolution | size_thre | watershed_thre |
+| Command | Description |
+| --- | --- |
+| `git status` | List all *new or modified* files |
+| `git diff` | Show file differences that **haven't been** staged |
 
