@@ -125,14 +125,14 @@ Listed below are the different parameters and their definitions:
 - **Output Annotation File 2**:
 
 
-    Listed below are the parameters we used for our study:    
-    Dataset                 | species  | PASnucleiThreshold | gauss_filt_size | disc_size | resolution | size_thre | watershed_thre 
-    ----------------------  | -------- | ----------------   | --------------- | ----------| ------------------ | ----------------
-    Mouse WT1 data          | mouse    | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
-    Mouse p57 data          | mouse    | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
-    Rat WT1 data            | rat      | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell        
-    Rat p57 data            | rat      | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
-    Human autopsy WT1 data  | human    | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
-    Human autopsy p57 data  | human    | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
-    Human pediatric WT1 data| human    | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
-    Human pediatric p57 data| human    | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
+Listed below are the parameters we used for our study:    
+Dataset                 | species  | PASnucleiThreshold | gauss_filt_size | disc_size | resolution | size_thre | watershed_thre 
+----------------------  | -------- | ----------------   | --------------- | ----------| ------------------ | ----------------
+Mouse WT1 data          | mouse    | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
+Mouse p57 data          | mouse    | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
+Rat WT1 data            | rat      | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell        
+Rat p57 data            | rat      | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
+Human autopsy WT1 data  | human    | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
+Human autopsy p57 data  | human    | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
+Human pediatric WT1 data| human    | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
+Human pediatric p57 data| human    | Content Cell       | Content Cell    |  Cell    |  Cell       | Content Cell    
