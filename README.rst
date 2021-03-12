@@ -72,7 +72,7 @@ HistomicsTK can be used in two ways:
   $ pip install girder-client
 
 
-##Running PodoSighter plugin
+##Running PodoSighter plugin##
 
 In order to run the PodoSighter plugin on your PAS-stained renal section, follow the following steps:
 
@@ -84,7 +84,7 @@ In order to run the PodoSighter plugin on your PAS-stained renal section, follow
 
 4 - Once the plugin has been selected, a user input section is displayed on the left.
 
-    *PodoSighter_CNN*
+    ###PodoSighter_CNN###
     * Data Folder - Select the folder containing the slide and xml annotations
     * Input Image - Select the whole slide image (WSI) to be analyzed
     * Input Annotation File 1- Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using our HAIL pipeline (...) 
@@ -94,7 +94,7 @@ In order to run the PodoSighter plugin on your PAS-stained renal section, follow
     * Output Annotation File 1 -
     * Output Annotation File 2 -
     
-    *PodoSighter_pix2pix*
+    ###PodoSighter_pix2pix###
     * Data Folder - Select the folder containing the slide and xml annotations
     * Input Image - Select the whole slide image (WSI) to be analyzed
     * Input Annotation File 1- Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using our HAIL pipeline (...) 
@@ -104,7 +104,7 @@ In order to run the PodoSighter plugin on your PAS-stained renal section, follow
     * Output Annotation File 1 -
     * Output Annotation File 2 -
     
-    *User parameters for both plugins*
+    ###User parameters for both plugins###
     Since each WSI is different in terms of staining, imaging, resolution, etc., we provide the option for users to adjust the parameters to generate optimal results for their       respective WSIs. 
     Listed below are the different parameters and their definitions:
     
