@@ -47,25 +47,25 @@ HistomicsTK uses the `large_image`_ library to read content from whole-slide and
 
 The system version of various libraries are used if the ``--find-links`` option is not specified.  You will need to use your package manager to install appropriate libraries (on Ubuntu, for instance, you'll need ``libopenslide-dev`` and ``libtiff-dev``).
   
-  **To install from source on Windows**:
+**To install from source on Windows**:
   
-  1- Run the following::
+1- Run the following::
   
-  $ pip install large-image
-  $ pip install cmake
-  $ git clone https://github.com/DigitalSlideArchive/HistomicsTK/
-  $ cd HistomicsTK/
-  $ python -m pip install setuptools-scm Cython>=0.25.2 scikit-build>=0.8.1 cmake>=0.6.0 numpy>=1.12.1
+$ pip install large-image
+$ pip install cmake
+$ git clone https://github.com/DigitalSlideArchive/HistomicsTK/
+$ cd HistomicsTK/
+$ python -m pip install setuptools-scm Cython>=0.25.2 scikit-build>=0.8.1 cmake>=0.6.0 numpy>=1.12.1
   
-  2- Run ``pip install libtiff``
+2- Run ``pip install libtiff``
   
-  3- Replace ``large-image[sources]`` with ``large-image[pil,tiff]`` in ``setup.py``.
+3- Replace ``large-image[sources]`` with ``large-image[pil,tiff]`` in ``setup.py``.
   
-  4- Install Visual Studio 15 2017 `Community Version <https://my.visualstudio.com/Downloads?q=visual%20studio%202017&wt.mc_id=o~msft~vscom~older-downloads>`_ 
+4- Install Visual Studio 15 2017 `Community Version <https://my.visualstudio.com/Downloads?q=visual%20studio%202017&wt.mc_id=o~msft~vscom~older-downloads>`_ 
   
-  5- Install C++ build tools. Under Tools > Get Tools and Features ... > Desktop Development with C++, ensure that the first 8 boxes are checked.
+5- Install C++ build tools. Under Tools > Get Tools and Features ... > Desktop Development with C++, ensure that the first 8 boxes are checked.
 
-  6- Run this::
+6- Run this::
   
-  $ python -m pip install -e .
-  $ pip install girder-client
+$ python -m pip install -e .
+$ pip install girder-client
