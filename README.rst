@@ -127,10 +127,13 @@ Listed below are the different parameters and their definitions:
 
 Listed below are the parameters we used for our study:    
 
+
 | First Header  | Second Header |
 | ------------- | ------------- |
 | Content Cell  | Content Cell  |
 | Content Cell  | Content Cell  |
+
+
 
  | Dataset                 | species  | PASnucleiThreshold | gauss_filt_size | disc_size | resolution | size_thre | watershed_thre |
  | ----------------------  | -------- | ----------------   | --------------- | ----------| ------------------ | ----------------|
