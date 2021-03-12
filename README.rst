@@ -70,7 +70,9 @@ $ python -m pip install setuptools-scm Cython>=0.25.2 scikit-build>=0.8.1 cmake>
 $ python -m pip install -e .
 $ pip install girder-client
 
-**Running PodoSighter plugin**
+--------------------------------
+Running the PodoSighter plugin
+--------------------------------
 
 In order to run the PodoSighter plugin on your PAS-stained renal section, follow the following steps:
 
@@ -82,9 +84,8 @@ In order to run the PodoSighter plugin on your PAS-stained renal section, follow
 
 4 - Once the plugin has been selected, a user input section is displayed on the left.
 
----------------
-PodoSighter_CNN
----------------
+
+**PodoSighter_CNN**
 * Data Folder - Select the folder containing the slide and xml annotations
 * Input Image - Select the whole slide image (WSI) to be analyzed
 * Input Annotation File 1- Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using our HAIL pipeline (...) 
