@@ -76,43 +76,44 @@ Running the PodoSighter plugin
 
 In order to run the PodoSighter plugin on your PAS-stained renal section, follow the following steps:
 
-1 - Upload your slide and the respective glomerulus annotation file (.xml) via the upload button on the top right corner of the screen
+1 - Register/log in at https://athena.ccr.buffalo.edu/
 
-2 - Open the slide in HistomicsUI
+2 - Upload your slide and the respective glomerulus annotation file (.xml) via the upload button on the top right corner of the screen
 
-3 - On the top right corner of the screen, select the 'Analyses' button, and from the drop down menu, select 'darshanagovind/histo19_feb2021>latest>PodoSighter_cnn' or 'darshanagovind/histo19_feb2021>latest>PodoSighter_pix2pix', depending on which pipeline (CNN or pix2pix) to be used.
+3 - Open your slide in HistomicsUI
 
-4 - Once the plugin has been selected, a user input section is displayed on the left.
+4 - On the top right corner of the screen, select the 'Analyses' button, and from the drop down menu, select 'darshanagovind/histo19_feb2021>latest>PodoSighter_cnn' or 'darshanagovind/histo19_feb2021>latest>PodoSighter_pix2pix', depending on which pipeline (CNN or pix2pix) to be used.
 
-
-**PodoSighter_CNN**
-
-- **Data Folder**: Select the folder containing the slide and xml annotations
-- **Input Image**: Select the whole slide image (WSI) to be analyzed
-- **Input Annotation File 1**: Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using the HAIL pipeline (...) 
-- **Model**: Select the trained model
-- **Model chkpt**: Select the latest checkpoint of trained model
-- **Model idx**: Select the index file of trained model
-- **Output Annotation File 1**: Select the name of output xml file (marking podocytes)
-- **Output Annotation File 2**: Select the name of output json file (marking podocytes)
+5 - Once the plugin has been selected, a user input section is displayed on the left. For user inputs, follow the instructions below:
 
 
-**PodoSighter_pix2pix**
+**PodoSighter_CNN user inputs**
 
-- **Data Folder**: Select the folder containing the slide and xml annotations
-- **Input Image**: Select the whole slide image (WSI) to be analyzed
-- **Input Annotation File 1**: Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using the HAIL pipeline (...) 
-- **Trained Generator Model**: Select the trained generator model
-- **Trained Discrimminator Model**: Select the trained discriminator model
-- **Output Annotation File 1**: Select the name of output xml file (marking podocytes)
-- **Output Annotation File 2**: Select the name of output json file (marking podocytes)
+- **Data Folder**: Select the folder containing the slide and xml annotations.
+- **Input Image**: Select the whole slide image (WSI) to be analyzed.
+- **Input Annotation File 1**: Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using the H-AI-L pipeline). 
+- **Model**: Select the trained model (for eg. mou_wt1_model.ckpt-50000.data-00000-of-00001).
+- **Model chkpt**: Select the latest checkpoint of trained model (for eg. mou_wt1_checkpoint).
+- **Model idx**: Select the index file of trained model (for eg. mou_wt1_model.ckpt-50000.index).
+- **Output Annotation File 1**: Select the name of output (podocyte) xml file (for eg. "abc_xml").
+- **Output Annotation File 2**: Select the name of output (podocyte) json file (for eg. "abc_json").
+
+
+**PodoSighter_pix2pix user inputs**
+
+- **Data Folder**: Select the folder containing the slide and xml annotations.
+- **Input Image**: Select the whole slide image (WSI) to be analyzed.
+- **Input Annotation File 1**: Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using the H-AI-L pipeline).
+- **Trained Generator Model**: Select the trained generator model. (for eg. mou_wt1_net_G.pth).
+- **Trained Discrimminator Model**: Select the trained discriminator model. (for eg. mou_wt1_net_D.pth).
+- **Output Annotation File 1**: Select the name of output xml file (for eg. "abc_xml").
+- **Output Annotation File 2**: Select the name of output json file (for eg. "abc_json").
 
 
 
 **User parameters for both plugins**
 
-Since each WSI is different in terms of staining, imaging, resolution, etc., we provide the option for users to adjust the parameters to generate optimal results for their       respective WSIs. 
-Listed below are the different parameters and their definitions:
+Since each WSI is different in terms of staining, imaging, resolution, etc., we provide the option for users to adjust the parameters to generate optimal results for their       respective WSIs. Listed below are the different parameters and their definitions:
 
 - **PASnucleiThreshold**: This parameter selects the threshold to segment hematoxylin stained nuclei (ranging from 0 to 1).
 - **gauss_filt_size**: This parameter blurs the PAS image prior to application of threshold.
