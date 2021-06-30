@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Feb 22 11:33:18 2021
-
 @author: darsh
 """
 import openslide
@@ -16,14 +15,17 @@ import FNs
 import lxml.etree as ET
 from getPASnuclei import getPASnuclei
 import imageio
+from pvd_calculation import pvd_calculation #new
+import csv #new
 
-def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,size_thre,gauss_filt_size,watershed_dist_thre,disc_size,resol):
+def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,size_thre,gauss_filt_size,watershed_dist_thre,disc_size,resol,tissue_thickness,csv_file_name):
     
     print("Reading PAS file...")
     Imagename = os.path.basename(svsfile).split('.')[0]
     sourcePAS = openslide.open_slide(svsfile)
     print("Opening WSIs in mid resolution...")
     PAS = np.array(sourcePAS.read_region((0,0),1,sourcePAS.level_dimensions[1]),dtype = "uint8")
+    PAS_mpp = (float(sourcePAS.properties[openslide.PROPERTY_NAME_MPP_X])+float(sourcePAS.properties[openslide.PROPERTY_NAME_MPP_Y]))/2#new
     PAS = PAS[:,:,0:3]    
     
     '''XML annotation to mask'''
@@ -44,6 +46,7 @@ def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,siz
         flip_flag = 1
 
     highres_w = crop_size/4
+    all_glom_pvds = []#new
 
     countPatch  = 0
     c = 0
@@ -111,6 +114,13 @@ def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,siz
                   
             del predicted_im
             
+            '''PVD calcultation'''#new
+            '''================'''#new
+            
+            all_vals = pvd_calculation(FakePodPASmask,Glommask2,PAS_mpp,tissue_thickness)#new
+            all_glom_pvds.append([countPatch,all_vals[0],all_vals[1],all_vals[2],all_vals[3],all_vals[4],
+                                 all_vals[5], all_vals[6], all_vals[7]])#new
+            
 
             if resol ==0:
                 if Imagename[0:3]=='NTN':
@@ -139,7 +149,25 @@ def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,siz
                     except:
                         continue
 #                
-            
+    agpvd_matrix = np.matrix(all_glom_pvds)        
+    final_pvd = [np.float(np.max(agpvd_matrix[:,0])),tissue_thickness, np.float(sum(agpvd_matrix[:,2])),
+                 np.float(sum(agpvd_matrix[:,3])),np.float(np.mean(agpvd_matrix[:,4])),np.float(np.mean(agpvd_matrix[:,5])),
+                 np.float(np.mean(agpvd_matrix[:,6])),np.float(np.mean(agpvd_matrix[:,7])),
+                 np.float(sum(agpvd_matrix[:,3]))*np.float(np.mean(agpvd_matrix[:,7]))/(np.float(sum(agpvd_matrix[:,2]))*tissue_thickness)*10000]       
+    myFile = open(csv_file_name, 'w')  
+    with myFile:
+        writer = csv.writer(myFile)
+        writer.writerow(["Sr.no","Tissue thickness (T)", "Glom. area (sq. microns)",
+                         "Num. of podocytes", "Apparent mean nuclear caliper diam.(microns) (d)",
+                         "shape factor (k)","True mean nuclear caliper diam.(microns)(D)","Correction Factor (CF)",
+                         "Pod. vol. density (n/10^4 cubic microns)"])
+        writer.writerows(all_glom_pvds)  
+        writer.writerow(["Final result:","-", "-","-", "-","-","-","-","-",])
+        writer.writerow([ "Total glom profiles","Tissue thickness (T)", "Total Glom. area (sq. microns)",
+                         "Total num. of podocytes", "Avg. Apparent mean nuclear caliper diam.(microns)(d)",
+                         "shape factor (k)","Avg. true mean nuclear caliper diam.(microns)(D)","Avg. Correction Factor (CF)",
+                         "Pod. vol. density (n/10^4 cubic microns)"])
+        writer.writerow(map(lambda y: y, final_pvd))            
            
       
 
@@ -177,4 +205,3 @@ def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,siz
     
 
     return TP2
-
