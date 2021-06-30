@@ -88,7 +88,7 @@ WORKDIR /
 # the default python version for pip.
 RUN rm /usr/bin/python && \
     ln /usr/bin/python3 /usr/bin/python
-RUN curl https://bootstrap.pypa.io/2.7/get-pip.py -O && \
+RUN curl https://bootstrap.pypa.io/pip/2.6/get-pip.py -O && \
     python2 get-pip.py && \
     python3 get-pip.py && \
     rm get-pip.py
