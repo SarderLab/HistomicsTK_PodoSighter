@@ -20,17 +20,17 @@
     </directory>
     <image>
       <name>inputImageFile</name>
-      <label>Input Image</label>
+      <label>Input PAS whole slide image</label>
       <channel>input</channel>
       <index>1</index>
-      <description>Input image</description>
+      <description>Input PAS-stained svs whole slide image</description>
     </image>    
     <file fileExtensions=".xml">
       <name>inputAnnotationFile1</name>
-      <label>Input Annotation File1</label>
+      <label>Input Glomerular Annotation File</label>
       <channel>input</channel>
       <index>2</index>
-      <description>Input annotation file (*.xml) containing glom annotations</description>
+      <description>Input glomerular annotation file (*.xml) </description>
     </file>
     <file fileExtensions=".data-00000-of-00001">
       <name>Model</name>
@@ -41,53 +41,67 @@
     </file>
     <file fileExtensions="">
       <name>Modelchkpt</name>
-      <label>Modelchkpt</label>
+      <label>Model checkpoint</label>
       <channel>input</channel>
       <index>4</index>
       <description>Trained Model checkpoint</description>
     </file>
     <file fileExtensions=".index">
       <name>Modelidx</name>
-      <label>Modelidx</label>
+      <label>Model idx</label>
       <channel>input</channel>
       <index>5</index>
       <description>Trained Model index (*.index)</description>
     </file>
     <file fileExtensions=".anot" reference="inputImageFile">
       <name>outputAnnotationFile2</name>
-      <label>output Annotation File2</label>
+      <label>JSON format output podocyte nuclei annotation file</label>
       <channel>output</channel>
       <index>6</index>
       <description>Output annotation file (*.anot) containing annotations, converting Aperio xml format to json</description>
     </file>
     <file fileExtensions=".xml">
       <name>outputAnnotationFile1</name>
-      <label>outputAnnotationFile1</label>
+      <label>XML format output podocyte nuclei annotation file</label>
       <channel>output</channel>
       <index>7</index>
       <description>Output annotation file (*.xml) containing annotations</description>
+    </file>
+    <file fileExtensions=".csv">
+      <name>csvfilename</name>
+      <label>CSV filename</label>
+      <channel>output</channel>
+      <index>8</index>
+      <description>CSV filename containing podocyte volume density information</description>
     </file>
   </parameters>
   <parameters advanced="true">
     <label>UserParameters</label>
     <description>User Parameters</description>
     <double>
+      <name>tissue_thickness</name>
+      <label>Tissue Thickness</label>
+      <description>Enter the tissue thickness (in microns) </description>
+      <longflag>tissue_thickness</longflag>
+      <default>2.0</default>
+    </double>
+    <double>
       <name>PASnucleiThreshold</name>
-      <label>PASnucleiThreshold</label>
+      <label>PAS nuclei intensity threshold</label>
       <description>PAS nuclei Threshold between 0 and 1 (default 0.4) </description>
       <longflag>PASnucleiThreshold</longflag>
       <default>0.4</default>
     </double>
     <integer>
       <name>gauss_filt_size</name>
-      <label>gauss_filt_size</label>
+      <label>Gaussian filter size</label>
       <description>Gaussian blur filter size (default 5)</description>
       <longflag>gauss_filt_size</longflag>
       <default>5</default>
     </integer>
     <integer>
       <name>Disc_size</name>
-      <label>Disc_size</label>
+      <label>Morphological disc size</label>
       <description>Morphological processing disc_size (default 6)</description>
       <longflag>Disc_size</longflag>
       <default>6</default>
@@ -108,7 +122,7 @@
     </integer>
     <integer>
       <name>size_thre</name>
-      <label>size_thre</label>
+      <label>Nuclear size threshold</label>
       <description>Nuclei size threshold (default 400)</description>
       <longflag>size_thre</longflag>
       <default>400</default>
