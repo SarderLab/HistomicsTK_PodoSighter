@@ -151,4 +151,4 @@ Listed below are the parameters we used for our study
 
 
 
-Once the slides are done running, on the top right corner of the screen, select the 'Analyses' button, and from the drop down menu, select 'darshanagovind/histo13_feb2021>latest>TranslateXMLtoJson' to visualize the results.
+Once the slides are done running, on the top right corner of the screen, select the 'Analyses' button, and from the drop down menu, select 'sarderlab/podosighter>V1>TranslateXMLtoJson' to visualize the results.
