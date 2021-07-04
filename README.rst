@@ -82,7 +82,7 @@ In order to run the PodoSighter plugin on your PAS-stained renal section, follow
 
 3 - Open your slide in HistomicsUI
 
-4 - On the top right corner of the screen, select the 'Analyses' button, and from the drop down menu, select 'darshanagovind/histo13_feb2021>latest>PodoSighter_cnn' or 'darshanagovind/histo13_feb2021>latest>PodoSighter_pix2pix', depending on which pipeline (CNN or pix2pix) to be used.
+4 - On the top right corner of the screen, select the 'Analyses' button, and from the drop down menu, select 'sarderlab/podosighter>V1>PodoSighter_pix2pix' or 'sarderlab/podosighter>V1>PodoSighter_cnn', depending on which pipeline (pix2pix or CNN) to be used.
 
 5 - Once the plugin has been selected, a user input section is displayed on the left. For user inputs, follow the instructions below:
 
