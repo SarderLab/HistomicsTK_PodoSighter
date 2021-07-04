@@ -90,24 +90,25 @@ In order to run the PodoSighter plugin on your PAS-stained renal section, follow
 **PodoSighter_CNN user inputs**
 
 - **Data Folder**: Select the folder containing the slide and xml annotations.
-- **Input Image**: Select the whole slide image (WSI) to be analyzed.
-- **Input Annotation File 1**: Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using the H-AI-L pipeline). 
+- **Input PAS whole slide image**: Select the whole slide image (WSI) to be analyzed.
+- **Input Glomerular Annotation File**: Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using the H-AI-L pipeline). 
 - **Model**: Select the trained model (for eg. mou_wt1_model.ckpt-50000.data-00000-of-00001).
 - **Model chkpt**: Select the latest checkpoint of trained model (for eg. mou_wt1_checkpoint).
 - **Model idx**: Select the index file of trained model (for eg. mou_wt1_model.ckpt-50000.index).
-- **Output Annotation File 1**: Select the name of output (podocyte) xml file (for eg. "abc_xml").
-- **Output Annotation File 2**: Select the name of output (podocyte) json file (for eg. "abc_json").
-
+- **JSON format podocyte nuclei annotation filename**: Select the name of output (podocyte) json file (for eg. "abc_json").
+- **XML format podocyte nuclei annotation filename**: Select the name of output (podocyte) xml file (for eg. "abc_xml").
+- **CSV output filename**: Select the name of output csv file containing podocyte metrics (for eg. "abc_csv").
 
 **PodoSighter_pix2pix user inputs**
 
 - **Data Folder**: Select the folder containing the slide and xml annotations.
-- **Input Image**: Select the whole slide image (WSI) to be analyzed.
-- **Input Annotation File 1**: Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using the H-AI-L pipeline).
+- **Input PAS whole slide image**: Select the whole slide image (WSI) to be analyzed.
+- **Input Glomerular Annotation File**: Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using the H-AI-L pipeline).
 - **Trained Generator Model**: Select the trained generator model. (for eg. mou_wt1_net_G.pth).
 - **Trained Discrimminator Model**: Select the trained discriminator model. (for eg. mou_wt1_net_D.pth).
-- **Output Annotation File 1**: Select the name of output xml file (for eg. "abc_xml").
-- **Output Annotation File 2**: Select the name of output json file (for eg. "abc_json").
+- **JSON format podocyte nuclei annotation filename**: Select the name of output (podocyte) json file (for eg. "abc_json").
+- **XML format podocyte nuclei annotation filename**: Select the name of output (podocyte) xml file (for eg. "abc_xml").
+- **CSV output filename**: Select the name of output csv file containing podocyte metrics (for eg. "abc_csv").
 
 
 
@@ -115,11 +116,14 @@ In order to run the PodoSighter plugin on your PAS-stained renal section, follow
 
 Since each WSI is different in terms of staining, imaging, resolution, etc., we provide the option for users to adjust the parameters to generate optimal results for their       respective WSIs. Listed below are the different parameters and their definitions:
 
-- **PASnucleiThreshold**: This parameter selects the threshold to segment hematoxylin stained nuclei (ranging from 0 to 1).
-- **gauss_filt_size**: This parameter blurs the PAS image prior to application of threshold.
-- **disc_size**: This parameter specifies the disc size of the structuring element to perform morphological opening of segmented nuclei. 
+- **Tissue thickness**: Enter your tissue thickness (in microns).
+- **PAS nuclei intensity threshold**: This parameter selects the threshold to segment hematoxylin stained nuclei (ranging from 0 to 1).
+- **Gaussian filter size parameter**: This parameter blurs the PAS image prior to application of threshold.
+- **Morphological disc size**: This parameter specifies the disc size of the structuring element to perform morphological opening of segmented nuclei. 
+- **Species**: Specify mouse, rat, or human.
+- **gpu_id**: Setting this parameter to 0, would enable the code to run on the GPU. (-1 for CPU: not recommended).
 - **resolution**: This parameter can be used to specify if the analysis should be done in high resolution (0) or a downsampled (1) version of the WSI to save time. 
-- **size_thre**: This parameter is used to remove unwanted noise from the segmented nuclei.
+- **Size threshold**: This parameter is used to remove unwanted noise from the segmented nuclei.
 - **watershed_thre**: This parameter sets the distance parameter for the watershed segmentation of segmented nuclei (ranging from 0 to 1).
 
 
