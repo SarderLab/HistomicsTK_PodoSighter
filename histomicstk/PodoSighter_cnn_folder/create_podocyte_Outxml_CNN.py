@@ -4,6 +4,7 @@ Created on Mon Feb 22 11:33:18 2021
 @author: darsh
 """
 import openslide
+#from tiffslide import TiffSlide
 import numpy as np
 from getMaskFromXml import getMaskFromXml
 from skimage.transform import rescale,resize 
@@ -24,9 +25,16 @@ def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,siz
     print("Reading PAS file...")
     Imagename = os.path.basename(svsfile).split('.')[0]
     sourcePAS = openslide.open_slide(svsfile)
+    #sourcePAS = TiffSlide(svsfile)
     print("Opening WSIs in mid resolution...")
     PAS = np.array(sourcePAS.read_region((0,0),1,sourcePAS.level_dimensions[1]),dtype = "uint8")
     PAS_mpp = (float(sourcePAS.properties[openslide.PROPERTY_NAME_MPP_X])+float(sourcePAS.properties[openslide.PROPERTY_NAME_MPP_Y]))/2#new
+    
+    #TiffSlide changes
+    #mpp_x = 0.25
+    #mpp_y = 0.25
+    #PAS_mpp = (mpp_x + mpp_y) / 2
+
     PAS = PAS[:,:,0:3]    
     
     '''XML annotation to mask'''
