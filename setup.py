@@ -44,9 +44,9 @@ setup(
     description='A Python toolkit for Histopathology Image Analysis',
     long_description=readme,
     long_description_content_type='text/x-rst',
-    author='Kitware, Inc.',
-    author_email='developers@digitalslidearchive.net',
-    url='https://github.com/DigitalSlideArchive/HistomicsTK',
+    author='Ujwala Guttikonda',
+    author_email='ujwalaguttikonda@ufl.edu',
+    url='https://github.com/SarderLab/HistomicsTK_PodoSighter.git',
     packages=find_packages(exclude=['tests', '*_test']),
     package_dir={
         'histomicstk': 'histomicstk',

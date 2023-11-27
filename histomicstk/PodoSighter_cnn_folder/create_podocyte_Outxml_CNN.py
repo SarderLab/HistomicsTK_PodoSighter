@@ -18,7 +18,8 @@ import imageio
 from pvd_calculation import pvd_calculation #new
 import csv #new
 
-def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,size_thre,gauss_filt_size,watershed_dist_thre,disc_size,resol,tissue_thickness,csv_file_name):
+
+def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,size_thre,gauss_filt_size,watershed_dist_thre,disc_size,resol,tissue_thickness,csv_file_name,itemID,gc):
     
     print("Reading PAS file...")
     Imagename = os.path.basename(svsfile).split('.')[0]
@@ -88,7 +89,7 @@ def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,siz
             predicted_im = imageio.imread(fil_name)
 #            predicted_im = resize(predicted_im, (crop_imgPAS[:,:,0].shape),anti_aliasing=True)
             
-            '''Segment pix2pix detected podocyte nuclei'''
+            '''Segment CNN detected podocyte nuclei'''
             '''========================================='''            
 
             predicted_mask = predicted_im==2*1
@@ -168,10 +169,11 @@ def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,siz
                          "shape factor (k)","Avg. true mean nuclear caliper diam.(microns)(D)","Avg. Correction Factor (CF)",
                          "Pod. vol. density (n/10^4 cubic microns)"])
         writer.writerow(map(lambda y: y, final_pvd))            
-           
+    gc.uploadFileToItem(itemID, csv_file_name, reference=None, mimeType=None, filename=None, progressCallback=None)
+   
       
 
-    print('Generating pix2pix output xml...')
+    print('Generating CNN output xml...')
     '''========================================='''
     if resol == 0 and Imagename[0:3]=='NTN':        
         TP2 = cv2.threshold((TPI_F), 0.5, 255, cv2.THRESH_BINARY)[1] 
@@ -202,6 +204,4 @@ def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,siz
         pointList = pointsList[i]
         Annotations = FNs.xml_add_region(Annotations=Annotations, pointList=pointList)    
           
-    
-
     return TP2

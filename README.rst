@@ -20,9 +20,9 @@ HistomicsTK |build-status| |codecov-io| |gitter|
 PodoSighter (V1): A cloud-based tool for label-free podocyte detection in renal tissue sections 
 =============================================================================================
 
-Podocytes play a crucial role in maintaining the structural and functional integrity of the glomerulus. Several renal diseases like diabetic kidney disease, minimal change disease, glomerulonephritis, etc. lead to podocyte injury, causing their eventual detachment from the glomerular basement membrane. Therefore, quantifying podocyte loss is of high clinical significance, especially in tracking disease progression. The current clinical standard for podocyte detection involves their manual identification from standard periodic acid-Schiff (PAS)-stained renal sections, which are extremely subjective and time consuming. In research practice, these limitations can be overcome by the use of podocyte-specific antibodies like p57, WT1, nephrin, etc., which is expensive and not in routine clinical practice. To address these limitations, we have developed 'PodoSighter', a cloud-based application to identify podocytes from brightfield images of renal tissue sections, stained using the standard clinical stain of PAS counterstained with hematoxylin. Our application framework encompasses two independent pipleines, utilizing two state-of-the-art deep learning techniques: convolutional neural network (CNN) and generative adversarial network (GAN). The PodoSighter pipeline is deployed as two independent plugins (PodoSighter_CNN and PodoSighter_pix2pix), using HistomicsTK, creating an online, interactive platform enabling multiple users from various locations to quantify podocytes on their respective PAS-stained whole slide images (WSIs). This pipeline not only detects detects podocyte nuclei, but also generates a CSV file containing the podocyte counts, apparent mean nuclear caliper diameter, true mean nuclear caliper diameter, correction factor, and podocyte volume densities estimated using the Wiggins method.
+Podocytes play a crucial role in maintaining the structural and functional integrity of the glomerulus. Several renal diseases like diabetic kidney disease, minimal change disease, glomerulonephritis, etc. lead to podocyte injury, causing their eventual detachment from the glomerular basement membrane. Therefore, quantifying podocyte loss is of high clinical significance, especially in tracking disease progression. The current clinical standard for podocyte detection involves their manual identification from standard periodic acid-Schiff (PAS)-stained renal sections, which are extremely subjective and time consuming. In research practice, these limitations can be overcome by the use of podocyte-specific antibodies like p57, WT1, nephrin, etc., which is expensive and not in routine clinical practice. To address these limitations, we have developed 'PodoSighter', a cloud-based application to identify podocytes from brightfield images of renal tissue sections, stained using the standard clinical stain of PAS counterstained with hematoxylin. Our application framework utilizes state-of-the-art deep learning technique: convolutional neural network (CNN). The PodoSighter pipeline is deployed using HistomicsTK, creating an online, interactive platform enabling multiple users from various locations to quantify podocytes on their respective PAS-stained whole slide images (WSIs). This pipeline not only detects detects podocyte nuclei, but also generates a CSV file containing the podocyte counts, apparent mean nuclear caliper diameter, true mean nuclear caliper diameter, correction factor, and podocyte volume densities estimated using the Wiggins method.
 
-This code has been modified by Darshana Govind to include the PodoSighter pipeline (for automated podocyte detection from PAS-stained renal tissue sections) via Google's deeplab v3+ architecture (https://github.com/tensorflow/models/tree/master/research/deeplab) and the pix2pix conditional GAN developed by Isola et al (https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
+This code has been modified by Darshana Govind to include the PodoSighter pipeline (for automated podocyte detection from PAS-stained renal tissue sections) via Google's deeplab v3+ architecture (https://github.com/tensorflow/models/tree/master/research/deeplab).
 
 **Installation**
 
@@ -76,13 +76,13 @@ Running the PodoSighter plugin
 
 In order to run the PodoSighter plugin on your PAS-stained renal section, follow the following steps:
 
-1 - Register/log in at https://athena.ccr.buffalo.edu/
+1 - Register/log in at https://athena.rc.ufl.edu/
 
 2 - Upload your slide and the respective glomerulus annotation file (.xml) via the upload button on the top right corner of the screen
 
 3 - Open your slide in HistomicsUI
 
-4 - On the top right corner of the screen, select the 'Analyses' button, and from the drop down menu, select 'sarderlab/podosighter>V1>PodoSighter_pix2pix' or 'sarderlab/podosighter>V1>PodoSighter_cnn', depending on which pipeline (pix2pix or CNN) to be used.
+4 - On the top right corner of the screen, select the 'Analyses' button, and from the drop down menu, select 'sarderlab/podosighter>V1>PodoSighter_cnn'.
 
 5 - Once the plugin has been selected, a user input section is displayed on the left. For user inputs, follow the instructions below:
 
@@ -99,20 +99,7 @@ In order to run the PodoSighter plugin on your PAS-stained renal section, follow
 - **XML format podocyte nuclei annotation filename**: Select the name of output (podocyte) xml file (for eg. "abc_xml").
 - **CSV output filename**: Select the name of output csv file containing podocyte metrics (for eg. "abc_csv").
 
-**PodoSighter_pix2pix user inputs**
-
-- **Data Folder**: Select the folder containing the slide and xml annotations.
-- **Input PAS whole slide image**: Select the whole slide image (WSI) to be analyzed.
-- **Input Glomerular Annotation File**: Select the xml file containing glomerulus annotations (either manually annotated or automatically extracted using the H-AI-L pipeline).
-- **Trained Generator Model**: Select the trained generator model. (for eg. mou_wt1_net_G.pth).
-- **Trained Discrimminator Model**: Select the trained discriminator model. (for eg. mou_wt1_net_D.pth).
-- **JSON format podocyte nuclei annotation filename**: Select the name of output (podocyte) json file (for eg. "abc_json").
-- **XML format podocyte nuclei annotation filename**: Select the name of output (podocyte) xml file (for eg. "abc_xml").
-- **CSV output filename**: Select the name of output csv file containing podocyte metrics (for eg. "abc_csv").
-
-
-
-**User parameters for both plugins**
+**User parameters for plugins**
 
 Since each WSI is different in terms of staining, imaging, resolution, etc., we provide the option for users to adjust the parameters to generate optimal results for their       respective WSIs. Listed below are the different parameters and their definitions:
 
@@ -151,4 +138,3 @@ Listed below are the parameters we used for our study
 
 
 
-Once the slides are done running, on the top right corner of the screen, select the 'Analyses' button, and from the drop down menu, select 'sarderlab/podosighter>V1>TranslateXMLtoJson' to visualize the results.

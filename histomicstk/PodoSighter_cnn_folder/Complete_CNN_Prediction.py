@@ -4,7 +4,8 @@ import shutil
 from readPAS_cropGlom import readPAS_cropGlom
 import argparse
 from create_podocyte_Outxml_CNN import create_podocyte_Outxml_CNN
-
+import json
+import girder_client
 from mask_to_xml import mask_to_xml
 from xml_to_json import convert_xml_json
 
@@ -31,10 +32,13 @@ parser.add_argument('-A13','--jsonout',type = str, metavar = '',required = True,
 parser.add_argument('-A14','--outxml1',type = str, metavar = '',required = True,help = 'outxml1')
 parser.add_argument('-A15','--tissue_thickness',type = float, metavar = '',required = True,help = 'Tissue thickness')#new
 parser.add_argument('-A16','--csvfilename',type = str, metavar = '',required = True,help = 'CSV file name')#new
+parser.add_argument('-A17','--girderApiUrl',type = str, metavar = '',required = True,help = 'Girder API URL')#new
+parser.add_argument('-A18','--girderToken',type = str, metavar = '',required = True,help = 'Girder Token')#new
 
 args = parser.parse_args()
 
-maintempfolder = args.inputfolder
+
+maintempfolder = args.inputfolder + '/temp'
 svs_file_name = args.inputsvs
 xml_file_name = args.glomxml
 Model = args.Model
@@ -49,6 +53,12 @@ size_thre = args.sz_thre
 watershed_dist_thre = args.watershed_thre
 tissue_thickness = args.tissue_thickness
 csv_file_name = args.csvfilename
+girder_api_url = args.girderApiUrl
+girder_token = args.girderToken
+out_xml = args.outxml1
+
+#Annotations name
+NAMES = ['Podocytes']
 
 #shutil.rmtree(maintempfolder)
 #os.mkdir(maintempfolder)
@@ -66,17 +76,39 @@ print(size_disc)
 print(resol)
 print(watershed_dist_thre)
 print(args.jsonout)
-print(args.outxml1)
+print(out_xml)
 print(tissue_thickness)
 print(csv_file_name)
+print(girder_api_url)
+print(girder_token)
 
+
+'''Set Girder API and Token'''
+'''============================='''
+
+folder = args.inputfolder
+girder_folder_id = folder.split('/')[-2]
+_ = os.system("printf 'Using data from girder_client Folder: {}\n'".format(folder))
+file_name = args.inputsvs.split('/')[-1]
+print(file_name)
+gc = girder_client.GirderClient(apiUrl=girder_api_url)
+gc.setToken(girder_token)
+files = list(gc.listItem(girder_folder_id))
+# dict to link filename to gc id
+item_dict = dict()
+for file in files:
+    d = {file['name']:file['_id']}
+    item_dict.update(d)
+itemID = item_dict[file_name]
+print(item_dict)
+print(itemID)
 
 try:
-    if species_name =='human':
+    if species_name =='Human':
         crop_size = 1200    
-    elif species_name =='rat':
+    elif species_name =='Rat':
         crop_size = 800    
-    elif species_name =='mouse':
+    elif species_name =='Mouse':
         crop_size = 800
 except:
     print("Incorrect species. Try again")
@@ -85,16 +117,17 @@ except:
 '''Create temporary directories'''
 '''============================='''
 
-cropFolderPAS = maintempfolder +'/Data/PC1/PodCNN1/Images/val'
-cropFolderGlom = maintempfolder +'/Data/PC1/PodCNN1/labels/val'
-tfrecord_dir = maintempfolder +'/Data/PC1/tfrecord'
-chkpt_dir = maintempfolder+'/model/train_log'
-vislogdir = maintempfolder+'/model/vis_log'
+cropFolderPAS = str(maintempfolder +'/Data/PC1/PodCNN1/Images/val/')
+cropFolderGlom = str(maintempfolder +'/Data/PC1/PodCNN1/labels/val/')
+tfrecord_dir = str(maintempfolder +'/Data/PC1/tfrecord/')
+chkpt_dir = str(maintempfolder+'/model/train_log/')
+vislogdir = str(maintempfolder+'/model/vis_log/')
 
-os.makedirs(cropFolderPAS+'/')
-os.makedirs(cropFolderGlom)
-os.makedirs(chkpt_dir)
-os.makedirs(vislogdir)
+if not os.path.isdir(maintempfolder):
+    os.makedirs(cropFolderPAS)
+    os.makedirs(cropFolderGlom)
+    os.makedirs(chkpt_dir)
+    os.makedirs(vislogdir)
 
 
 '''Copy models to temp checkpoint dir'''
@@ -165,7 +198,7 @@ os.system(cmd5)
 '''Step 5: Output display'''
 '''==========================='''
 resdir_exact = vislogdir+"/raw_segmentation_results/"
-TP_HR= create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir_exact,PAS_nuc_thre,size_thre,gauss_filt_size,watershed_dist_thre,size_disc,resol,tissue_thickness,csv_file_name)
+TP_HR= create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir_exact,PAS_nuc_thre,size_thre,gauss_filt_size,watershed_dist_thre,size_disc,resol,tissue_thickness,csv_file_name,itemID,gc)
 
 from skimage import exposure
 
@@ -204,6 +237,7 @@ xml_data = ET.tostring(Annotations, pretty_print=True)
 f = open(args.outxml1, 'wb')
 f.write(xml_data)
 f.close()
+gc.uploadFileToItem(itemID, args.outxml1, reference=None, mimeType=None, filename=None, progressCallback=None)
 
 tree = ET.parse(args.outxml1)
 root = tree.getroot()
@@ -211,3 +245,11 @@ root = tree.getroot()
 json_data = xmltojson(root)
 with open(args.jsonout, 'w') as annotation_file:
     json.dump(json_data, annotation_file, indent=2, sort_keys=False)
+gc.uploadFileToItem(itemID, args.jsonout, reference=None, mimeType=None, filename=None, progressCallback=None)
+
+#Convert XML to JSON
+
+annots = convert_xml_json(Annotations, NAMES)
+_ = gc.post(path='annotation',parameters={'itemId':itemID}, data = json.dumps(annots[0]))
+print('output files uploaded...\n')
+

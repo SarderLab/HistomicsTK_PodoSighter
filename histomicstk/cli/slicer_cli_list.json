@@ -1,25 +1,6 @@
 {
-  "PodocyteDetection": {
-    "type"    : "python"
-  },
-  
-  "PodoSighter_pix2pix": {
-    "type"    : "python"
-  },
   
   "PodoSighter_cnn": {
     "type"    : "python"
-  },
-  
-  "GlomArea": {
-    "type"    : "python"
-  },
-  
-  "glom_getcsv": {
-    "type"    : "python"
-  },
- 
-  "TranslateXMLToJson": {
-    "type"    : "python"
-  }  
+  }
 }

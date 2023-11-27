@@ -6,8 +6,8 @@
   <version>0.1.0</version>
   <documentation-url>https://digitalslidearchive.github.io/HistomicsTK/</documentation-url>
   <license>Apache 2.0</license>
-  <contributor>Darshana Govind(SUNY Buffalo)</contributor>
-  <acknowledgements>This work is part of efforts in digital pathology by the Sarder Lab: SUNY Buffalo.</acknowledgements>
+  <contributor>Ujwala Guttikonda (University of Florida)</contributor>
+  <acknowledgements>This work is part of efforts in digital pathology by the Sarder Lab: University of Florida.</acknowledgements>
   <parameters>
     <label>IO</label>
     <description>Input/output parameters.</description>
@@ -106,13 +106,17 @@
       <longflag>Disc_size</longflag>
       <default>6</default>
     </integer>
-    <string>
+    <string-enumeration>
       <name>species</name>
       <longflag>species</longflag>
       <label>species</label>
-      <description>species (human, rat, mouse)</description>
-      <default></default>
-    </string>
+      <description>Type of Analysis: "Human Analysis" or "Mouse Analysis" or "Rat Analysis"</description>
+      <default>Human</default>
+      <element>Human</element>
+      <element>Mouse</element>
+      <element>Rat</element>
+      <index>0</index>
+    </string-enumeration>
     <integer>
       <name>resolution</name>
       <label>resolution</label>
@@ -134,5 +138,21 @@
       <longflag>watershed_thre</longflag>
       <default>0.2</default>
     </double>
+    <label>Girder API URL and Key</label>
+    <description>A Girder API URL and token for Girder client</description>
+    <string>
+      <name>girderApiUrl</name>
+      <longflag>api-url</longflag>
+      <label>Girder API URL</label>
+      <description>A Girder API URL (e.g., https://girder.example.com:443/api/v1)</description>
+      <default></default>
+    </string>
+    <string>
+      <name>girderToken</name>
+      <longflag>token</longflag>
+      <label>Girder API Token</label>
+      <description>A Girder token identifying a user session</description>
+      <default></default>
+    </string>
   </parameters>
 </executable>
