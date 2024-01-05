@@ -117,14 +117,8 @@ RUN pip install --no-cache-dir --upgrade --ignore-installed pip setuptools && \
     pip install --no-cache-dir 'xlrd==1.2.0' && \
     # Install umap
     pip install --no-cache-dir umap-learn && \
-    # Install dominate
-    pip install --no-cache-dir 'dominate>=2.4.0' && \
     # Install visdom
     pip install --no-cache-dir 'visdom>=0.1.8.8' && \
-    # Install visdom
-    pip install --no-cache-dir 'scikit-image==0.15.0' && \
-    # Install visdom
-    pip install --no-cache-dir 'scipy==1.3.0' && \
     # clean up
     rm -rf /root/.cache/pip/*
 

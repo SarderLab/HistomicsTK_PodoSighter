@@ -8,17 +8,20 @@ from skimage.measure import label,regionprops
 import cv2
 import imageio
 import warnings
+import io
+from PIL import Image
 
 warnings.filterwarnings("ignore")
 
 
-def readPAS_cropGlom(svsfile,xmlfile,crop_size,cropFolderPAS,cropFolderGlom):
+def readPAS_cropGlom(svsfile,xmlfile,crop_size):
     
     print("Reading PAS file...")
     Imagename = os.path.basename(svsfile).split('.')[0]
     sourcePAS = openslide.open_slide(svsfile)
     #sourcePAS = TiffSlide(svsfile)
     print("Opening WSIs in mid resolution...")
+
     PAS = np.array(sourcePAS.read_region((0,0),1,sourcePAS.level_dimensions[1]),dtype = "uint8")
     PAS = PAS[:,:,0:3]    
     
@@ -37,6 +40,7 @@ def readPAS_cropGlom(svsfile,xmlfile,crop_size,cropFolderPAS,cropFolderGlom):
     
     countPatch  = 0
     c = 0
+    images_and_filenames = []
     for region in regionprops(label(PASmask)):
         c +=1
         minr, minc, maxr, maxc = region.bbox
@@ -61,12 +65,18 @@ def readPAS_cropGlom(svsfile,xmlfile,crop_size,cropFolderPAS,cropFolderGlom):
         Glommask2 = resize(Glommask_1,(highres_w*4,highres_w*4),anti_aliasing=True)*1
         Glommask2 = cv2.threshold((Glommask2), 0.1, 255, cv2.THRESH_BINARY)[1]    
     
-        print("Saving patches...") 
         if crop_imgPAS.shape == (highres_w*4,highres_w*4,3):
             countPatch += 1
             filename = Imagename +'_'+str(countPatch)  
             print(filename)           
             
-            imageio.imwrite(cropFolderPAS +filename+ ".png",crop_imgPAS)
-            imageio.imwrite(cropFolderGlom +filename+ ".png",Glommask2)
+            buffer_crop_imgPAS = io.BytesIO()
+            buffer_Glommask2 = io.BytesIO()
+            imageio.imwrite(buffer_crop_imgPAS, crop_imgPAS, format='png')
+            imageio.imwrite(buffer_Glommask2, Glommask2, format='png')
+
+            # Append the in-memory images and filename to the list
+            images_and_filenames.append((filename, buffer_crop_imgPAS, buffer_Glommask2))
+
+    return images_and_filenames
 

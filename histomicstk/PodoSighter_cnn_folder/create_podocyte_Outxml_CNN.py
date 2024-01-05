@@ -44,9 +44,9 @@ def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,siz
     highres_w = crop_size/4
 
     if resol == 0:
-        TPI_F = np.zeros((sourcePAS.level_dimensions[0][1],sourcePAS.level_dimensions[0][0]))
+        TPI_F = np.zeros((sourcePAS.level_dimensions[0][1],sourcePAS.level_dimensions[0][0]),dtype = "uint8")
     else:
-        TPI_F = np.zeros((sourcePAS.level_dimensions[1][1],sourcePAS.level_dimensions[1][0]))
+        TPI_F = np.zeros((sourcePAS.level_dimensions[1][1],sourcePAS.level_dimensions[1][0]),dtype = "uint8")
     print(TPI_F.shape)
     
     flip_flag = 0
@@ -91,7 +91,7 @@ def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,siz
             filename = Imagename +'_'+str(countPatch)  
             print(filename) 
             
-            cnn_out_name = 'b'+"'"+filename+".png'"+".png"
+            cnn_out_name = 'b'+"'"+filename+"'.png"
             
             fil_name = resdir+ cnn_out_name           
             predicted_im = imageio.imread(fil_name)
@@ -157,12 +157,16 @@ def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,siz
                         TPI_F[int(ptx-(highres_w/2)):int(ptx+(highres_w/2)),int(pty-(highres_w/2)):int(pty+(highres_w/2))] = nuc_mask
                     except:
                         continue
-#                
+                
+                del nuc_mask, FakePodPASmask
+#             
+        del Glommask2, crop_imgPAS, all_vals
+
     agpvd_matrix = np.matrix(all_glom_pvds)        
     final_pvd = [np.float(np.max(agpvd_matrix[:,0])),tissue_thickness, np.float(sum(agpvd_matrix[:,2])),
-                 np.float(sum(agpvd_matrix[:,3])),np.float(np.mean(agpvd_matrix[:,4])),np.float(np.mean(agpvd_matrix[:,5])),
-                 np.float(np.mean(agpvd_matrix[:,6])),np.float(np.mean(agpvd_matrix[:,7])),
-                 np.float(sum(agpvd_matrix[:,3]))*np.float(np.mean(agpvd_matrix[:,7]))/(np.float(sum(agpvd_matrix[:,2]))*tissue_thickness)*10000]       
+                 np.float(sum(agpvd_matrix[:,3])),np.float(np.nanmean(agpvd_matrix[:,4])),np.float(np.nanmean(agpvd_matrix[:,5])),
+                 np.float(np.nanmean(agpvd_matrix[:,6])),np.float(np.nanmean(agpvd_matrix[:,7])),
+                 np.float(sum(agpvd_matrix[:,3]))*np.float(np.nanmean(agpvd_matrix[:,7]))/(np.float(sum(agpvd_matrix[:,2]))*tissue_thickness)*10000]       
     myFile = open(csv_file_name, 'w')  
     with myFile:
         writer = csv.writer(myFile)
@@ -178,10 +182,9 @@ def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,siz
                          "Pod. vol. density (n/10^4 cubic microns)"])
         writer.writerow(map(lambda y: y, final_pvd))            
     gc.uploadFileToItem(itemID, csv_file_name, reference=None, mimeType=None, filename=None, progressCallback=None)
+    print("Uploaded the output csv file")
    
       
-
-    print('Generating CNN output xml...')
     '''========================================='''
     if resol == 0 and Imagename[0:3]=='NTN':        
         TP2 = cv2.threshold((TPI_F), 0.5, 255, cv2.THRESH_BINARY)[1] 
@@ -193,23 +196,8 @@ def create_podocyte_Outxml_CNN(svsfile,xmlfile,crop_size,resdir,PAS_nuc_thre,siz
         TP2 = cv2.threshold((TPI_F), 0.5, 255, cv2.THRESH_BINARY)[1]  
         TP2 = np.transpose(TP2)
     elif resol == 1:
-        TP2 = cv2.threshold((TPI_F), 0.5, 255, cv2.THRESH_BINARY)[1]
-    
-    offset={'X': 0,'Y': 0}    
-    maskPoints,_ = cv2.findContours(np.array((np.uint8(TP2))), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    pointsList = []
-    for j in range(np.shape(maskPoints)[0]):
-        pointList = []
-        for i in range(np.shape(maskPoints[j])[0]):
-            point = {'X': (maskPoints[j][i][0][0]) + offset['X'], 'Y': (maskPoints[j][i][0][1]) + offset['Y']}
-            pointList.append(point)
-        pointsList.append(pointList)
-    Annotations = ET.Element('Annotations', attrib={'MicronsPerPixel': '0.136031'})
-    col1 = str(65280)
-    Annotations = FNs.xml_add_annotation(Annotations=Annotations,annotationID=1,LC = col1)
-    
-    for i in range(np.shape(pointsList)[0]):
-        pointList = pointsList[i]
-        Annotations = FNs.xml_add_region(Annotations=Annotations, pointList=pointList)    
+        TP2 = cv2.threshold((TPI_F), 0.5, 255, cv2.THRESH_BINARY)[1]  
+
+    del all_glom_pvds, agpvd_matrix, TPI_F
           
     return TP2
