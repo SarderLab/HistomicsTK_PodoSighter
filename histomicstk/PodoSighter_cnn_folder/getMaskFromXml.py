@@ -35,7 +35,7 @@ def getMaskFromXml(source,xmlpath):
         regions.append(coords)
         [rr,cc] = polygon(np.array([i[1] for i in coords]),np.array([i[0] for i in coords]),mask.shape)
         mask[rr,cc] = 255
-    mask = cv2.resize(mask, dsize=source.level_dimensions[1], interpolation=cv2.INTER_CUBIC)
+    mask = cv2.resize(mask, dsize=source.level_dimensions[0], interpolation=cv2.INTER_CUBIC)
     mask = mask/255
     return mask>0.5
     
