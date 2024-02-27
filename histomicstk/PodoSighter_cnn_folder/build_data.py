@@ -149,13 +149,10 @@ def image_seg_to_tfexample(image_data, filename, height, width, seg_data):
   return tf.train.Example(features=tf.train.Features(feature={
       'image/encoded': _bytes_list_feature(image_data),
       'image/filename': _bytes_list_feature(filename),
-      'image/format': _bytes_list_feature(
-          _IMAGE_FORMAT_MAP[FLAGS.image_format]),
+      'image/format': _bytes_list_feature('jpeg'),
       'image/height': _int64_list_feature(height),
       'image/width': _int64_list_feature(width),
       'image/channels': _int64_list_feature(3),
-      'image/segmentation/class/encoded': (
-          _bytes_list_feature(seg_data)),
-      'image/segmentation/class/format': _bytes_list_feature(
-          FLAGS.label_format),
+      'image/segmentation/class/encoded': _bytes_list_feature(seg_data),
+      'image/segmentation/class/format': _bytes_list_feature('png'),
   }))

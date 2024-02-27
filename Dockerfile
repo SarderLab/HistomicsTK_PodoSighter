@@ -10,13 +10,16 @@
 FROM tensorflow/tensorflow:1.15.4-gpu-py3
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 
-LABEL maintainer="Darshana Govind - Sarder Lab. <d8@buffalo.edu>"
+LABEL maintainer="Ujwala Guttikonda - Sarder Lab. <ujwalaguttikonda@ufl.edu>"
 
 CMD echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! STARTING THE BUILD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # RUN mkdir /usr/local/nvidia && ln -s /usr/local/cuda-10.0/compat /usr/local/nvidia/lib
 
 ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
+
+RUN rm /etc/apt/sources.list.d/cuda.list
+RUN rm /etc/apt/sources.list.d/nvidia-ml.list
 
 RUN apt-get update && \
     apt-get install --yes --no-install-recommends software-properties-common && \
@@ -28,7 +31,6 @@ RUN apt-get update && \
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get --yes --no-install-recommends -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" dist-upgrade && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    #keyboard-configuration \
     git \
     wget \
     python-qt4 \
@@ -47,27 +49,17 @@ RUN apt-get update && \
     python3.6-distutils \
     python3-tk \
     software-properties-common \
-    libssl-dev \
-    # needed to build openslide, libtif and openjpg \
-    # libopenslide-dev \
-    # libtiff-dev \
-    # libvips-dev \
-    # Standard build tools \
+    libssl-dev \   
     build-essential \
     cmake \
     autoconf \
     automake \
     libtool \
-    pkg-config \
-    # needed for supporting CUDA \
-    # libcupti-dev \
-    # Needed for ITK and SlicerExecutionModel \
-    # ninja-build \
+    pkg-config \ 
     \
     # useful later \
     libmemcached-dev && \
     \
-    #apt-get autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 CMD echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CHECKPOINT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -77,11 +69,6 @@ RUN apt-get install 'ffmpeg'\
     'libsm6'\
     'libxext6'  -y
 
-# RUN apt-get install software-properties-common -y
-# RUN add-apt-repository ppa:graphics-drivers/ppa -y
-# RUN apt-get update -y
-# RUN apt-get upgrade -y
-# RUN apt-get install nvidia-driver-455 -y
 
 WORKDIR /
 # Make Python3 the default and install pip.  Whichever is done last determines
@@ -103,7 +90,6 @@ RUN mkdir -p $htk_path
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends memcached && \
-    #apt-get autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 COPY . $htk_path/
 WORKDIR $htk_path
@@ -131,31 +117,14 @@ RUN pip install --no-cache-dir --upgrade --ignore-installed pip setuptools && \
     pip install --no-cache-dir 'xlrd==1.2.0' && \
     # Install umap
     pip install --no-cache-dir umap-learn && \
-    # Install pytorch
-    pip install --no-cache-dir 'torch>=1.4.0' && \
-    # Install torchvision
-    pip install --no-cache-dir 'torchvision>=0.5.0' && \
-    # Install dominate
-    pip install --no-cache-dir 'dominate>=2.4.0' && \
     # Install visdom
     pip install --no-cache-dir 'visdom>=0.1.8.8' && \
-    # Install visdom
-    pip install --no-cache-dir 'scikit-image==0.15.0' && \
-    # Install visdom
-    pip install --no-cache-dir 'scipy==1.3.0' && \
-    # Downgrade gast
-    # pip install --no-cache-dir 'gast==0.2.2' && \
     # clean up
     rm -rf /root/.cache/pip/*
 
 # Show what was installed
 RUN pip freeze
 
-# remove cuda compat
-# RUN apt remove --purge cuda-compat-10-0 --yes
-
-# pregenerate font cache
-RUN python -c "from matplotlib import pylab"
 
 # define entrypoint through which all CLIs can be run
 WORKDIR $htk_path/histomicstk/cli
@@ -163,6 +132,6 @@ WORKDIR $htk_path/histomicstk/cli
 # Test our entrypoint.  If we have incompatible versions of numpy and
 # openslide, one of these will fail
 RUN python -m slicer_cli_web.cli_list_entrypoint --list_cli
-RUN python -m slicer_cli_web.cli_list_entrypoint PodocyteDetection --help
+RUN python -m slicer_cli_web.cli_list_entrypoint PodoSighter_cnn --help
 
 ENTRYPOINT ["/bin/bash", "docker-entrypoint.sh"]
