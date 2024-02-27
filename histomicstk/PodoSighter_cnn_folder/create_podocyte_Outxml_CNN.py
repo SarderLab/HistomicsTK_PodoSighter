@@ -11,7 +11,6 @@ from skimage.transform import rescale,resize
 import os
 from skimage.measure import label,regionprops
 import cv2
-import matplotlib.pyplot as plt
 import FNs
 import lxml.etree as ET
 from getPASnuclei import getPASnuclei

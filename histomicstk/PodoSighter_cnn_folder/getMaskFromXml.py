@@ -5,8 +5,6 @@ From xml to binary function in py-swi: https://github.com/ysbecca/py-wsi
 """
 from xml.dom import minidom
 import numpy as np
-import openslide
-#from tiffslide import TiffSlide
 from skimage.draw import polygon
 import cv2
 

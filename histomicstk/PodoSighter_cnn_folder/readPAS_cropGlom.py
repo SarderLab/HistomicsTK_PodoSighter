@@ -1,15 +1,13 @@
 import openslide
-#from tiffslide import TiffSlide
 import numpy as np
 from getMaskFromXml import getMaskFromXml
-from skimage.transform import rescale,resize 
+from skimage.transform import rescale
 import os
 from skimage.measure import label,regionprops
 import cv2
 import imageio
 import warnings
 import io
-from PIL import Image
 
 warnings.filterwarnings("ignore")
 
@@ -19,7 +17,6 @@ def readPAS_cropGlom(svsfile,xmlfile,crop_size):
     print("Reading PAS file...")
     Imagename = os.path.basename(svsfile).split('.')[0]
     sourcePAS = openslide.open_slide(svsfile)
-    #sourcePAS = TiffSlide(svsfile)
     print("Opening WSIs in mid resolution...")
 
     PAS = np.array(sourcePAS.read_region((0,0),1,sourcePAS.level_dimensions[1]),dtype = "uint8")
