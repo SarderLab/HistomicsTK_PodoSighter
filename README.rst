@@ -1,4 +1,18 @@
 ================================================
+Performance Metrics:
+In the base directory, have folders with the PAS WSI name (Ex: JPH1) and in that folder have the following:
+
+PAS WSI
+gloms.xml
+podocount.xml
+podosighter.xml
+nuclei.xml
+Command to run the script:
+
+'python performance_analysis.py --base_dir base_directory_path --input_list JPH1.svs JPH2.svs'
+================================================
+
+================================================
 HistomicsTK |build-status| |codecov-io| |gitter|
 ================================================
 
