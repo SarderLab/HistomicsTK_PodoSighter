@@ -12,15 +12,17 @@ import matplotlib.pyplot as plt
 
 
 def main(args):
-
+    results_dir = os.path.join(args.base_dir, 'results')
+    if not os.path.exists(results_dir):
+        os.makedirs(results_dir)
     for image in args.input_list:
-        file = args.base_dir+'/'+image+'/*.svs'
+        filename,ext = image.split('.')
+        file = args.base_dir+'/'+ filename+'/'+ image
         sourcePAS = TiffSlide(file) #PAS image
-        filename = os.path.basename(file).split('.')[0]
-        mask_podosighter = getMaskFromXml(sourcePAS, args.base_dir+'/'+image+'/podosighter.xml')  #Podosighter predictions
-        mask_glom = getMaskFromXml(sourcePAS, args.base_dir+'/'+image+'/gloms.xml')   #Glom masks from PAS
-        mask_podocount = getMaskFromXml(sourcePAS, args.base_dir+'/'+image+'/podocount.xml')  #Ground truth podocount predictions
-        nuclei = getMaskFromXml(sourcePAS, args.base_dir+'/'+image+'/nuclei.xml') #all nuclei you can get them by running nucleidetection plugin under sarderlab/histomicstk
+        mask_podosighter = getMaskFromXml(sourcePAS, args.base_dir+'/'+filename+'/podosighter.xml')  #Podosighter predictions
+        mask_glom = getMaskFromXml(sourcePAS, args.base_dir+'/'+filename+'/gloms.xml')   #Glom masks from PAS
+        mask_podocount = getMaskFromXml(sourcePAS, args.base_dir+'/'+filename+'/podocount.xml')  #Ground truth podocount predictions
+        nuclei = getMaskFromXml(sourcePAS, args.base_dir+'/'+filename+'/nuclei.xml') #all nuclei you can get them by running nucleidetection plugin under sarderlab/histomicstk
 
         all_regions_podosighter= []
         all_gloms = []
@@ -30,7 +32,7 @@ def main(args):
             minr, minc, maxr, maxc = reg.bbox
             ptx = (minr+maxr)/2
             pty = (minc+maxc)/2
-            highres_w = 800
+            highres_w = 1200
 
             rs_podosighter = mask_podosighter[int(ptx-(highres_w/2)):int(ptx+(highres_w/2)),int(pty-(highres_w/2)):int(pty+(highres_w/2))] 
             all_regions_podosighter.append(mask_glom[int(ptx-(highres_w/2)):int(ptx+(highres_w/2)),int(pty-(highres_w/2)):int(pty+(highres_w/2))]*rs_podosighter)
@@ -62,7 +64,7 @@ def main(args):
             axs[i, 1].axis('off')
 
         plt.tight_layout()
-        plt.savefig(args.base_dir+'/results/'+f'{filename}.png')
+        plt.savefig(results_dir + os.path.sep + f'{filename}.png')
         plt.show()
 
         all_tp=[]
@@ -128,15 +130,16 @@ def main(args):
         dataframe['specifity']=all_specifity
         dataframe['glom_bbox'] = glom_coord
 
-        dataframe.to_csv(args.base_dir+'/results'+'/performance.csv', index=False, mode='a')
+        dataframe.to_csv(results_dir+'/performance.csv', index=False, mode='a')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--base_dir', dest='base_dir', default=' ' ,type=str,
         help='base_dir')
-    parser.add_argument('--input_list', dest='input_list', default=' ' ,type=list,
-        help='input_list')
+    parser.add_argument('--input_list', dest='input_list', nargs='+', default=[] ,type=str,
+                    help='input_list')
+
     
     args = parser.parse_args()
     main(args=args)
